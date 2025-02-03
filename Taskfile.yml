@@ -1,0 +1,107 @@
+version: "3"
+
+output:
+    group:
+        begin: "::group::{{.TASK}}"
+        end: "::endgroup::"
+
+tasks:
+    default:
+        desc: Run the entire test suite.
+        cmds:
+            - task: update
+            - task: check
+
+    check:
+        desc: Perform automated checks to verify quality and correctness.
+        deps:
+            - check:dockerfiles
+            - check:python
+            - check:prettier
+            - check:typos
+
+    check:python:
+        sources:
+            - "**/*.py"
+            - uv.lock
+        cmds:
+            - uv run pytest
+            - uv run ruff format --check
+            - uv run ruff check
+
+    check:dockerfiles:
+        cmds:
+            - for: sources
+              task: check:dockerfile
+              vars: { PATH: "{{.ITEM}}" }
+        sources:
+            - "**/Dockerfile"
+
+    check:dockerfile:
+        label: "check:dockerfile:{{clean .PATH}}"
+        requires:
+            vars: [PATH]
+        cmds:
+            - docker build --file {{.PATH}} .
+            - docker run --rm hadolint/hadolint < {{.PATH}}
+        sources:
+            - "{{.PATH}}"
+
+    check:prettier:
+        cmds:
+            - npx prettier --check .
+        sources:
+            - "**/*.css"
+            - "**/*.js"
+            - "**/*.json"
+            - "**/*.md"
+            - "**/*.yml"
+            - "**/*.yaml"
+            - ".prettierrc"
+            - ".prettierignore"
+
+    check:typos:
+        cmds:
+            - uv run codespell --check-filenames .codespellignore
+
+    create:
+        desc: Create a new package.
+        requires:
+            vars: [NAME]
+        vars:
+            pkgDir: "packages/{{.NAME}}"
+        cmds:
+            - mkdir -p {{.pkgDir}}
+
+            # Set up NPM for JavaScript
+            - npm init --yes --workspace={{.pkgDir}}
+            - |
+                for key in author description keywords license main scripts version
+                do
+                  npm pkg delete "$key" --workspace={{.pkgDir}}
+                done
+
+            # Set up UV for Python
+            - uv init --directory={{.pkgDir}}
+        status:
+            - test -d {{.pkgDir}}
+
+    update:
+        desc: Install project dependencies.
+        deps: [update:npm, update:uv]
+
+    update:npm:
+        cmds:
+            - npm ci
+        sources:
+            - package-lock.json
+        generates:
+            - node_modules/**/*
+
+    update:uv:
+        cmds:
+            - uv sync --frozen
+        sources:
+            - uv.lock
+        generates:
+            - .venv/**/*
