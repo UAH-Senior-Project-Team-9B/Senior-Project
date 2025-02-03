@@ -64,28 +64,6 @@ tasks:
         cmds:
             - uv run codespell --check-filenames .codespellignore
 
-    create:
-        desc: Create a new package.
-        requires:
-            vars: [NAME]
-        vars:
-            pkgDir: "packages/{{.NAME}}"
-        cmds:
-            - mkdir -p {{.pkgDir}}
-
-            # Set up NPM for JavaScript
-            - npm init --yes --workspace={{.pkgDir}}
-            - |
-                for key in author description keywords license main scripts version
-                do
-                  npm pkg delete "$key" --workspace={{.pkgDir}}
-                done
-
-            # Set up UV for Python
-            - uv init --directory={{.pkgDir}}
-        status:
-            - test -d {{.pkgDir}}
-
     update:
         desc: Install project dependencies.
         deps: [update:npm, update:uv]
