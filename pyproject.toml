@@ -1,0 +1,42 @@
+[project]
+name = "opthamology-portal"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.codespell]
+skip = "node_modules"
+
+[tool.uv]
+default-groups = ["dev", "backend"]
+
+[dependency-groups]
+backend = [
+    "django>=5.1.4",
+    "django-browser-reload>=1.17.0",
+    "django-cotton>=1.5.1",
+    "django-htmx>=1.21.0",
+    "whitenoise>=6.8.2",
+]
+dev = [
+    "codespell>=2.3.0",
+    "go-task-bin>=3.41.0",
+    "pytest>=8.3.4",
+    "ruff>=0.8.4",
+]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "B",
+    "SIM",
+    "I",
+]
+ignore = [
+    "E501",
+]

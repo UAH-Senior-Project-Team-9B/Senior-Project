@@ -1,0 +1,45 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+    "name": "Dev Container",
+
+    // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    },
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [8000],
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    "postStartCommand": "task update",
+
+    "containerEnv": {
+        "PYTHONUNBUFFERED": "True",
+        "UV_LINK_MODE": "copy"
+    },
+
+    // Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "adrianwilczynski.alpine-js-intellisense",
+                "batisteo.vscode-django",
+                "bradlc.vscode-tailwindcss",
+                "charliermarsh.ruff",
+                "esbenp.prettier-vscode",
+                "github.vscode-github-actions",
+                "ms-azuretools.vscode-docker",
+                "ms-python.python",
+                "python.vscode-pylance",
+                "tamasfe.even-better-toml"
+            ]
+        }
+    }
+}
