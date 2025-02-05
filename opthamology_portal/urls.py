@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from .Core import views
+from opthamology_portal.Core import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
