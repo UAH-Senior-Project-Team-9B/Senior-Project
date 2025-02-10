@@ -1,5 +1,5 @@
 {
-    "name": "opthamology_portal",
+    "name": "ophthamology_portal",
     "workspaces": [
         "packages/*"
     ],
