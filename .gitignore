@@ -5,3 +5,21 @@ node_modules/
 **/__pycache__/
 **/db.sqlite3
 **/tailwind.css
+# Python
+*.pyc
+
+
+# Virtual Environment
+
+
+# Django
+
+*.log
+.DS_Store
+.secret_key
+
+# VSCode
+.vscode/
+
+# Other
+*.env
