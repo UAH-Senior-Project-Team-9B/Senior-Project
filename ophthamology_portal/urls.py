@@ -22,5 +22,7 @@ from ophthamology_portal.Core import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.HomePage.as_view(), name="my-view"),
+    path("", views.HomePageView.as_view(), name="home_page"),
+    path("/registration/", views.RegistrationView.as_view(), name="registration"),
+    path("/login/", views.LogInView.as_view(), name="log_in"),
 ]
