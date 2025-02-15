@@ -1,8 +1,8 @@
-from Core.models import PatientUser
+from ophthamology_portal.Core.models import PatientUser
 from django import forms
 
 
-class PatientInformationForm(forms.ModelForm):
+class PatientUserForm(forms.ModelForm):
     class Meta:
         model = PatientUser
         fields = [

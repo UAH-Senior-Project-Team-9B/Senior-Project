@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 
-from .forms import PatientForm
+from ..forms import PatientForm
 
 
 def patient_registration(request):

@@ -1,4 +1,4 @@
-from Core.forms import PatientUser
+from ophthamology_portal.Core.forms import PatientUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -33,7 +33,7 @@ class LogInView(View):
 
 class RegistrationView(View):
     def get(request: HttpRequest):
-        form = PatientUser()
+        form = PatientUserForm()
         return render(request, "registration.html", {"form": form})
 
     def post(request: HttpRequest):
@@ -42,8 +42,8 @@ class RegistrationView(View):
         if User.objects.filter(username=username).exists():
             messages.error(request=request, message="Username Is Taken")
             return redirect("/registration/")
-
-        form = PatientUser(request.POST)
+        breakpoint()
+        form = PatientUserForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("patient_success")
