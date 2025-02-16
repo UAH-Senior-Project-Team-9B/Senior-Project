@@ -55,7 +55,7 @@ ROOT_URLCONF = "ophthamology_portal.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["ophthamology_portal/Core/templates/"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
