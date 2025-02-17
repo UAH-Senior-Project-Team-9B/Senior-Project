@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "ophthamology_portal",
+    "ophthamology_portal.Core",
 ]
 
 MIDDLEWARE = [

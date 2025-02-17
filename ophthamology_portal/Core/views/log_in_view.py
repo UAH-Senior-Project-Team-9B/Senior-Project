@@ -1,16 +1,19 @@
-from ophthamology_portal.Core.forms import PatientUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
-from ophthamology_portal.Core.forms import BaseUserForm
+
+from ophthamology_portal.Core.forms import BaseUserForm, PatientUserForm
+
 
 class LogInView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         form = BaseUserForm()
-        return render(request=request, template_name="log_in.html", context={"form": form})
+        return render(
+            request=request, template_name="log_in.html", context={"form": form}
+        )
 
     def post(self, request: HttpRequest, *args, **kwargs):
         username = request.POST.get("username")
@@ -32,7 +35,11 @@ class LogInView(View):
 class RegistrationView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         form = BaseUserForm()
-        return render(request=request, template_name="patient_registration_template.html", context={"form": form})
+        return render(
+            request=request,
+            template_name="patient_registration_template.html",
+            context={"form": form},
+        )
 
     def post(self, request: HttpRequest, *args, **kwargs):
         username = request.POST.get("username")
@@ -46,7 +53,6 @@ class RegistrationView(View):
         return redirect("/registration/")
 
 
-
 class RegistrationInformationView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         form = PatientUserForm()
@@ -58,10 +64,14 @@ class RegistrationInformationView(View):
         if User.objects.filter(username=username).exists():
             messages.error(request=request, message="Username Is Taken")
             return redirect("/registration/")
-        breakpoint()
         form = PatientUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = User.objects.create(
+                username=username, password=password, email=form["email"].value()
+            )
+            instance = form.save(commit=False)
+            instance.user_id = user.id
+            instance.save()
             return redirect("patient_success")
 
-        return redirect("/patient_info/")
+        return redirect("/registration/information/")

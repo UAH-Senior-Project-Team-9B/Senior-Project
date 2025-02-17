@@ -1,3 +1,3 @@
-from ophthamology_portal.Core.models.patient_user_model import PatientUser
+from ophthamology_portal.Core.models.patient_user_model import PatientUserModel
 
-__all__ = ["PatientUser"]
+__all__ = ["PatientUserModel"]
