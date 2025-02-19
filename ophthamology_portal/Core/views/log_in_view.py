@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+from secrets import token_urlsafe
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -5,7 +8,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 
-from ophthamology_portal.Core.forms import BaseUserForm, PatientUserForm
+from ophthamology_portal.Core.forms import BaseUserForm, PatientUserForm, TokenAuthForm
+from ophthamology_portal.Core.models import TokenAuthModel
 
 
 class LogInView(View):
@@ -33,15 +37,30 @@ class LogInView(View):
 
 
 class RegistrationView(View):
-    def get(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request: HttpRequest, token=None, *args, **kwargs):
         form = BaseUserForm()
+        if TokenAuthModel.objects.filter(token=token).exists():
+            token_obj = TokenAuthModel.objects.get(token=token)
+            if token_obj.group == "Office Manager":
+                return render(
+                    request=request,
+                    template_name="office_manager_registration_template.html",
+                    context={"form": form},
+                )
+            if token_obj.group == "Ophthalmologist":
+                return render(
+                    request=request,
+                    template_name="ophtjalmologist_registration_template.html",
+                    context={"form": form},
+                )
+
         return render(
             request=request,
             template_name="patient_registration_template.html",
             context={"form": form},
         )
 
-    def post(self, request: HttpRequest, *args, **kwargs):
+    def post(self, request: HttpRequest, token, *args, **kwargs):
         username = request.POST.get("username")
         password = request.POST.get("password")
         form = BaseUserForm(request.POST)
@@ -55,6 +74,10 @@ class RegistrationView(View):
 
 class RegistrationInformationView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
+        if not request.session.__contains__(
+            "username"
+        ) or not request.session.__contains__("password"):
+            return redirect("/registration/")
         form = PatientUserForm()
         return render(request, "patient_registration_template.html", {"form": form})
 
@@ -72,6 +95,27 @@ class RegistrationInformationView(View):
             instance = form.save(commit=False)
             instance.user_id = user.id
             instance.save()
-            return redirect("patient_success")
+            return redirect("/login/")
 
         return redirect("/registration/information/")
+
+
+class TokenGenerationView(View):
+    def get(self, request):
+        form = TokenAuthForm()
+        return render(request, "token_gen.html", {"form": form})
+
+    def post(self, request):
+        form = TokenAuthForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.time_created = datetime.now()
+            instance.expiration = instance.time_created + timedelta(days=2)
+            instance.token = token_urlsafe(16)
+            instance.save()
+            messages.info(
+                request=request, message="Token generated successfully, copy below"
+            )
+            return render(request, "token_gen.html", {"token": instance.token})
+        messages.error(request=request, message="something went wrong")
+        return render(request, "token_gen.html")

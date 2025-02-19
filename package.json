@@ -12,6 +12,9 @@
         "tailwindcss": "^3.4.17",
         "tailwindcss-motion": "^1.0.0"
     },
+    "scripts": {
+        "watch:css": "tailwindcss build ophthamology_portal/Core/static/main.css -o ophthamology_portal/Core/static/tailwind.css -w"
+    },
     "author": "Logan Price",
     "license": "UNLICENSED"
 }

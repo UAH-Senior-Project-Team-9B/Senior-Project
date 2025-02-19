@@ -10,5 +10,13 @@
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message.message }}</p>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'registration'%}">Register here</a>
+
+
 </body>
 </html>

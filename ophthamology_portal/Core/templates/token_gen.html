@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient Registration</title>
+    <title>Token Generation</title>
 </head>
 <body>
-    <h2>Patient Registration</h2>
+    <h2>Token Generation</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message.message }}</p>
+        {% endfor %}
+    {% endif %}
 
+
+    {% if token %}
     <button onclick="copyText()">Copy</button>
     <br />
 
@@ -20,11 +27,14 @@
     <script>
         function copyText() {
             let url = ("{% url 'registration' %}");
-            url += Math.floor(Math.random() * 10);
+            url += "{{ token }}";
             /* Copy text into clipboard */
             navigator.clipboard.writeText(
             url)
         }
     </script>
+    {% endif %}
+
+
 </body>
 </html>
