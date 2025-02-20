@@ -32,3 +32,21 @@ class PatientUserModel(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.patient_id}"
+
+
+class ManagerUserModel(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+
+
+class OphthalmologistUserModel(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+    gender = models.CharField(
+        max_length=10,
+        choices=[("Male", "Male"), ("Female", "Female"), ("Other", "Other")],
+    )

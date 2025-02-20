@@ -25,14 +25,29 @@ urlpatterns = [
     path("", views.HomePageView.as_view(), name="home_page"),
     path("registration/", views.RegistrationView.as_view(), name="registration"),
     path(
-        "registration/<int:token>/",
+        "registration/<str:token>/",
         views.RegistrationView.as_view(),
         name="registration",
     ),
     path(
         "registration/information/",
-        views.RegistrationInformationView.as_view(),
-        name="registration-information",
+        views.PatientRegistrationView.as_view(),
+        name="patient_registration",
+    ),
+    path(
+        "registration/information/<str:token>/",
+        views.PatientRegistrationView.as_view(),
+        name="patient_registration",
+    ),
+    path(
+        "registration/manager/<str:token>/",
+        views.ManagerRegistrationView.as_view(),
+        name="manager_registration",
+    ),
+    path(
+        "registration/ophthalmologist/<str:token>/",
+        views.OphthalmologistRegistrationView.as_view(),
+        name="ophthalmologist_registration",
     ),
     path("login/", views.LogInView.as_view(), name="log_in"),
     path("token/", views.TokenGenerationView.as_view(), name="token_gen"),

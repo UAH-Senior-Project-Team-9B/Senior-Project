@@ -1,6 +1,10 @@
 from django import forms
 
-from ophthamology_portal.Core.models import PatientUserModel
+from ophthamology_portal.Core.models import (
+    ManagerUserModel,
+    OphthalmologistUserModel,
+    PatientUserModel,
+)
 
 
 class PatientUserForm(forms.ModelForm):
@@ -22,3 +26,15 @@ class PatientUserForm(forms.ModelForm):
             "social_security_number",
             "email",
         ]
+
+
+class ManagerUserForm(forms.ModelForm):
+    class Meta:
+        model = ManagerUserModel
+        fields = ["first_name", "last_name", "email"]
+
+
+class OphthalmologistUserForm(forms.ModelForm):
+    class Meta:
+        model = OphthalmologistUserModel
+        fields = ["first_name", "last_name", "email", "gender"]

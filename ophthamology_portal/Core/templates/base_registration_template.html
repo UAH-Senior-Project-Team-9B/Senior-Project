@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Registration</title>
+</head>
+<body>
+    <h2>Patient Registration</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <button onclick="copyText()">Copy</button>
+    <br />
+
+    <h1>Copied Text:</h1><br />
+    <textarea id="textbox"></textarea>
+
+    <script>
+        function copyText() {
+            let url = ("{% url 'registration' %}");
+            url += Math.floor(Math.random() * 10);
+            /* Copy text into clipboard */
+            navigator.clipboard.writeText(
+            url)
+        }
+    </script>
+</body>
+</html>

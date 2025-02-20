@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient Registration</title>
+    <title>Ophthalmologist Registration</title>
 </head>
 <body>
-    <h2>Patient Registration</h2>
+    <h2>Ophthalmologist Registration</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -15,7 +15,5 @@
             <p>{{ message.message }}</p>
         {% endfor %}
     {% endif %}
-    <a href="{% url 'registration'%}">Register here</a>
-
 </body>
 </html>
