@@ -27,7 +27,6 @@ class LogInView(View):
             return redirect("/login/")
 
         user = authenticate(username=username, password=password)
-        breakpoint()
 
         if user is None:
             messages.error(request=request, message="Username or password is not valid")
