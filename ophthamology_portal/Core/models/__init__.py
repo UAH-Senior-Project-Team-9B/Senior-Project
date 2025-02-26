@@ -1,4 +1,3 @@
-from ophthamology_portal.Core.models.token_auth_model import TokenAuthModel
 from ophthamology_portal.Core.models.user_models import (
     ManagerUserModel,
     OphthalmologistUserModel,
@@ -7,7 +6,6 @@ from ophthamology_portal.Core.models.user_models import (
 
 __all__ = [
     "PatientUserModel",
-    "TokenAuthModel",
     "OphthalmologistUserModel",
     "ManagerUserModel",
 ]

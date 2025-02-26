@@ -6,7 +6,7 @@ class CoreConfig(AppConfig):
     name = "ophthamology_portal.Core"
 
     def ready(self):
-        from django.contrib.auth.models import Group
+        from django.contrib.auth.models import Group  # Prevents circular import
 
         Group.objects.get_or_create(name="Patients")
         Group.objects.get_or_create(name="Office Manager")
