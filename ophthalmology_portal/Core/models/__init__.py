@@ -1,4 +1,4 @@
-from ophthamology_portal.Core.models.user_models import (
+from ophthalmology_portal.Core.models.user_models import (
     ManagerUserModel,
     OphthalmologistUserModel,
     PatientUserModel,

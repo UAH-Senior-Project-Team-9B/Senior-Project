@@ -1,6 +1,6 @@
 from django import forms
 
-from ophthamology_portal.Core.models import (
+from ophthalmology_portal.Core.models import (
     ManagerUserModel,
     OphthalmologistUserModel,
     PatientUserModel,

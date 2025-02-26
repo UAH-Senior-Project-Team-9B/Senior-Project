@@ -1,5 +1,5 @@
 {
-    "name": "ophthamology_portal",
+    "name": "ophthalmology_portal",
     "workspaces": [
         "packages/*"
     ],
@@ -13,7 +13,7 @@
         "tailwindcss-motion": "^1.0.0"
     },
     "scripts": {
-        "watch:css": "tailwindcss build ophthamology_portal/Core/static/main.css -o ophthamology_portal/Core/static/tailwind.css -w"
+        "watch:css": "tailwindcss build ophthalmology_portal/Core/static/main.css -o ophthalmology_portal/Core/static/tailwind.css -w"
     },
     "author": "Logan Price",
     "license": "UNLICENSED"

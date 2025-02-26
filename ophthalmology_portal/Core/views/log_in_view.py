@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 
-from ophthamology_portal.Core.forms import (
+from ophthalmology_portal.Core.forms import (
     BaseUserForm,
     PatientUserForm,
 )
