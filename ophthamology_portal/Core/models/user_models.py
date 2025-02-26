@@ -31,7 +31,7 @@ class PatientUserModel(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.patient_id}"
+        return f"{self.first_name} {self.last_name}"
 
 
 class ManagerUserModel(models.Model):

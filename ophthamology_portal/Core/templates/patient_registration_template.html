@@ -16,6 +16,11 @@
         {% endfor %}
     {% endif %}
     <a href="{% url 'registration'%}">Register here</a>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message.message }}</p>
+        {% endfor %}
+    {% endif %}
 
 </body>
 </html>

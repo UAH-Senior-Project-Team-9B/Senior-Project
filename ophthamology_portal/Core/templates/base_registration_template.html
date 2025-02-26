@@ -10,21 +10,11 @@
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message.message }}</p>
+        {% endfor %}
+    {% endif %}
 
-    <button onclick="copyText()">Copy</button>
-    <br />
-
-    <h1>Copied Text:</h1><br />
-    <textarea id="textbox"></textarea>
-
-    <script>
-        function copyText() {
-            let url = ("{% url 'registration' %}");
-            url += Math.floor(Math.random() * 10);
-            /* Copy text into clipboard */
-            navigator.clipboard.writeText(
-            url)
-        }
-    </script>
 </body>
 </html>

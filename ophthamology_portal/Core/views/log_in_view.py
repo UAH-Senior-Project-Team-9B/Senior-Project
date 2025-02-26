@@ -67,8 +67,8 @@ class PatientRegistrationView(View):
         return render(request, "patient_registration_template.html", {"form": form})
 
     def post(self, request: HttpRequest, *args, **kwargs):
-        username = request.session["username"]
-        password = request.session["password"]
+        username = request.session.pop("username")
+        password = request.session.pop("password")
         if User.objects.filter(username=username).exists():
             messages.error(request=request, message="Username Is Taken")
             return redirect("/registration/")
