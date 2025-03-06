@@ -1,5 +1,5 @@
 """
-URL configuration for opthamology_portal project.
+URL configuration for ophthalmology_portal project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -18,9 +18,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from opthamology_portal.Core import views
+from ophthalmology_portal.Core import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.HomePage.as_view(), name="my-view"),
+    path("", views.HomePageView.as_view(), name="home_page"),
+    path("registration/", views.RegistrationView.as_view(), name="registration"),
+    path(
+        "registration/information/",
+        views.PatientRegistrationView.as_view(),
+        name="patient_registration",
+    ),
+    path("login/", views.LogInView.as_view(), name="log_in"),
 ]

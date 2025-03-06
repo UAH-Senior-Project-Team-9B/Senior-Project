@@ -106,7 +106,7 @@ wheels = [
 ]
 
 [[package]]
-name = "ophthamology_portal"
+name = "ophthalmology_portal"
 version = "0.1.0"
 source = { virtual = "." }
 
