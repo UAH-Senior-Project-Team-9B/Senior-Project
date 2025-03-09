@@ -30,4 +30,10 @@ urlpatterns = [
         name="patient_registration",
     ),
     path("login/", views.LogInView.as_view(), name="log_in"),
+    path(
+        "appointment-request/",
+        views.appointment_request_page,
+        name="appointment_request",
+    ),
+    path("appointment-success/", views.appointment_success, name="appointment_success"),
 ]
