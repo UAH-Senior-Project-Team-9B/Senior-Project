@@ -30,4 +30,7 @@ urlpatterns = [
         name="patient_registration",
     ),
     path("login/", views.LogInView.as_view(), name="log_in"),
+    path("create-exam/", views.ExamCreationView.as_view(), name="create_exam"),
+    path("create-prescription/", views.PrescriptionCreationView.as_view(), name="create_prescription"),
+    path("create-test-information/", views.TestInformationCreationView.as_view(), name="create_test_information")
 ]
