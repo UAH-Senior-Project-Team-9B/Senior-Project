@@ -22,6 +22,7 @@ class LogInView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         username = request.POST.get("username")
         password = request.POST.get("password")
+
         if not User.objects.filter(username=username).exists():
             messages.error(request=request, message="Invalid Username")
             return redirect("/login/")
@@ -46,6 +47,7 @@ class RegistrationView(View):
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
+        breakpoint()
         username = request.POST.get("username")
         password = request.POST.get("password")
         form = BaseUserForm(request.POST)
