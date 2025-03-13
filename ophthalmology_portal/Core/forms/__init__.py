@@ -1,5 +1,5 @@
 from ophthalmology_portal.Core.forms.base_user_form import BaseUserForm
-from ophthalmology_portal.Core.forms.exam_creation_form import ExamCreationDateForm, ExamCreationMainForm, ExamCreationPostForm
+from ophthalmology_portal.Core.forms.exam_creation_form import ExamCreationMainForm, ExamCreationPostForm
 from ophthalmology_portal.Core.forms.prescription_creation_form import (
     PrescriptionCreationForm,
 )

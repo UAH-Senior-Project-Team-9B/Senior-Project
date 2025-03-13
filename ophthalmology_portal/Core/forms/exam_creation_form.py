@@ -11,13 +11,5 @@ class ExamCreationPostForm(forms.ModelForm):
 class ExamCreationMainForm(forms.ModelForm):
     class Meta:
         model = ExamModel
-        fields = "__all__"
+        fields = ["patient"]
         exclude = ["date", "time"]
-
-class ExamCreationDateForm(forms.ModelForm):
-    class Meta:
-        model = ExamModel
-        fields = ["date"]
-        widgets = {
-            "date": forms.DateInput(attrs={'type': 'date'})
-        }

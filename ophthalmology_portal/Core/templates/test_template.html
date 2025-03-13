@@ -3,6 +3,9 @@
 <input type="checkbox" name="yellow" value="yellow" x-model="colors">
 
 Colors: <span x-text="colors"></span>
-{% comment %} {% for key, value in {{ options }} %}
-
-{% endfor %} {% endcomment %}
+{% for key, value in options.items %}
+    <div>
+        <input id="{{ key }}" type="radio" value="{{ key }}" name="time">
+        <label for="{{ key }}">{{ value }}</label>
+    </div>
+{% endfor %}
