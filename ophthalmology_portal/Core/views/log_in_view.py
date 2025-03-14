@@ -47,7 +47,7 @@ class RegistrationView(View):
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
-        breakpoint()
+        # breakpoint()
         username = request.POST.get("username")
         password = request.POST.get("password")
         form = BaseUserForm(request.POST)

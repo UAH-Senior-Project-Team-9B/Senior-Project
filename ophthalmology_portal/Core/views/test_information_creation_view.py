@@ -23,7 +23,7 @@ class TestInformationCreationView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         form = VisualAccuityCreationForm(request.POST)
         form2 = OccularExamCreationForm(request.POST)
-        breakpoint()
+        # breakpoint()
         if form.is_valid() and form2.is_valid():
             form.save()
             form2.save()
