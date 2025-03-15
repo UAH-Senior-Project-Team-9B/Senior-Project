@@ -1,11 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
-from django.contrib.auth.models import Group
 
 from ophthalmology_portal.Core.forms import (
     BaseUserForm,
@@ -48,7 +47,6 @@ class RegistrationView(View):
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
-        # breakpoint()
         username = request.POST.get("username")
         password = request.POST.get("password")
         form = BaseUserForm(request.POST)
@@ -81,9 +79,8 @@ class PatientRegistrationView(View):
         form = PatientUserForm(request.POST)
         if form.is_valid():
             user.save()
-            my_group = Group.objects.get(name='Patients')
+            my_group = Group.objects.get(name="Patients")
             my_group.user_set.add(user)
-            breakpoint()
             instance = form.save(commit=False)
             instance.user_id = user.id
             instance.save()

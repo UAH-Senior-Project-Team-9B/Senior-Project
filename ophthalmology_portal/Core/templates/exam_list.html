@@ -2,7 +2,7 @@
 {% block content%}
 {% for exam in page_obj %}
     {# Each "patient" is a patient model object. #}
-    <a href="{% url 'exam_data' exam.id  %}">{{ exam }}<br></a>
+    <a href="{% url 'exam_details' exam.id  %}">{{ exam }}<br></a>
 {% endfor %}
 
 <div class="pagination">

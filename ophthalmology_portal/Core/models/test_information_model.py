@@ -1,8 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from ophthalmology_portal.Core.models.prescription_model import PrescriptionModel
-
 visual_acuity_choices = {
     10: "20/10",
     12.5: "20/12.5",
@@ -196,9 +194,9 @@ class OccularExamModel(models.Model):
 
     class Meta:
         permissions = [
-             ("patient", "Patient Permissions"),
-             ("doctor", "Doctor Permissions"),
-             ("manager", "Manager Permissions")
+            ("patient", "Patient Permissions"),
+            ("doctor", "Doctor Permissions"),
+            ("manager", "Manager Permissions"),
         ]
 
 
@@ -246,16 +244,15 @@ class VisualAccuityModel(models.Model):
     )
     pinhole_both = models.BooleanField(name="OU Pinhole Occluder")
 
-    prescription = models.ForeignKey(PrescriptionModel, on_delete=models.CASCADE)
-
     def distance_measurement(self):
         if self.distance == "D":
             return "20 feet/6.1 meters"
         else:
             return "15.7 inches/40 centimeters"
+
     class Meta:
         permissions = [
-             ("patient", "Patient Permissions"),
-             ("doctor", "Doctor Permissions"),
-             ("manager", "Manager Permissions")
+            ("patient", "Patient Permissions"),
+            ("doctor", "Doctor Permissions"),
+            ("manager", "Manager Permissions"),
         ]

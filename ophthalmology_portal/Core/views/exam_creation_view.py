@@ -1,11 +1,11 @@
+import datetime
+
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from django.views import View
-
 from django.urls import reverse
+
 from ophthalmology_portal.Core.forms import ExamCreationMainForm, ExamCreationPostForm
 from ophthalmology_portal.Core.models import ExamModel, OphthalmologistUserModel
-import datetime
 from ophthalmology_portal.Core.views.base_view import BaseView
 
 
@@ -29,24 +29,34 @@ class ExamCreationView(BaseView):
             f"{datetime.time(14)}": "2:00 PM",
             f"{datetime.time(14, 30)}": "2:30 PM",
             f"{datetime.time(15)}": "3:00 PM",
-            f"{datetime.time(15,30)}": "3:30 PM",
+            f"{datetime.time(15, 30)}": "3:30 PM",
             f"{datetime.time(16)}": "4:00 PM",
-            f"{datetime.time(16,30)}": "4:30 PM",
+            f"{datetime.time(16, 30)}": "4:30 PM",
             f"{datetime.time(17)}": "5:00 PM",
         }
-        doctors=OphthalmologistUserModel.objects.all()
+        doctors = OphthalmologistUserModel.objects.all()
         if "HX-target" in request.headers:
-            template_name="test_template.html"
-            if not request.GET['date'] or not request.GET['doctor']:
+            template_name = "test_template.html"
+            if not request.GET["date"] or not request.GET["doctor"]:
                 pass
             else:
-                already_taken = ExamModel.objects.filter(date=request.GET['date'], doctor=request.GET['doctor'],)
+                already_taken = ExamModel.objects.filter(
+                    date=request.GET["date"],
+                    doctor=request.GET["doctor"],
+                )
                 for i in already_taken:
                     options.pop(f"{i.time}")
         else:
-            template_name="manager_exam_creation_template.html"
+            template_name = "manager_exam_creation_template.html"
         return render(
-            request=request, template_name=template_name, context={"form": form, "options": options, "doctors": doctors, "base_template_name": self.get_base_template(request.user)}
+            request=request,
+            template_name=template_name,
+            context={
+                "form": form,
+                "options": options,
+                "doctors": doctors,
+                "base_template_name": self.get_base_template(request.user),
+            },
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):

@@ -25,7 +25,6 @@ class PrescriptionModel(models.Model):
     prescriber = models.ForeignKey(
         user_models.OphthalmologistUserModel, on_delete=models.CASCADE
     )
-    patient = models.ForeignKey(user_models.PatientUserModel, on_delete=models.CASCADE)
     date_prescribed = models.DateField(auto_now_add=True)
     od_sphere = models.DecimalField(
         decimal_places=2,
