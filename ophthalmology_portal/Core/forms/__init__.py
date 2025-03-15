@@ -1,5 +1,5 @@
 from ophthalmology_portal.Core.forms.base_user_form import BaseUserForm
-from ophthalmology_portal.Core.forms.exam_creation_form import ExamCreationMainForm, ExamCreationPostForm
+from ophthalmology_portal.Core.forms.exam_creation_form import ExamCreationMainForm, ExamCreationPostForm, ExamViewForm
 from ophthalmology_portal.Core.forms.prescription_creation_form import (
     PrescriptionCreationForm,
 )
@@ -21,5 +21,5 @@ __all__ = [
     "PrescriptionCreationForm",
     "OccularExamCreationForm",
     "VisualAccuityCreationForm",
-    "ExamCreationDateForm", "ExamCreationMainForm", "ExamCreationPostForm",
+    "ExamCreationDateForm", "ExamCreationMainForm", "ExamCreationPostForm", "ExamViewForm",
 ]

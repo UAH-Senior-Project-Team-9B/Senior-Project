@@ -7,17 +7,18 @@ from ophthalmology_portal.Core.forms import (
     OccularExamCreationForm,
     VisualAccuityCreationForm,
 )
+from ophthalmology_portal.Core.views.base_view import BaseView
 
 
 # this is for testing purposes, delete this later
-class TestInformationCreationView(View):
+class TestInformationCreationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
         form = VisualAccuityCreationForm
         form2 = OccularExamCreationForm
         return render(
             request=request,
             template_name="test_information_creation_template.html",
-            context={"form": form, "form2": form2},
+            context={"form": form, "form2": form2, "base_template_name": self.get_base_template(request.user)},
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):

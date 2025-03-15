@@ -9,7 +9,7 @@ from ophthalmology_portal.Core.models.test_information_model import (
 
 
 class ExamModel(models.Model):
-    status = models.CharField(max_length=11, choices={"pending": "Pending", "upcoming": "Upcoming", "waiting": "In Wait Room", "progressing": "In Progress", "completed": "Completed"})
+    status = models.CharField(max_length=11, choices={"pending": "Pending", "upcoming": "Upcoming", "waiting": "In Wait Room", "progressing": "In Progress", "completed": "Completed"}, null=True, blank=True)
     date = models.DateField()
     time = models.TimeField()
     patient = models.ForeignKey(user_models.PatientUserModel, on_delete=models.CASCADE)
@@ -26,10 +26,16 @@ class ExamModel(models.Model):
 
     def save(self, **kwargs):
         if self.occular_exam_information and self.visual_accuity_information:
-            status = "completed"
+            self.status = "completed"
+        super().save()
 
     class Meta:
         ordering = ["-date", "-time"]
+        permissions = [
+             ("patient", "Patient Permissions"),
+             ("doctor", "Doctor Permissions"),
+             ("manager", "Manager Permissions")
+        ]
 
-    # def get_absolute_url(self):
-    #     return reverse("model_detail", kwargs={"pk": self.pk})
+    def __str__(self):
+            return f"Exam on {self.date} at {self.time}"

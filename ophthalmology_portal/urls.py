@@ -35,5 +35,7 @@ urlpatterns = [
     path("create-test-information/", views.TestInformationCreationView.as_view(), name="create_test_information"),
     path("patient-list/",views.PatientListView.as_view(),name="patient_list"),
     path("patient-list/<int:patient>/", view=views.PatientExamHistoryView.as_view(), name="patient_history"),
-    path("patient-list/<int:patient>/<int:exam_id>", view=views.ExamDetailsView.as_view(), name="exam_data"),
+    path("exam-history/<int:exam_id>", view=views.ExamDetailsView.as_view(), name="exam_data"),
+    path("exam-history/", view=views.PatientExamHistoryView.as_view(), name="exam_history"),
+    path("daily-exams/", view=views.DailyExamsView.as_view(), name="daily_exams"),
 ]

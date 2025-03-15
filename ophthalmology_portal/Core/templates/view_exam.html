@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
+{% extends base_template_name %}
 {% block content%}
 <html>
 <head>
@@ -7,9 +7,6 @@
 </head>
 <body>
     <h2>Exam View</h2>
-    {% comment %} {% for field in form.fields %}
-        <p>{{ field }}</p>
-    {% endfor %} {% endcomment %}
     {{ form.as_p }}
 </body>
 </html>

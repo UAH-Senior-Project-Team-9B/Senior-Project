@@ -4,12 +4,13 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.views import View
 from django.contrib.auth.models import User
-from ophthalmology_portal.Core.forms import ExamCreationPostForm
+from ophthalmology_portal.Core.forms import ExamViewForm
 
 from django.urls import reverse
+from ophthalmology_portal.Core.views.base_view import BaseView
 
-class ExamDetailsView(View):
+class ExamDetailsView(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
-        form = ExamCreationPostForm(instance=ExamModel.objects.get(id=exam_id))
-        breakpoint()
-        return render(request, "view_exam.html", {"form": form})
+        form = ExamViewForm(instance=ExamModel.objects.get(id=exam_id))
+
+        return render(request, "view_exam.html", {"form": form, "base_template_name": self.get_base_template(request.user)})

@@ -194,6 +194,13 @@ class OccularExamModel(models.Model):
     os_muyelination = models.BooleanField(name="OS Muyelination")
     os_remnants = models.BooleanField(name="OS Glial Remnants")
 
+    class Meta:
+        permissions = [
+             ("patient", "Patient Permissions"),
+             ("doctor", "Doctor Permissions"),
+             ("manager", "Manager Permissions")
+        ]
+
 
 class VisualAccuityModel(models.Model):
     distance = models.CharField(choices={"D": "D", "N": "N"}, max_length=255)
@@ -246,3 +253,9 @@ class VisualAccuityModel(models.Model):
             return "20 feet/6.1 meters"
         else:
             return "15.7 inches/40 centimeters"
+    class Meta:
+        permissions = [
+             ("patient", "Patient Permissions"),
+             ("doctor", "Doctor Permissions"),
+             ("manager", "Manager Permissions")
+        ]

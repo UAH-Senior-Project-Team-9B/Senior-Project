@@ -14,6 +14,7 @@ from ophthalmology_portal.Core.views.test_information_creation_view import (
 from ophthalmology_portal.Core.views.patient_list_view import PatientListView
 from ophthalmology_portal.Core.views.patient_history_view import PatientExamHistoryView
 from ophthalmology_portal.Core.views.exam_details_view import ExamDetailsView
+from ophthalmology_portal.Core.views.daily_exam_view import DailyExamsView
 
 __all__ = [
     "HomePageView",
@@ -26,4 +27,5 @@ __all__ = [
     "PatientListView",
     "PatientExamHistoryView",
     "ExamDetailsView",
+    "DailyExamsView"
 ]
