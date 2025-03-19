@@ -32,7 +32,7 @@ class ExamDetailsView(BaseView):
             )
             return render(
                 request,
-                "view_exam.html",
+                "exam_details.html",
                 {
                     "form": form,
                     "base_template_name": self.get_base_template(request.user),
@@ -50,7 +50,7 @@ class ExamDetailsView(BaseView):
                 occular_form = OccularExamCreationForm
                 return render(
                     request,
-                    "view_exam.html",
+                    "exam_details.html",
                     {
                         "form": form,
                         "base_template_name": self.get_base_template(request.user),
@@ -72,7 +72,7 @@ class ExamDetailsView(BaseView):
             )
             return render(
                 request,
-                "view_exam.html",
+                "exam_details.html",
                 {
                     "form": form,
                     "base_template_name": self.get_base_template(request.user),
@@ -90,13 +90,11 @@ class ExamDetailsView(BaseView):
             )
             return render(
                 request,
-                "view_exam.html",
+                "exam_details.html",
                 {
                     "form": form,
                     "base_template_name": self.get_base_template(request.user),
                     "prescription_form": prescription_form,
-                    "visual_form": visual_form,
-                    "occular_form": occular_form,
                     "upload": False,
                 },
             )

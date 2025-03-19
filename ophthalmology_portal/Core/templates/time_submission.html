@@ -1,0 +1,6 @@
+{% for key, value in options.items %}
+    <div>
+        <input id="{{ key }}" type="radio" value="{{ key }}" name="time">
+        <label for="{{ key }}">{{ value }}</label>
+    </div>
+{% endfor %}

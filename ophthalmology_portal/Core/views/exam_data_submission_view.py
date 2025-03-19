@@ -16,7 +16,7 @@ class TestInformationCreationView(BaseView):
         form2 = OccularExamCreationForm
         return render(
             request=request,
-            template_name="test_information_creation_template.html",
+            template_name="exam_data_submission_template.html",
             context={
                 "form": form,
                 "form2": form2,

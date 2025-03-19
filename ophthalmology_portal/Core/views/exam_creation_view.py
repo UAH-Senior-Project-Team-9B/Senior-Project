@@ -36,7 +36,7 @@ class ExamCreationView(BaseView):
         }
         doctors = OphthalmologistUserModel.objects.all()
         if "HX-target" in request.headers:
-            template_name = "test_template.html"
+            template_name = "time_submission.html"
             if not request.GET["date"] or not request.GET["doctor"]:
                 pass
             else:
