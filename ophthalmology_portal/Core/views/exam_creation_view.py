@@ -35,6 +35,9 @@ class ExamCreationView(BaseView):
             f"{datetime.time(17)}": "5:00 PM",
         }
         doctors = OphthalmologistUserModel.objects.all()
+        minimum = datetime.date.today().strftime("%Y-%m-%d")
+        maximum = datetime.date.today() + datetime.timedelta(days=2 * 365)
+        maximum = maximum.strftime("%Y-%m-%d")
         if "HX-target" in request.headers:
             template_name = "time_submission.html"
             if not request.GET["date"] or not request.GET["doctor"]:
@@ -48,6 +51,7 @@ class ExamCreationView(BaseView):
                     options.pop(f"{i.time}")
         else:
             template_name = "manager_exam_creation_template.html"
+
         return render(
             request=request,
             template_name=template_name,
@@ -56,10 +60,17 @@ class ExamCreationView(BaseView):
                 "options": options,
                 "doctors": doctors,
                 "base_template_name": self.get_base_template(request.user),
+                "minimum": minimum,
+                "maximum": maximum,
             },
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
+        breakpoint()
+        if datetime.date.today() >= datetime.datetime.strptime(
+            request.POST["date"], "%Y-%m-%d"
+        ).date() or request.POST["date"] >= datetime.timedelta(days=2 * 365):
+            return redirect("/create-exam/")
         form = ExamCreationPostForm(request.POST)
         if form.is_valid():
             form.save()
