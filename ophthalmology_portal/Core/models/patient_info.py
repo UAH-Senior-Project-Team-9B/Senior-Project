@@ -1,4 +1,3 @@
-from bdb import effective
 from django.db import models
 
 from ophthalmology_portal.Core.models import user_models
