@@ -9,8 +9,8 @@
     <h2>Test Information Creation</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        {{ form2.as_p }}
+        {{ visual_form.as_p }}
+        {{ occular_form.as_p }}
         <button type="submit">Submit</button>
     </form>
     {% if messages %}

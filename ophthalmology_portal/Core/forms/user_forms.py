@@ -22,11 +22,26 @@ class PatientUserForm(forms.ModelForm):
             "state",
             "zip_code",
             "phone_number",
-            "emergency_contact",
             "social_security_number",
             "email",
         ]
 
+class PatientUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = PatientUserModel
+        fields = [
+            "title",
+            "first_name",
+            "middle_initial",
+            "last_name",
+            "gender",
+            "street_address",
+            "city",
+            "state",
+            "zip_code",
+            "phone_number",
+            "email",
+        ]
 
 class ManagerUserForm(forms.ModelForm):
     class Meta:

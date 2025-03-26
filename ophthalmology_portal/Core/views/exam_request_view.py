@@ -10,7 +10,7 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 
 
 # this is for testing purposes, delete this later
-class ExamCreationView(BaseView):
+class PatientExamCreationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
         form = ExamCreationMainForm
         options = {
@@ -50,13 +50,11 @@ class ExamCreationView(BaseView):
                 for i in already_taken:
                     options.pop(f"{i.time}")
         else:
-            template_name = "manager_exam_creation_template.html"
-
+            template_name = "exam_request_template.html"
         return render(
             request=request,
             template_name=template_name,
             context={
-                "form": form,
                 "options": options,
                 "doctors": doctors,
                 "base_template_name": self.get_base_template(request.user),
@@ -68,10 +66,14 @@ class ExamCreationView(BaseView):
     def post(self, request: HttpRequest, *args, **kwargs):
         if datetime.date.today() >= datetime.datetime.strptime(
             request.POST["date"], "%Y-%m-%d"
-        ).date() or request.POST["date"] >= datetime.timedelta(days=2 * 365):
-            return redirect("/create-exam/")
-        form = ExamCreationPostForm(request.POST)
+        ).date() or datetime.datetime.strptime(
+            request.POST["date"], "%Y-%m-%d"
+        ).date() >= (datetime.date.today() + datetime.timedelta(days=2 * 365)):
+            return redirect("/exam-request/")
+        data = request.POST.copy()
+        data['patient'] = request.user.patientusermodel.id
+        form = ExamCreationPostForm(data)
         if form.is_valid():
             form.save()
             return redirect(reverse("home_page"))
-        return redirect("/create-exam/")
+        return redirect("/exam-request/")

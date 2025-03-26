@@ -26,7 +26,7 @@ urlpatterns = [
     path("registration/", views.RegistrationView.as_view(), name="registration"),
     path(
         "registration/information/",
-        views.PatientRegistrationView.as_view(),
+        views.PatientInformationRegistrationView.as_view(),
         name="patient_registration",
     ),
     path("login/", views.LogInView.as_view(), name="log_in"),
@@ -55,7 +55,9 @@ urlpatterns = [
     path(
         "exam-history/",
         view=views.PatientExamHistoryView.as_view(),
-        name="exam_history",
+        name="personal_exam_history",
     ),
     path("daily-exams/", view=views.DailyExamsView.as_view(), name="daily_exams"),
+    path("exam-request/", view=views.PatientExamCreationView.as_view(), name="exam_request"),
+    path("personal-information/", view=views.PatientInformationView.as_view(), name="patient_information"),
 ]

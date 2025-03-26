@@ -37,6 +37,7 @@ class ExamModel(models.Model):
     visual_accuity_information = models.OneToOneField(
         VisualAccuityModel, on_delete=models.CASCADE, blank=True, null=True
     )
+    reason_for_visit = models.TextField(max_length=255)
 
     def save(self, **kwargs):
         if not self.status:

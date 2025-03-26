@@ -12,14 +12,14 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 # this is for testing purposes, delete this later
 class TestInformationCreationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
-        form = VisualAccuityCreationForm
-        form2 = OccularExamCreationForm
+        visual_form = VisualAccuityCreationForm
+        occular_form = OccularExamCreationForm
         return render(
             request=request,
             template_name="exam_data_submission_template.html",
             context={
-                "form": form,
-                "form2": form2,
+                "visual_form": visual_form,
+                "occular_form": occular_form,
                 "base_template_name": self.get_base_template(request.user),
             },
         )
