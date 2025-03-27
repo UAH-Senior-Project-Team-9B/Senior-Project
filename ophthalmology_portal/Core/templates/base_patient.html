@@ -1,20 +1,75 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="{% static 'tailwind.css' %}" />
-        <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-        {% comment %} <script src="node_modules/@alpinejs/anchor/dist/cdn.min.js"></script>
-        <script src="node_modules/alpinejs/dist/cdn.min.js"></script> {% endcomment %}
-        {% comment %} Fix the above {% endcomment %}
-        Patient Header
-    </head>
-    <body>
-        <a href="{% url 'personal_exam_history'%}">Exam History</a>
-        <a href="{% url 'exam_request'%}">Request an Exam</a>
-        <a href="{% url 'patient_information'%}">View your Personal Information</a>
-        <main>{% block content %}{% endblock %}</main>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'tailwind.css' %}" />
+    <script src="https://unpkg.com/htmx.org@2.0.4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Patient Portal</title>
+    <style>
+        /* Apply borders directly to the body */
+        html, body {
+            height: 100%;
+            margin: 0;
+            border-left: 8px solid #3B82F6;
+            border-right: 8px solid #3B82F6;
+        }
+
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        header {
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <div class="w-full min-h-screen" x-data="{ open: false }">
+        <!-- Header Section with Menu Button and Logout Button -->
+        <header class="bg-blue-600 text-white py-4 shadow-md relative">
+            <div class="container mx-auto px-6 flex items-center justify-between">
+                <!-- Accordion Button (Menu Icon) -->
+                <button
+                    @click="open = !open"
+                    class="text-white text-2xl p-2 rounded-lg focus:outline-none"
+                    aria-label="Toggle Menu">
+                    <span x-text="open ? '✖' : '☰'"></span>
+                </button>
+                <h1 class="text-xl font-bold ml-4">EYE-C-U: Patient Portal</h1>
+                <!-- Logout Button -->
+                <a href="{% url 'log_in' %}"
+                   class="text-white text-lg p-2 rounded-lg focus:outline-none hover:bg-blue-700">
+                   Log Out
+                </a>
+            </div>
+        </header>
+
+        <!-- Accordion Menu Below Header -->
+        <div x-show="open" x-collapse class="bg-white shadow-md rounded-lg container mx-auto mt-2 p-4">
+            <a href="{% url 'personal_exam_history' %}"
+               class="block text-lg font-medium text-blue-600 hover:text-blue-300 px-4 py-2 rounded-lg hover:bg-blue-100">
+                Exam History
+            </a>
+            <a href="{% url 'exam_request' %}"
+               class="block text-lg font-medium text-blue-600 hover:text-blue-300 px-4 py-2 rounded-lg hover:bg-blue-100">
+                Request Exam
+            </a>
+            <a href="{% url 'patient_information' %}"
+               class="block text-lg font-medium text-blue-600 hover:text-blue-300 px-4 py-2 rounded-lg hover:bg-blue-100">
+                Personal Information
+            </a>
+        </div>
+
+        <!-- Main Content Section -->
+        <main class="container mx-auto my-8 p-6 bg-white shadow-md rounded-lg">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+</body>
 </html>
