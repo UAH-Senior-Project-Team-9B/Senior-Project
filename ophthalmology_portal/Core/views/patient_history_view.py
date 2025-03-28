@@ -5,7 +5,6 @@ from django.shortcuts import render
 from ophthalmology_portal.Core.models import ExamModel, PatientUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 
-
 class PatientExamHistoryView(BaseView):
     def get(self, request: HttpRequest, patient=None, *args, **kwargs):
         if not patient:
@@ -13,7 +12,7 @@ class PatientExamHistoryView(BaseView):
         exams = ExamModel.objects.filter(
             patient=PatientUserModel.objects.get(id=patient)
         )
-        paginator = Paginator(exams, 3)
+        paginator = Paginator(exams, 10)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         return render(

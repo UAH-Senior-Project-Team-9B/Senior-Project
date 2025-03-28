@@ -8,7 +8,7 @@ from django.http import Http404
 
 class PatientListView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
-        if not self.manager_verification(request.user) or not self.doctor_verification(request.user):
+        if not self.manager_verification(request.user) and not self.doctor_verification(request.user):
             raise Http404
         patients = PatientUserModel.objects.all()
         paginator = Paginator(patients, 3)
