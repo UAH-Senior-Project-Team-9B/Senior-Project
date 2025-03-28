@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends "base_manager.html" %}
+{% extends "base_patient.html" %}
 {% block content%}
 <html>
 <head>
@@ -9,14 +9,14 @@
     <h2>Exam Request</h2>
     <form method="post">
         {% csrf_token %}
-        <select hx-trigger="change" hx-indicator=".htmx-indicator" hx-get="{% url 'create_exam'%}" hx-target="#time" id="doctor" name="doctor" hx-include="[name='date']">
+        <select hx-trigger="change" hx-indicator=".htmx-indicator" hx-get="{% url 'exam_request'%}" hx-target="#time" id="doctor" name="doctor" hx-include="[name='date']">
             <option value="">-------</option>
             {% for doctor in doctors %}
                 <option value="{{  doctor.id }}">{{  doctor }}</option>
             {% endfor %}
         </select>
 
-        <input hx-trigger="change" hx-indicator=".htmx-indicator" hx-get="{% url 'create_exam'%}" hx-target="#time" type="date" id="date" name="date" hx-include="[name='doctor']" min={{ minimum }} max={{ maximum }}>
+        <input hx-trigger="change" hx-indicator=".htmx-indicator" hx-get="{% url 'exam_request'%}" hx-target="#time" type="date" id="date" name="date" hx-include="[name='doctor']" min={{ minimum }} max={{ maximum }}>
         <section id="time" class="w-full">
             {% include "time_submission.html"%}
         </section>

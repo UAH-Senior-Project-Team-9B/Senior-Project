@@ -121,7 +121,7 @@ class OccularExamModel(models.Model):
     scleral_depression = models.BooleanField(name="Scleral Depression")
     ophthalmoscope = models.BooleanField(name="Direct Opthalmoscope")
     other = models.BooleanField(name="Other")
-    other_information = models.TextField(max_length=255)
+    other_information = models.TextField(max_length=255, null=True)
 
     # Notes
     advised = models.BooleanField(name="Patient Advised of effects of DFE")
@@ -191,6 +191,9 @@ class OccularExamModel(models.Model):
     os_pit = models.BooleanField(name="OS Optic Pit")
     os_muyelination = models.BooleanField(name="OS Muyelination")
     os_remnants = models.BooleanField(name="OS Glial Remnants")
+
+    image_of_left_eye = models.ImageField(upload_to="left_eye/")
+    image_of_right_eye = models.ImageField(upload_to="right_eye/")
 
     class Meta:
         permissions = [

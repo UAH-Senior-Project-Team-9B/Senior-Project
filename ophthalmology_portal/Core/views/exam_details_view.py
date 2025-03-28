@@ -15,7 +15,7 @@ from ophthalmology_portal.Core.forms import (
 )
 from ophthalmology_portal.Core.models import ExamModel
 from ophthalmology_portal.Core.views.base_view import BaseView
-
+from django.http import Http404
 
 class ExamDetailsView(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
@@ -100,6 +100,8 @@ class ExamDetailsView(BaseView):
             )
 
     def post(self, request: HttpRequest, exam_id, *args, **kwargs):
+        if not self.doctor_verification(request.user):
+            raise Http404
         form = VisualAccuityCreationForm(request.POST)
         form2 = OccularExamCreationForm(request.POST)
         form3 = PrescriptionCreationForm(request.POST)

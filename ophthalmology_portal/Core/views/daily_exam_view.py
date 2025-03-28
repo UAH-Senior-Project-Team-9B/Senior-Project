@@ -1,5 +1,5 @@
 import datetime
-
+from django.http import Http404
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
@@ -9,6 +9,8 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 
 class DailyExamsView(BaseView):
     def get(self, request, *args, **kwargs):
+        if not self.manager_verification(request.user) or not self.doctor_verification(request.user):
+            raise Http404
         for key in request.GET:
             if request.GET[key] == "Move to Waiting":
                 exam = ExamModel.objects.get(id=key)

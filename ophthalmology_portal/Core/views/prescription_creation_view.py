@@ -4,11 +4,13 @@ from django.urls import reverse
 
 from ophthalmology_portal.Core.forms import PrescriptionCreationForm
 from ophthalmology_portal.Core.views.base_view import BaseView
-
+from django.http import Http404
 
 # this is for testing purposes, delete this later
 class PrescriptionCreationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
+        if not self.doctor_verification(request.user):
+            raise Http404
         form = PrescriptionCreationForm
         return render(
             request=request,
@@ -20,6 +22,8 @@ class PrescriptionCreationView(BaseView):
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
+        if not self.doctor_verification(request.user):
+            raise Http404
         form = PrescriptionCreationForm(request.POST)
 
         if form.is_valid():

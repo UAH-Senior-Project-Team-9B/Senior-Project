@@ -79,19 +79,24 @@ class PatientUserModel(models.Model):
     street_address = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=20, choices=state_choices)
-    zip_code = models.CharField(max_length=9, validators=[
+    zip_code = models.CharField(
+        max_length=9,
+        validators=[
             RegexValidator(
                 regex=r"^\d{5}-\d{4}$|^\d{5}$",
                 message="Zipcode must be in the format XXXXX or XXXXX-XXXX",
             )
-        ],)
-    phone_number = models.CharField(max_length=14,
+        ],
+    )
+    phone_number = models.CharField(
+        max_length=14,
         validators=[
             RegexValidator(
                 regex=r"^(?:[(][0-9]{3}[)][. -]|[(][0-9]{3}[)]|[0-9]{3}[. -])[0-9]{3}[ .-][0-9]{4}$",
                 message="Phone number must follow regulations",
             )
-        ],)
+        ],
+    )
     social_security_number = models.CharField(
         max_length=11,
         unique=True,

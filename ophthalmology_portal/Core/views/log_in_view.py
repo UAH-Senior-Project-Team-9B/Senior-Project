@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group, User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
@@ -8,9 +8,9 @@ from django.views import View
 
 from ophthalmology_portal.Core.forms import (
     BaseUserForm,
-    PatientUserForm,
     EmergencyContactForm,
-    InsuranceProviderForm
+    InsuranceProviderForm,
+    PatientUserForm,
 )
 
 
@@ -69,15 +69,23 @@ class PatientInformationRegistrationView(View):
         form = PatientUserForm()
         form2 = EmergencyContactForm()
         form3 = InsuranceProviderForm()
-        return render(request, "patient_registration_template.html", {"form": form,"form2": form2,"form3": form3,})
+        return render(
+            request,
+            "patient_registration_template.html",
+            {
+                "form": form,
+                "form2": form2,
+                "form3": form3,
+            },
+        )
 
     def post(self, request: HttpRequest, *args, **kwargs):
         form = PatientUserForm(request.POST)
         form2 = EmergencyContactForm(request.POST)
         form3 = InsuranceProviderForm(request.POST)
-        if  request.session.__contains__(
-            "username"
-        ) or  request.session.__contains__("password"):
+        if request.session.__contains__("username") or request.session.__contains__(
+            "password"
+        ):
             if form.is_valid() and form2.is_valid() and form3.is_valid():
                 username = request.session.pop("username")
                 password = request.session.pop("password")
@@ -109,3 +117,9 @@ class PatientInformationRegistrationView(View):
             return redirect("/registration/information/")
         else:
             return redirect("/registration/")
+
+
+class LogOutView(View):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        logout(request)
+        return redirect(reverse("home"))

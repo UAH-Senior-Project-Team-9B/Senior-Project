@@ -7,11 +7,13 @@ from django.urls import reverse
 from ophthalmology_portal.Core.forms import ExamCreationMainForm, ExamCreationPostForm
 from ophthalmology_portal.Core.models import ExamModel, OphthalmologistUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
-
+from django.http import Http404
 
 # this is for testing purposes, delete this later
 class ExamCreationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
+        if not self.manager_verification(request.user):
+            raise Http404
         form = ExamCreationMainForm
         options = {
             f"{datetime.time(8)}": "8:00 AM",
@@ -66,6 +68,8 @@ class ExamCreationView(BaseView):
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
+        if not self.manager_verification(request.user):
+            raise Http404
         if datetime.date.today() >= datetime.datetime.strptime(
             request.POST["date"], "%Y-%m-%d"
         ).date() or request.POST["date"] >= datetime.timedelta(days=2 * 365):
