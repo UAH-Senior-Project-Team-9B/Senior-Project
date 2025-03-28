@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends "base_doctor.html" %}
+{% block content%}
+<html>
+<head>
+    <title>Prescription Creation</title>
+</head>
+<body>
+    <h2>Prescription Creation</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message.message }}</p>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'registration'%}">Register here</a>
+
+</body>
+</html>
+{% endblock  %}

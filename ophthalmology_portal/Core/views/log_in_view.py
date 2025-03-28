@@ -1,6 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group, User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -8,6 +8,8 @@ from django.views import View
 
 from ophthalmology_portal.Core.forms import (
     BaseUserForm,
+    EmergencyContactForm,
+    InsuranceProviderForm,
     PatientUserForm,
 )
 
@@ -22,6 +24,7 @@ class LogInView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         username = request.POST.get("username")
         password = request.POST.get("password")
+
         if not User.objects.filter(username=username).exists():
             messages.error(request=request, message="Invalid Username")
             return redirect("/login/")
@@ -57,30 +60,66 @@ class RegistrationView(View):
         return redirect(reverse("registration"))
 
 
-class PatientRegistrationView(View):
+class PatientInformationRegistrationView(View):
     def get(self, request: HttpRequest, *args, **kwargs):
         if not request.session.__contains__(
             "username"
         ) or not request.session.__contains__("password"):
             return redirect(reverse("registration"))
         form = PatientUserForm()
-        return render(request, "patient_registration_template.html", {"form": form})
+        form2 = EmergencyContactForm()
+        form3 = InsuranceProviderForm()
+        return render(
+            request,
+            "patient_registration_template.html",
+            {
+                "form": form,
+                "form2": form2,
+                "form3": form3,
+            },
+        )
 
     def post(self, request: HttpRequest, *args, **kwargs):
-        username = request.session.pop("username")
-        password = request.session.pop("password")
-        if User.objects.filter(username=username).exists():
-            messages.error(request=request, message="Username Is Taken")
-            return redirect("/registration/")
-        user_form = BaseUserForm({"username": username, "password": password})
-        user = user_form.save(commit=False)
-        user.set_password(user_form.cleaned_data["password"])
-        user.save()
         form = PatientUserForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user_id = user.id
-            instance.save()
-            return redirect("/login/")
+        form2 = EmergencyContactForm(request.POST)
+        form3 = InsuranceProviderForm(request.POST)
+        if request.session.__contains__("username") or request.session.__contains__(
+            "password"
+        ):
+            if form.is_valid() and form2.is_valid() and form3.is_valid():
+                username = request.session.pop("username")
+                password = request.session.pop("password")
+                if User.objects.filter(username=username).exists():
+                    messages.error(request=request, message="Username Is Taken")
+                    return redirect("/registration/")
+                user_form = BaseUserForm({"username": username, "password": password})
+                user = user_form.save(commit=False)
+                user.set_password(user_form.cleaned_data["password"])
+                user.save()
+                my_group = Group.objects.get(name="Patients")
+                my_group.user_set.add(user)
+                instance = form.save(commit=False)
+                instance.user_id = user.id
+                instance.save()
+                instance2 = form2.save(commit=False)
+                instance2.patient_id = instance.id
+                instance2.save()
+                instance3 = form3.save(commit=False)
+                instance3.patient_id = instance.id
+                instance3.save()
+                return redirect("/login/")
+            for field in form.errors:
+                messages.error(request, form.errors[field])
+            for field in form2.errors:
+                messages.error(request, form2.errors[field])
+            for field in form3.errors:
+                messages.error(request, form3.errors[field])
+            return redirect("/registration/information/")
+        else:
+            return redirect("/registration/")
 
-        return redirect("/registration/information/")
+
+class LogOutView(View):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        logout(request)
+        return redirect(reverse("home"))

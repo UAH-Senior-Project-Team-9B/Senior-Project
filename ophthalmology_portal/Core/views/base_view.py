@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.views import View
 
 
@@ -7,3 +8,27 @@ class BaseView(LoginRequiredMixin, View):
     redirect_field_name = "redirect"
     redirect_authenticated_user = True
     login_url = "/login/"
+
+    def get_base_template(self, user: User):
+        if user.has_perm("Core.patient"):
+            return "base_patient.html"
+        elif user.has_perm("Core.doctor"):
+            return "base_doctor.html"
+        elif user.has_perm("Core.manager"):
+            return "base_manager.html"
+
+    def manager_verification(selc, user: User):
+        if user.has_perm("Core.manager"):
+            return True
+        else:
+            return False
+    def doctor_verification(selc, user: User):
+        if user.has_perm("Core.doctor"):
+            return True
+        else:
+            return False
+    def patient_verification(selc, user: User):
+        if user.has_perm("Core.patient"):
+            return True
+        else:
+            return False
