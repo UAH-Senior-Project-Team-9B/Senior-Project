@@ -9,7 +9,7 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 
 class DailyExamsView(BaseView):
     def get(self, request, *args, **kwargs):
-        if not self.manager_verification(request.user) or not self.doctor_verification(request.user):
+        if not self.manager_verification(request.user) and not self.doctor_verification(request.user):
             raise Http404
         for key in request.GET:
             if request.GET[key] == "Move to Waiting":
