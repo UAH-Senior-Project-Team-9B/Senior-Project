@@ -25,7 +25,7 @@ class DailyExamsView(BaseView):
                 exam = ExamModel.objects.get(id=key)
                 exam.cancel()
         exams = ExamModel.objects.filter(date=datetime.date.today()).reverse()
-        paginator = Paginator(exams, 3)
+        paginator = Paginator(exams, 10)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         return render(
