@@ -60,4 +60,6 @@ urlpatterns = [
     path("daily-exams/", view=views.DailyExamsView.as_view(), name="daily_exams"),
     path("exam-request/", view=views.PatientExamCreationView.as_view(), name="exam_request"),
     path("personal-information/", view=views.PatientInformationView.as_view(), name="patient_information"),
+    path("exam-confirmations/", view=views.ExamConfirmationsView.as_view(http_method_names=['get']), name="exam_confirmations"),
+    path("exam-confirmations/<int:id>/", view=views.ExamConfirmationView.as_view(http_method_names=['post']), name="exam_confirmations"),
 ]

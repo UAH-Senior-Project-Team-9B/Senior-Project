@@ -20,7 +20,8 @@ from ophthalmology_portal.Core.forms.user_forms import (
     ManagerUserForm,
     OphthalmologistUserForm,
     PatientUserForm,
-    PatientUserUpdateForm
+    PatientUserUpdateForm,
+    PatientUserViewForm,
 )
 from ophthalmology_portal.Core.forms.patient_info_form import EmergencyContactForm, InsuranceProviderForm
 
@@ -45,4 +46,5 @@ __all__ = [
     "EmergencyContactForm",
     "InsuranceProviderForm",
     "PatientUserUpdateForm",
+    "PatientUserViewForm",
 ]

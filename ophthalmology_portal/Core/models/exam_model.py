@@ -41,7 +41,7 @@ class ExamModel(models.Model):
 
     def save(self, **kwargs):
         if not self.status:
-            self.status = "upcoming"
+            self.status = "pending"
         if self.occular_exam_information and self.visual_accuity_information:
             self.status = "completed"
         super().save()
@@ -53,6 +53,7 @@ class ExamModel(models.Model):
             ("doctor", "Doctor Permissions"),
             ("manager", "Manager Permissions"),
         ]
+        unique_together = ["date", "time"]
 
     def __str__(self):
         return f"Exam on {self.date} at {self.time}"
