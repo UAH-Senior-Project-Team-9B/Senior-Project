@@ -1,10 +1,9 @@
 from django.core.paginator import Paginator
-from django.http import HttpRequest
+from django.http import Http404, HttpRequest
 from django.shortcuts import render
 
-from ophthalmology_portal.Core.models import PrescriptionModel, PatientUserModel
+from ophthalmology_portal.Core.models import PatientUserModel, PrescriptionModel
 from ophthalmology_portal.Core.views.base_view import BaseView
-from django.http import Http404
 
 
 class PrescriptionListView(BaseView):

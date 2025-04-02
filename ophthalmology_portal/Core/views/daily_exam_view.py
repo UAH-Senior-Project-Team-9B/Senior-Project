@@ -1,16 +1,19 @@
 import datetime
-from django.http import Http404
+
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import render
 
 from ophthalmology_portal.Core.models import ExamModel
 from ophthalmology_portal.Core.views.base_view import BaseView
-from django.db.models import Q
 
 
 class DailyExamsView(BaseView):
     def get(self, request, *args, **kwargs):
-        if not self.manager_verification(request.user) and not self.doctor_verification(request.user):
+        if not self.manager_verification(request.user) and not self.doctor_verification(
+            request.user
+        ):
             raise Http404
         for key in request.GET:
             if request.GET[key] == "Move to Waiting":
@@ -25,7 +28,11 @@ class DailyExamsView(BaseView):
             elif request.GET[key] == "Cancel":
                 exam = ExamModel.objects.get(id=key)
                 exam.cancel()
-        exams = ExamModel.objects.filter(Q(date=datetime.date.today()) & Q(status="Upcoming")|Q(status="In Wait Room")|Q(status="In Progress"))
+        exams = ExamModel.objects.filter(
+            Q(date=datetime.date.today()) & Q(status="Upcoming")
+            | Q(status="In Wait Room")
+            | Q(status="In Progress")
+        )
         paginator = Paginator(exams, 3)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
