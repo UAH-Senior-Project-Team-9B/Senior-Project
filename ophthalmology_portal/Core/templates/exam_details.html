@@ -9,7 +9,7 @@
     <h2>Exam View</h2>
     {{ form.as_p }}
     {% if upload %}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ prescription_form.as_p }}
         {{ visual_form.as_p }}

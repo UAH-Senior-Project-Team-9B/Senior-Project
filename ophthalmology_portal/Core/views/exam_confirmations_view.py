@@ -13,7 +13,6 @@ from django.http import Http404
 # this is for testing purposes, delete this later
 class ExamConfirmationsView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
-        breakpoint()
         if not self.manager_verification(request.user):
             return Http404
         exams = ExamModel.objects.filter(status="pending")

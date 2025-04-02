@@ -14,21 +14,16 @@ from django.http import Http404
 
 # this is for testing purposes, delete this later
 class ExamConfirmationView(BaseView):
-    def get(self, request: HttpRequest, exam_id, *args, **kwargs):
-        breakpoint()
+    def get(self, request: HttpRequest, id, *args, **kwargs):
         if not self.manager_verification(request.user):
             return Http404
-        form = ExamManagerViewForm(instance=ExamModel.objects.get(id=exam_id))
-        prescription_form = PrescriptionViewForm(
-            instance=ExamModel.objects.get(id=exam_id).prescription
-        )
+        form = ExamManagerViewForm(instance=ExamModel.objects.get(id=id))
         return render(
             request,
-            "exam_confirmation_template.html",
+            "pending_exam_template.html",
             {
                 "form": form,
                 "base_template_name": self.get_base_template(request.user),
-                "prescription_form": prescription_form,
                 "upload": False,
             },
         )
@@ -36,5 +31,7 @@ class ExamConfirmationView(BaseView):
     def post(self, request: HttpRequest, id, *args, **kwargs):
         if not self.manager_verification(request.user):
             raise Http404
-        breakpoint()
-        return redirect("/create-exam/")
+        instance= ExamModel.objects.get(id=id)
+        instance.status="upcoming"
+        instance.save()
+        return redirect("/exam-confirmations/")

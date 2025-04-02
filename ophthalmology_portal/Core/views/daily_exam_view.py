@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from ophthalmology_portal.Core.models import ExamModel
 from ophthalmology_portal.Core.views.base_view import BaseView
+from django.db.models import Q
 
 
 class DailyExamsView(BaseView):
@@ -24,7 +25,7 @@ class DailyExamsView(BaseView):
             elif request.GET[key] == "Cancel":
                 exam = ExamModel.objects.get(id=key)
                 exam.cancel()
-        exams = ExamModel.objects.filter(date=datetime.date.today()).reverse()
+        exams = ExamModel.objects.filter(Q(date=datetime.date.today()) & Q(status="Upcoming")|Q(status="In Wait Room")|Q(status="In Progress"))
         paginator = Paginator(exams, 3)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)

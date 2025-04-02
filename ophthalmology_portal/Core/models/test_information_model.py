@@ -121,7 +121,7 @@ class OccularExamModel(models.Model):
     scleral_depression = models.BooleanField(name="Scleral Depression")
     ophthalmoscope = models.BooleanField(name="Direct Opthalmoscope")
     other = models.BooleanField(name="Other")
-    other_information = models.TextField(max_length=255, null=True)
+    other_information = models.TextField(max_length=255, null=True, blank=True)
 
     # Notes
     advised = models.BooleanField(name="Patient Advised of effects of DFE")

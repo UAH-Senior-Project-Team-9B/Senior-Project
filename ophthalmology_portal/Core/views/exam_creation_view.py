@@ -77,10 +77,8 @@ class ExamCreationView(BaseView):
         ).date() >= (datetime.date.today() + datetime.timedelta(days=2 * 365)):
             return redirect("/create-exam/")
         form = ExamCreationPostForm(request.POST)
-        breakpoint()
         if form.is_valid():
             form.status = "upcoming"
-            breakpoint()
             form.save()
             return redirect(reverse("home_page"))
         return redirect("/create-exam/")

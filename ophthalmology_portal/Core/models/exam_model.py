@@ -10,14 +10,14 @@ from ophthalmology_portal.Core.models.test_information_model import (
 
 class ExamModel(models.Model):
     status = models.CharField(
-        max_length=11,
+        max_length=12,
         choices={
-            "pending": "Pending",
-            "upcoming": "Upcoming",
-            "waiting": "In Wait Room",
-            "progressing": "In Progress",
-            "completed": "Completed",
-            "canceled": "Canceled",
+            "Pending": "Pending",
+            "Upcoming": "Upcoming",
+            "In Wait Room": "In Wait Room",
+            "In Progress": "In Progress",
+            "Completed": "Completed",
+            "Canceled": "Canceled",
         },
         null=True,
         blank=True,
@@ -59,17 +59,17 @@ class ExamModel(models.Model):
         return f"Exam on {self.date} at {self.time}"
 
     def in_lobby(self):
-        self.status = "waiting"
+        self.status = "In Wait Room"
         self.save()
 
     def in_progress(self):
-        self.status = "progressing"
+        self.status = "In Progress"
         self.save()
 
     def complete(self):
-        self.status = "complete"
+        self.status = "Completed"
         self.save()
 
     def cancel(self):
-        self.status = "canceled"
+        self.status = "Canceled"
         self.save()
