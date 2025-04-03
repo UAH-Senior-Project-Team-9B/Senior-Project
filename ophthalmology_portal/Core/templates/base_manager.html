@@ -14,6 +14,8 @@
         <a href="{% url 'patient_list'%}">Patient List</a>
         <a href="{% url 'create_exam'%}">Schedule an Exam</a>
         <a href="{% url 'daily_exams'%}">Exams of the day</a>
+        <a href="{% url 'exam_confirmations'%}">Exams Needing Approval</a>
+        <a href="{% url 'log_out'%}">Log Out</a>
         <main>{% block content %}{% endblock %}</main>
     </body>
 </html>

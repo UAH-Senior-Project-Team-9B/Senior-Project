@@ -1,5 +1,5 @@
 from django import forms
-
+from django.core.exceptions import ValidationError
 from ophthalmology_portal.Core.models import OccularExamModel, VisualAccuityModel
 
 
@@ -13,6 +13,10 @@ class OccularExamCreationForm(forms.ModelForm):
     class Meta:
         model = OccularExamModel
         fields = "__all__"
+    def cleaned_data(self):
+        if self.fields['other']:
+            if not self.fields['other_information']:
+                raise ValidationError("If other is selected, the other information field must be filled in.", code="other_information")
 
 
 class VisualAccuityViewForm(forms.ModelForm):

@@ -78,6 +78,7 @@ class ExamCreationView(BaseView):
             return redirect("/create-exam/")
         form = ExamCreationPostForm(request.POST)
         if form.is_valid():
+            form.status = "upcoming"
             form.save()
             return redirect(reverse("home_page"))
         return redirect("/create-exam/")

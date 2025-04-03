@@ -122,4 +122,4 @@ class PatientInformationRegistrationView(View):
 class LogOutView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         logout(request)
-        return redirect(reverse("home"))
+        return redirect("/login/")
