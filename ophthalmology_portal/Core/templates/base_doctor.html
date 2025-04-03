@@ -12,6 +12,8 @@
     </head>
     <body>
         <a href="{% url 'patient_list'%}">Patient List</a>
+        <a href="{% url 'daily_exams'%}">Exams of the day</a>
+        <a href="{% url 'log_out'%}">Log Out</a>
         <main>{% block content %}{% endblock %}</main>
     </body>
 </html>

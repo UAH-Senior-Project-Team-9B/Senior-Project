@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib import messages
 from ophthalmology_portal.Core.forms import (
-    PatientUserForm,
+    PatientUserViewForm,
     EmergencyContactForm,
     InsuranceProviderForm,
     PatientUserUpdateForm
@@ -15,7 +15,7 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 class PatientInformationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
         patient = PatientUserModel.objects.get(user=request.user)
-        patient_information = PatientUserForm(instance=patient)
+        patient_information = PatientUserViewForm(instance=patient)
         emergency_contact = EmergencyContactForm(
             instance=patient.emergencycontactmodel
         )

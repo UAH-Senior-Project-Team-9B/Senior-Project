@@ -103,7 +103,7 @@ class ExamDetailsView(BaseView):
         if not self.doctor_verification(request.user):
             raise Http404
         form = VisualAccuityCreationForm(request.POST)
-        form2 = OccularExamCreationForm(request.POST)
+        form2 = OccularExamCreationForm(request.POST, request.FILES)
         form3 = PrescriptionCreationForm(request.POST)
         if form.is_valid() and form2.is_valid() and form3.is_valid():
             exam = ExamModel.objects.get(id=exam_id)

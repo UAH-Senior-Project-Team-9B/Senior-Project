@@ -11,7 +11,7 @@ class PatientListView(BaseView):
         if not self.manager_verification(request.user) and not self.doctor_verification(request.user):
             raise Http404
         patients = PatientUserModel.objects.all()
-        paginator = Paginator(patients, 3)
+        paginator = Paginator(patients, 10)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
         return render(

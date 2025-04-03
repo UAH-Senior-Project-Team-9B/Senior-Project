@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends base_template_name %}
+{% block content%}
+<html>
+<head>
+    <title>Exam View</title>
+</head>
+<body>
+    <h2>Exam View</h2>
+    {{ form.as_p }}
+    <form  method="post">
+        {% csrf_token %}
+        <input type="submit" class="btn" value="Confirm" name="{{ exam.id }}">
+    </form><br>
+</body>
+</html>
+{% endblock  %}
