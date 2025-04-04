@@ -21,6 +21,7 @@ class ExamPatientViewForm(forms.ModelForm):
     class Meta:
         model = ExamModel
         fields = "__all__"
+        exclude = ["visual_accuity_information", "occular_exam_information"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

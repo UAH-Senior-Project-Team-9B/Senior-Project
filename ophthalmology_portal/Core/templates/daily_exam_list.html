@@ -2,7 +2,11 @@
 {% block content%}
 {% for exam in page_obj %}
     {# Each "patient" is a patient model object. #}
-    <a href="{% url 'exam_details' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
+    {% if exam.status == "Exam In Progress" %}
+        <a href="{% url 'exam_data_submission' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
+    {% else %}
+        <a href="{% url 'exam_details' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
+    {% endif %}
     <form  method="get">
         <input type="submit" class="btn" value="Move to Waiting" name="{{ exam.id }}">
         <input type="submit" class="btn" value="Move to in Progress" name="{{ exam.id }}">

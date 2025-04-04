@@ -47,54 +47,54 @@ dilating_agents = {
 
 class OccularExamModel(models.Model):
     vitreous_segment = models.CharField(
-        name="Vitreous Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Vitreous Segment", choices=posterior_segment_choices, max_length=255
     )
     macula_segment = models.CharField(
-        name="Macula Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Macula Segment", choices=posterior_segment_choices, max_length=255
     )
     vasculature_segment = models.CharField(
-        name="Vasculature Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Vasculature Segment", choices=posterior_segment_choices, max_length=255
     )
     posterior_pole_segment = models.CharField(
-        name="Posterior Pole Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Posterior Pole Segment", choices=posterior_segment_choices, max_length=255
     )
     peripheral_retina_segment = models.CharField(
-        name="Peripheral Retina Segment",
+        verbose_name="Peripheral Retina Segment",
         choices=posterior_segment_choices,
         max_length=255,
     )
     misc_retina_segment = models.CharField(
-        name="Misc Retina Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Misc Retina Segment", choices=posterior_segment_choices, max_length=255
     )
     biabeti_eval_segment = models.CharField(
-        name="Diabeti Eval Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Diabeti Eval Segment", choices=posterior_segment_choices, max_length=255
     )
     htl_eval_segment = models.CharField(
-        name="HTL Evaluation Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="HTL Evaluation Segment", choices=posterior_segment_choices, max_length=255
     )
     armd_segment = models.CharField(
-        name="ARMD Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="ARMD Segment", choices=posterior_segment_choices, max_length=255
     )
 
     # Ophthalmic Indicators
     left_venous_pulsation = models.CharField(
-        name="OS Sponeaneous Venous Pulsation",
+        verbose_name="OS Sponeaneous Venous Pulsation",
         choices={"+": "+", "-": "-", "X": "X"},
         max_length=1,
     )
     right_venous_pulsation = models.CharField(
-        name="OD Venous Pulsation", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
+        verbose_name="OD Venous Pulsation", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
     )
     left_foveal_reflex = models.CharField(
-        name="OS Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
+        verbose_name="OS Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
     )
     right_venous_pulsation = models.CharField(
-        name="OD Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
+        verbose_name="OD Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
     )
 
     # Fundus Evaluation
     fundus_record = models.CharField(
-        name="Evaluation Performed",
+        verbose_name="Evaluation Performed",
         choices={
             "Not Performed": "Not Performed",
             "Small Pupil BIO": "Small Pupil BIO",
@@ -114,45 +114,45 @@ class OccularExamModel(models.Model):
     dilated_with_drug = models.CharField(choices=dilating_agents, max_length=255)
 
     # Evaluated with
-    d78_lens = models.BooleanField(name="78D Lens")
-    d90_lens = models.BooleanField(name="90D Lens")
-    d20_lens = models.BooleanField(name="20D BIO Lens")
-    PR22_lens = models.BooleanField(name="PR 2.2 BIO Lens")
-    scleral_depression = models.BooleanField(name="Scleral Depression")
-    ophthalmoscope = models.BooleanField(name="Direct Opthalmoscope")
-    other = models.BooleanField(name="Other")
+    d78_lens = models.BooleanField(verbose_name="78D Lens")
+    d90_lens = models.BooleanField(verbose_name="90D Lens")
+    d20_lens = models.BooleanField(verbose_name="20D BIO Lens")
+    PR22_lens = models.BooleanField(verbose_name="PR 2.2 BIO Lens")
+    scleral_depression = models.BooleanField(verbose_name="Scleral Depression")
+    ophthalmoscope = models.BooleanField(verbose_name="Direct Opthalmoscope")
+    other = models.BooleanField(verbose_name="Other")
     other_information = models.TextField(max_length=255, null=True, blank=True)
 
     # Notes
-    advised = models.BooleanField(name="Patient Advised of effects of DFE")
-    rescheduled = models.BooleanField(name="DFE to be Rescheduled")
-    declined = models.BooleanField(name="DFE Declined")
-    imaging = models.BooleanField(name="Fundus Imaging Performed")
-    refused = models.BooleanField(name="DFE refused AME")
-    not_indicated = models.BooleanField(name="DFE Not Indicated")
-    contraindicated = models.BooleanField(name="DFE Contraindicated")
-    recent = models.BooleanField(name="Recent DFE")
+    advised = models.BooleanField(verbose_name="Patient Advised of effects of DFE")
+    rescheduled = models.BooleanField(verbose_name="DFE to be Rescheduled")
+    declined = models.BooleanField(verbose_name="DFE Declined")
+    imaging = models.BooleanField(verbose_name="Fundus Imaging Performed")
+    refused = models.BooleanField(verbose_name="DFE refused AME")
+    not_indicated = models.BooleanField(verbose_name="DFE Not Indicated")
+    contraindicated = models.BooleanField(verbose_name="DFE Contraindicated")
+    recent = models.BooleanField(verbose_name="Recent DFE")
 
     od_cup_ratio_horizontal = models.DecimalField(
-        name="OD Cup-Disc Horizontal Ratio",
+        verbose_name="OD Cup-Disc Horizontal Ratio",
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
     )
     od_cup_ratio_vertical = models.DecimalField(
-        name="OD Cup-Disc Vertical Ratio",
+        verbose_name="OD Cup-Disc Vertical Ratio",
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
     )
     os_cup_ratio_horizontal = models.DecimalField(
-        name="OS Cup-Disc Horizontal Ratio",
+        verbose_name="OS Cup-Disc Horizontal Ratio",
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
     )
     os_cup_ratio_vertical = models.DecimalField(
-        name="OS Cup-Disc Vertical Ratio",
+        verbose_name="OS Cup-Disc Vertical Ratio",
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
@@ -160,37 +160,37 @@ class OccularExamModel(models.Model):
 
     # Optic Nerve Head Assesment (May need revisit based on Optic Nerve Descriptors definition)
     optic_nerve = models.CharField(
-        name="Optic Nerve", choices=posterior_segment_choices, max_length=255
+        verbose_name="Optic Nerve", choices=posterior_segment_choices, max_length=255
     )
     nerve_fiber = models.CharField(
-        name="Nerve Fiber Layer", choices=posterior_segment_choices, max_length=255
+        verbose_name="Nerve Fiber Layer", choices=posterior_segment_choices, max_length=255
     )
 
-    od_deep = models.BooleanField(name="OD Deep/Lamina")
-    od_shallow = models.BooleanField(name="OD Shallow")
-    od_round = models.BooleanField(name="OD Round")
-    od_oval = models.BooleanField(name="OD Oval")
-    od_temp = models.BooleanField(name="OD Temp. sloping")
-    od_under = models.BooleanField(name="OD undermining")
-    od_atrophy = models.BooleanField(name="OD Peripap Atrophy")
-    od_scleral = models.BooleanField(name="OD Scleral Crescent")
-    od_pigment = models.BooleanField(name="OD Pigment Crescent")
-    od_pit = models.BooleanField(name="OD Optic Pit")
-    od_muyelination = models.BooleanField(name="OD Muyelination")
-    od_remnants = models.BooleanField(name="OD Glial Remnants")
+    od_deep = models.BooleanField(verbose_name="OD Deep/Lamina")
+    od_shallow = models.BooleanField(verbose_name="OD Shallow")
+    od_round = models.BooleanField(verbose_name="OD Round")
+    od_oval = models.BooleanField(verbose_name="OD Oval")
+    od_temp = models.BooleanField(verbose_name="OD Temp. sloping")
+    od_under = models.BooleanField(verbose_name="OD undermining")
+    od_atrophy = models.BooleanField(verbose_name="OD Peripap Atrophy")
+    od_scleral = models.BooleanField(verbose_name="OD Scleral Crescent")
+    od_pigment = models.BooleanField(verbose_name="OD Pigment Crescent")
+    od_pit = models.BooleanField(verbose_name="OD Optic Pit")
+    od_muyelination = models.BooleanField(verbose_name="OD Muyelination")
+    od_remnants = models.BooleanField(verbose_name="OD Glial Remnants")
 
-    os_deep = models.BooleanField(name="OS Deep/Lamina")
-    os_shallow = models.BooleanField(name="OS Shallow")
-    os_round = models.BooleanField(name="OS Round")
-    os_oval = models.BooleanField(name="OS Oval")
-    os_temp = models.BooleanField(name="OS Temp. sloping")
-    os_under = models.BooleanField(name="OS undermining")
-    os_atrophy = models.BooleanField(name="OS Peripap Atrophy")
-    os_scleral = models.BooleanField(name="OS Scleral Crescent")
-    os_pigment = models.BooleanField(name="OS Pigment Crescent")
-    os_pit = models.BooleanField(name="OS Optic Pit")
-    os_muyelination = models.BooleanField(name="OS Muyelination")
-    os_remnants = models.BooleanField(name="OS Glial Remnants")
+    os_deep = models.BooleanField(verbose_name="OS Deep/Lamina")
+    os_shallow = models.BooleanField(verbose_name="OS Shallow")
+    os_round = models.BooleanField(verbose_name="OS Round")
+    os_oval = models.BooleanField(verbose_name="OS Oval")
+    os_temp = models.BooleanField(verbose_name="OS Temp. sloping")
+    os_under = models.BooleanField(verbose_name="OS undermining")
+    os_atrophy = models.BooleanField(verbose_name="OS Peripap Atrophy")
+    os_scleral = models.BooleanField(verbose_name="OS Scleral Crescent")
+    os_pigment = models.BooleanField(verbose_name="OS Pigment Crescent")
+    os_pit = models.BooleanField(verbose_name="OS Optic Pit")
+    os_muyelination = models.BooleanField(verbose_name="OS Muyelination")
+    os_remnants = models.BooleanField(verbose_name="OS Glial Remnants")
 
     image_of_left_eye = models.ImageField(upload_to="database/left_eye/")
     image_of_right_eye = models.ImageField(upload_to="database/right_eye/")
@@ -207,45 +207,53 @@ class VisualAccuityModel(models.Model):
     distance = models.CharField(choices={"D": "D", "N": "N"}, max_length=255)
 
     visual_acuity_measure_left = models.DecimalField(
-        name="OS Visual Accuity",
+        verbose_name="OS Visual Accuity",
         choices=visual_acuity_choices,
         max_digits=4,
         decimal_places=1,
     )
     corrector_indicator_left = models.CharField(
-        name="Corrector Indicator",
+        verbose_name="OS Corrector Indicator",
         choices={"cc": "cc (with)", "sc": "sc (without)"},
         max_length=255,
     )
     pinhole_left = models.BooleanField(
-        name="OS Pinhole Occluder"
+        verbose_name="OS Pinhole Occluder"
     )  # Needs to be displayed as "PH" when viewing completed data
 
     visual_acuity_measure_right = models.DecimalField(
-        name="Right Eye Measurement",
+        verbose_name="OD Measurement",
         choices=visual_acuity_choices,
         max_digits=4,
         decimal_places=1,
     )
     corrector_indicator_right = models.CharField(
-        name="OD Corrector Indicator",
+        verbose_name="OD Corrector Indicator",
         choices={"cc": "cc (with)", "sc": "sc (without)"},
         max_length=255,
     )
-    pinhole_right = models.BooleanField(name="OD Pinhole Occluder")
+    pinhole_right = models.BooleanField(verbose_name="OD Pinhole Occluder")
 
     visual_acuity_measure_both = models.DecimalField(
-        name="OU Visual Accuity",
+        verbose_name="OU Visual Accuity",
         choices=visual_acuity_choices,
         max_digits=4,
         decimal_places=1,
+        blank=True,
+        null=True,
     )
     corrector_indicator_both = models.CharField(
-        name="OU Corrector Indicator",
+        verbose_name="OU Corrector Indicator",
         choices={"cc": "cc (with)", "sc": "sc (without)"},
         max_length=255,
+        blank=True,
+        null=True,
     )
-    pinhole_both = models.BooleanField(name="OU Pinhole Occluder")
+    pinhole_both = models.BooleanField(
+        verbose_name="OU Pinhole Occluder",
+        blank=True,
+        null=True,
+    )
 
     def distance_measurement(self):
         if self.distance == "D":

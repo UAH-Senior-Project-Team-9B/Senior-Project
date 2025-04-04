@@ -1,13 +1,13 @@
 import datetime
 
-from django.http import HttpRequest
+from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from ophthalmology_portal.Core.forms import ExamCreationMainForm, ExamCreationPostForm
 from ophthalmology_portal.Core.models import ExamModel, OphthalmologistUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
-from django.http import Http404
+
 
 # this is for testing purposes, delete this later
 class PatientExamCreationView(BaseView):
@@ -37,9 +37,9 @@ class PatientExamCreationView(BaseView):
             f"{datetime.time(17)}": "5:00 PM",
         }
         doctors = OphthalmologistUserModel.objects.all()
-        minimum = datetime.date.today()+ datetime.timedelta(days=14)
+        minimum = datetime.date.today() + datetime.timedelta(days=14)
         maximum = datetime.date.today() + datetime.timedelta(days=2 * 365)
-        minimum=minimum.strftime("%Y-%m-%d")
+        minimum = minimum.strftime("%Y-%m-%d")
         maximum = maximum.strftime("%Y-%m-%d")
         if "HX-target" in request.headers:
             template_name = "time_submission.html"

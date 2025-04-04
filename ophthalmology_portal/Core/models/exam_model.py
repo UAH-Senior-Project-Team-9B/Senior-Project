@@ -10,12 +10,12 @@ from ophthalmology_portal.Core.models.test_information_model import (
 
 class ExamModel(models.Model):
     status = models.CharField(
-        max_length=12,
+        max_length=16,
         choices={
             "Pending": "Pending",
             "Upcoming": "Upcoming",
             "In Wait Room": "In Wait Room",
-            "In Progress": "In Progress",
+            "Exam In Progress": "Exam In Progress",
             "Completed": "Completed",
             "Canceled": "Canceled",
         },
@@ -24,6 +24,7 @@ class ExamModel(models.Model):
     )
     date = models.DateField()
     time = models.TimeField()
+    arrival_time = models.TimeField(blank=True, null=True)
     patient = models.ForeignKey(user_models.PatientUserModel, on_delete=models.CASCADE)
     doctor = models.ForeignKey(
         user_models.OphthalmologistUserModel, on_delete=models.CASCADE
@@ -53,7 +54,7 @@ class ExamModel(models.Model):
             ("doctor", "Doctor Permissions"),
             ("manager", "Manager Permissions"),
         ]
-        unique_together = ["date", "time"]
+        unique_together = ["date", "time", "doctor"]
 
     def __str__(self):
         return f"Exam on {self.date} at {self.time}"
@@ -63,7 +64,7 @@ class ExamModel(models.Model):
         self.save()
 
     def in_progress(self):
-        self.status = "In Progress"
+        self.status = "Exam In Progress"
         self.save()
 
     def complete(self):

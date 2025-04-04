@@ -37,9 +37,9 @@ urlpatterns = [
         name="create_prescription",
     ),
     path(
-        "create-test-information/",
+        "upload-exam-information/<int:exam_id>/",
         views.TestInformationCreationView.as_view(),
-        name="create_test_information",
+        name="exam_data_submission",
     ),
     path("patient-list/", views.PatientListView.as_view(), name="patient_list"),
     path(
@@ -58,10 +58,30 @@ urlpatterns = [
         name="personal_exam_history",
     ),
     path("daily-exams/", view=views.DailyExamsView.as_view(), name="daily_exams"),
-    path("exam-request/", view=views.PatientExamCreationView.as_view(), name="exam_request"),
-    path("personal-information/", view=views.PatientInformationView.as_view(), name="patient_information"),
-    path("exam-confirmations/", view=views.ExamConfirmationsView.as_view(), name="exam_confirmations"),
-    path("exam-confirmations/<int:id>/", view=views.ExamConfirmationView.as_view(), name="exam_confirmations"),
+    path(
+        "exam-request/",
+        view=views.PatientExamCreationView.as_view(),
+        name="exam_request",
+    ),
+    path(
+        "personal-information/",
+        view=views.PatientInformationView.as_view(),
+        name="patient_information",
+    ),
+    path(
+        "exam-confirmations/",
+        view=views.ExamConfirmationsView.as_view(),
+        name="exam_confirmations",
+    ),
+    path(
+        "exam-confirmations/<int:id>/",
+        view=views.ExamConfirmationView.as_view(),
+        name="exam_confirmations",
+    ),
     path("logout/", view=views.LogOutView.as_view(), name="log_out"),
-    path("prescription-history/", view=views.PrescriptionListView.as_view(),name="prescription_history")
+    path(
+        "prescription-history/",
+        view=views.PrescriptionListView.as_view(),
+        name="prescription_history",
+    ),
 ]

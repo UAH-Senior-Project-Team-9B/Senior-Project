@@ -31,7 +31,7 @@ class DailyExamsView(BaseView):
         exams = ExamModel.objects.filter(
             Q(date=datetime.date.today()) & Q(status="Upcoming")
             | Q(status="In Wait Room")
-            | Q(status="In Progress")
+            | Q(status="Exam In Progress")
         )
         paginator = Paginator(exams, 10)
         page_number = request.GET.get("page")

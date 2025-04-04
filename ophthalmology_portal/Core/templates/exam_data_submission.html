@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends base_template_name %}
+{% block content%}
+<html>
+<head>
+    <title>Exam View</title>
+</head>
+<body>
+    <h2>Exam View</h2>
+    {{ form.as_p }}
+        <form method="post" enctype="multipart/form-data">
+        <input type="checkbox" hx-trigger="change"  hx-indicator=".htmx-indicator" hx-get="{% url 'exam_data_submission' exam_id%}" hx-target="#visual" id="both" name="both">
+        <label for="both">Data Submission for both eyes?</label>
+        {% csrf_token %}
+        {{ prescription_form.as_p }}
+        {{ occular_form.as_p }}
+        <section id="visual" class="w-full">
+            {% include "visual_submission_template.html"%}
+        </section>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+{% endblock  %}
+
+<script>
+    document.getElementById("demo").innerHTML = "Hello JavaScript!";
+</script>
