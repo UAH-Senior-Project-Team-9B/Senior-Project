@@ -73,7 +73,7 @@ class PatientInformationOtherView(BaseView):
         else:
             exam_url="daily_exam_instance"
             exam_button="View Current Exam"
-            breakpoint()
+
             exam_button_id=ExamModel.objects.get(patient=patient, date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()).id
         return render(
             request,

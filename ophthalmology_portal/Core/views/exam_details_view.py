@@ -44,7 +44,7 @@ class PrescriptionPDF(BaseView):
 
 class ExamDetailsView(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
-        breakpoint()
+
         exam=ExamModel.objects.get(id=exam_id)
         options = {
             f"{datetime.time(8)}": "8:00 AM",
