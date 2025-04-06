@@ -9,6 +9,8 @@ from ophthalmology_portal.Core.forms.exam_creation_form import (
 from ophthalmology_portal.Core.forms.patient_info_form import (
     EmergencyContactForm,
     InsuranceProviderForm,
+    EmergencyContactViewOnlyForm,
+    InsuranceProviderViewOnlyForm,
 )
 from ophthalmology_portal.Core.forms.prescription_creation_form import (
     PrescriptionCreationForm,
@@ -27,6 +29,7 @@ from ophthalmology_portal.Core.forms.user_forms import (
     PatientUserForm,
     PatientUserUpdateForm,
     PatientUserViewForm,
+    PatientUserViewOnlyForm,
 )
 
 __all__ = [
@@ -55,4 +58,7 @@ __all__ = [
     "IndividualOccularExamCreationForm",
     "BothVisualAccuityCreationForm",
     "IndividualVisualAccuityCreationForm",
+    "PatientUserViewOnlyForm",
+    "EmergencyContactViewOnlyForm",
+    "InsuranceProviderViewOnlyForm",
 ]

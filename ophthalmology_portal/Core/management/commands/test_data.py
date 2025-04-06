@@ -1,4 +1,5 @@
 import datetime
+from zoneinfo import ZoneInfo
 
 from django.contrib.auth.models import (
     Group,
@@ -111,7 +112,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Doe",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365,)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -136,7 +137,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -152,14 +153,14 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today()}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
                 "time": f"{datetime.time(11, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
             })
             prescription_form = PrescriptionCreationForm({
-                "date_prescribed": f"{datetime.date.today()}",
+                "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
                 "od_cylinder": 0.02,
                 "od_sphere": 0.02,
                 "od_axis": 0.02,
@@ -231,14 +232,14 @@ class Command(BaseCommand):
             exam1.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(11, 30)}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,
@@ -320,7 +321,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Nye",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -346,7 +347,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -362,7 +363,7 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today()}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
                 "time": f"{datetime.time(12, 30)}",
                 "patient": patient,
                 "doctor": doctor,
@@ -373,14 +374,14 @@ class Command(BaseCommand):
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(12, 30)}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,
@@ -462,7 +463,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Green",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -488,7 +489,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -504,8 +505,8 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today()}",
-                "time": f"{datetime.time(3, 30)}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
+                "time": f"{datetime.time(15, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
@@ -515,14 +516,14 @@ class Command(BaseCommand):
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(10, 30)}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,
@@ -603,7 +604,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Mama",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -629,7 +630,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -645,8 +646,8 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today() + datetime.timedelta(days=15)}",
-                "time": f"{datetime.time(4, 30)}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=15)}",
+                "time": f"{datetime.time(16, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
@@ -655,14 +656,14 @@ class Command(BaseCommand):
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(9, 30)}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,

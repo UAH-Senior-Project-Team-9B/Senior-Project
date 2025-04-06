@@ -42,9 +42,9 @@ class ExamModel(models.Model):
 
     def save(self, **kwargs):
         if not self.status:
-            self.status = "pending"
+            self.status = "Upcoming"
         if self.occular_exam_information and self.visual_accuity_information:
-            self.status = "completed"
+            self.status = "Completed"
         super().save()
 
     class Meta:

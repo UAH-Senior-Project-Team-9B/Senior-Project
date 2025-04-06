@@ -44,8 +44,13 @@ urlpatterns = [
     path("patient-list/", views.PatientListView.as_view(), name="patient_list"),
     path(
         "patient-list/<int:patient>/",
+        view=views.PatientInformationOtherView.as_view(),
+        name="patient_history_information",
+    ),
+    path(
+        "patient-list/<int:patient>/history/",
         view=views.PatientExamHistoryView.as_view(),
-        name="patient_history",
+        name="patient_history_exam",
     ),
     path(
         "exam-history/<int:exam_id>",
@@ -58,6 +63,8 @@ urlpatterns = [
         name="personal_exam_history",
     ),
     path("daily-exams/", view=views.DailyExamsView.as_view(), name="daily_exams"),
+    path("daily-exams/<int:patient>/", view=views.PatientInformationOtherView.as_view(), name="daily_patient"),
+    path("daily-exams/exam/<int:exam_id>/", view=views.ExamDetailsView.as_view(), name="daily_exam_instance"),
     path(
         "exam-request/",
         view=views.PatientExamCreationView.as_view(),
@@ -84,4 +91,8 @@ urlpatterns = [
         view=views.PrescriptionListView.as_view(),
         name="prescription_history",
     ),
+    path(
+        "prescription_pdf/<int:exam_id>", views.PrescriptionPDF.as_view(), name="prescription_download"
+    )
+
 ]

@@ -1,4 +1,5 @@
 import datetime
+from zoneinfo import ZoneInfo
 
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -29,7 +30,7 @@ class DailyExamsView(BaseView):
                 exam = ExamModel.objects.get(id=key)
                 exam.cancel()
         exams = ExamModel.objects.filter(
-            Q(date=datetime.date.today()) & Q(status="Upcoming")
+            Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()) & Q(status="Upcoming")
             | Q(status="In Wait Room")
             | Q(status="Exam In Progress")
         )

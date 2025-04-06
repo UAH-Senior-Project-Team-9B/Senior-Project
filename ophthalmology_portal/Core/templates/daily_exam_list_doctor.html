@@ -1,8 +1,12 @@
 {% extends base_template_name %}
 {% block content%}
-{% for patient in page_obj %}
+{% for exam in page_obj %}
     {# Each "patient" is a patient model object. #}
-    <a href="{% url 'patient_history_information'  patient.id  %}">{{ patient }}<br></a>
+    {% if exam.status == "Exam In Progress" %}
+        <a href="{% url 'exam_data_submission' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
+    {% else %}
+        <a href="{% url 'exam_details' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
+    {% endif %}
 {% endfor %}
 
 <div class="pagination">

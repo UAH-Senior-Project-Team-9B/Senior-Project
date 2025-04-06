@@ -1,4 +1,5 @@
 import datetime
+from zoneinfo import ZoneInfo
 
 from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
@@ -37,8 +38,8 @@ class PatientExamCreationView(BaseView):
             f"{datetime.time(17)}": "5:00 PM",
         }
         doctors = OphthalmologistUserModel.objects.all()
-        minimum = datetime.date.today() + datetime.timedelta(days=14)
-        maximum = datetime.date.today() + datetime.timedelta(days=2 * 365)
+        minimum = datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=14)
+        maximum = datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=2 * 365)
         minimum = minimum.strftime("%Y-%m-%d")
         maximum = maximum.strftime("%Y-%m-%d")
         if "HX-target" in request.headers:
@@ -69,11 +70,11 @@ class PatientExamCreationView(BaseView):
     def post(self, request: HttpRequest, *args, **kwargs):
         if not self.patient_verification(request.user):
             raise Http404
-        if datetime.date.today() >= datetime.datetime.strptime(
+        if datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() >= datetime.datetime.strptime(
             request.POST["date"], "%Y-%m-%d"
         ).date() or datetime.datetime.strptime(
             request.POST["date"], "%Y-%m-%d"
-        ).date() >= (datetime.date.today() + datetime.timedelta(days=2 * 365)):
+        ).date() >= (datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=2 * 365)):
             return redirect("/exam-request/")
         data = request.POST.copy()
         data["patient"] = request.user.patientusermodel.id
