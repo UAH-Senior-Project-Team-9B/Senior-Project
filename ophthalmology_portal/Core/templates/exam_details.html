@@ -8,6 +8,12 @@
 <body>
     <h2>Exam View</h2>
     <p class="text-4xl">Appointment Information</p>
+    {% if cancellable %}
+        <a  href="{%url 'cancel_exam' exam_id %}">Cancel Exam</a>
+    {% endif %}
+    {% if stageable %}
+        <a  href="{%url 'progress_exam' exam_id %}">Update Exam Status</a>
+    {% endif %}
     {{ form.as_p }}
     {% if prescription_form %}
         <p class="text-4xl">Prescription</p>

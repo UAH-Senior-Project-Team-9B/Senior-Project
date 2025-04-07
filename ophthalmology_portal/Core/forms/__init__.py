@@ -5,6 +5,9 @@ from ophthalmology_portal.Core.forms.exam_creation_form import (
     ExamDoctorViewForm,
     ExamManagerViewForm,
     ExamPatientViewForm,
+    ExamManagerArrivalTimeForm,
+    ExamTimeForm,
+    ExamArrivalForm,
 )
 from ophthalmology_portal.Core.forms.patient_info_form import (
     EmergencyContactForm,
@@ -61,4 +64,7 @@ __all__ = [
     "PatientUserViewOnlyForm",
     "EmergencyContactViewOnlyForm",
     "InsuranceProviderViewOnlyForm",
+    "ExamManagerArrivalTimeForm",
+    "ExamTimeForm",
+    "ExamArrivalForm",
 ]

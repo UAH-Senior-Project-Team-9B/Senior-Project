@@ -8,6 +8,17 @@
 <body>
     <h2>Exam View</h2>
     <p class="text-8xl"></p>
+    {% if cancellable %}
+        <a href="{%url 'cancel_exam' exam_id %}">Cancel Exam</a>
+    {% endif %}
+    {% if stageable %}
+        <a  href="{%url 'progress_exam' exam_id %}">Progress Exam</a>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <button type="submit">Submit</button>
+    </form>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input hx-trigger="change" hx-indicator=".htmx-indicator" hx-get="{% url 'exam_details' exam_id%}" hx-target="#time" type="date" id="date" name="date" hx-include="[name='doctor']" min={{ minimum }} max={{ maximum }}>

@@ -21,6 +21,8 @@ from ophthalmology_portal.Core.views.patient_information_view import PatientInfo
 from ophthalmology_portal.Core.views.exam_confirmations_view import ExamConfirmationsView
 from ophthalmology_portal.Core.views.exam_confirmation_view import ExamConfirmationView
 from ophthalmology_portal.Core.views.prescription_list_view import PrescriptionListView
+from ophthalmology_portal.Core.views.cancel_exam import CancelExam
+from ophthalmology_portal.Core.views.progress_exam import ProgressExam
 __all__ = [
     "HomePageView",
     "LogInView",
@@ -41,4 +43,6 @@ __all__ = [
     "PrescriptionListView",
     "PrescriptionPDF",
     "PatientInformationOtherView",
+    "CancelExam",
+    "ProgressExam",
 ]

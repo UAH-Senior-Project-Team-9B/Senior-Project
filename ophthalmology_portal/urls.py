@@ -93,6 +93,12 @@ urlpatterns = [
     ),
     path(
         "prescription_pdf/<int:exam_id>", views.PrescriptionPDF.as_view(), name="prescription_download"
+    ),
+    path(
+        "api/remove_exam/<int:exam_id>", views.CancelExam.as_view(), name="cancel_exam"
+    ),
+    path(
+        "api/progress_exam/<int:exam_id>", views.ProgressExam.as_view(), name="progress_exam"
     )
 
 ]

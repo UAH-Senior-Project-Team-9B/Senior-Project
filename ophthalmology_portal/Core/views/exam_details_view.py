@@ -16,6 +16,7 @@ from ophthalmology_portal.Core.forms import (
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate
+from ophthalmology_portal.Core.forms.exam_creation_form import ExamArrivalForm, ExamManagerArrivalTimeForm, ExamTimeForm
 from ophthalmology_portal.Core.models import ExamModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 from django.http import Http404
@@ -78,10 +79,15 @@ class ExamDetailsView(BaseView):
             occular_form = OccularExamViewForm(
                 instance=exam.occular_exam_information
             )
+            if exam.status == "Upcoming":
+                    cancellable = True
+            else:
+                cancellable = False
             return render(
                 request,
                 "exam_details.html",
                 {
+                    "cancellable": cancellable,
                     "form": form,
                     "exam_id": exam_id,
                     "base_template_name": self.get_base_template(request.user),
@@ -102,11 +108,17 @@ class ExamDetailsView(BaseView):
                 )
             else:
                 prescription_form= None
+
             if exam.status=="Upcoming":
+                if exam.date == datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date():
+                    form = ExamManagerArrivalTimeForm(instance=exam)
+                breakpoint()
                 minimum = datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=2)
                 maximum = datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=2 * 365)
                 minimum = minimum.strftime("%Y-%m-%d")
                 maximum = maximum.strftime("%Y-%m-%d")
+                cancellable = True
+                stageable = False
                 if "HX-target" in request.headers:
                     template_name = "time_submission.html"
                     if not request.GET["date"]:
@@ -127,6 +139,8 @@ class ExamDetailsView(BaseView):
                     request,
                     template_name,
                     {
+                        "stageable": stageable,
+                        "cancellable": cancellable,
                         "form": form,
                         "base_template_name": self.get_base_template(request.user),
                         "prescription_form": prescription_form,
@@ -137,11 +151,33 @@ class ExamDetailsView(BaseView):
                         "maximum": maximum,
                     },
                 )
-            else:
+            elif exam.status=="Exam In Progress" or exam.status == "In Wait Room":
+                breakpoint()
+                cancellable = True
+                stageable = True
                 return render(
                     request,
                     "exam_details.html",
                     {
+                        "stageable": stageable,
+                        "cancellable": cancellable,
+                        "form": form,
+                        "base_template_name": self.get_base_template(request.user),
+                        "prescription_form": prescription_form,
+                        "upload": False,
+                        "exam_id": exam_id,
+                    },
+                )
+            else:
+                breakpoint()
+                cancellable = False
+                stageable = False
+                return render(
+                    request,
+                    "exam_details.html",
+                    {
+                        "stageable": stageable,
+                        "cancellable": cancellable,
                         "form": form,
                         "base_template_name": self.get_base_template(request.user),
                         "prescription_form": prescription_form,
@@ -153,5 +189,26 @@ class ExamDetailsView(BaseView):
     def post(self, request: HttpRequest, exam_id, *args, **kwargs):
         if not self.manager_verification(request.user):
             raise Http404
+        exam=ExamModel.objects.get(id=exam_id)
+        breakpoint()
+        try:
+            request.POST['time']
+            reschedule = True
+        except:
+            reschedule = False
+        try:
+            request.POST['arrival_time']
+            update = True
+        except:
+             update = False
+        if reschedule:
+            form = ExamTimeForm(request.POST, instance=exam)
+            if form.is_valid():
+                form.save()
+        if update:
+            form = ExamArrivalForm(request.POST, instance=exam)
+            if form.is_valid():
+                form.save()
+                exam.in_lobby()
 
         return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))
