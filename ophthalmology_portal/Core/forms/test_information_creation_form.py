@@ -17,16 +17,10 @@ class BothVisualAccuityCreationForm(forms.ModelForm):
         ]
 
 
-class IndividualVisualAccuityCreationForm(forms.ModelForm):
+class VisualAccuitySubmissionForm(forms.ModelForm):
     class Meta:
         model = VisualAccuityModel
         fields = "__all__"
-        exclude = [
-            "visual_acuity_measure_both",
-            "corrector_indicator_both",
-            "pinhole_both",
-        ]
-
 
 class OccularExamCreationForm(forms.ModelForm):
     class Meta:
@@ -45,6 +39,7 @@ class OccularExamCreationForm(forms.ModelForm):
                 "If other is not selected, additional information is not needed.",
                 code="other_information",
             )
+        return super().clean()
 
 
 class VisualAccuityViewForm(forms.ModelForm):

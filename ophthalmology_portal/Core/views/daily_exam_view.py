@@ -12,7 +12,7 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 
 class DailyExamsView(BaseView):
     def get(self, request, *args, **kwargs):
-        if self.manager_verification(request.user) and not self.doctor_verification(
+        if not self.manager_verification(request.user) and not self.doctor_verification(
             request.user
         ):
             raise Http404

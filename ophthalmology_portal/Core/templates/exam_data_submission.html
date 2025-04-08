@@ -14,11 +14,34 @@
         {% csrf_token %}
         {{ prescription_form.as_p }}
         {{ occular_form.as_p }}
-        <section id="visual" class="w-full">
-            {% include "visual_submission_template.html"%}
-        </section>
+        <p class="text-4xl">aided near</p>
+        {{ aided_near.as_p }}
+        <p class="text-4xl">unaided near</p>
+        {{ unaided_near.as_p }}
+        <p class="text-4xl">aided ph near</p>
+        {{ aided_ph_near.as_p }}
+        <p class="text-4xl">unaided ph near</p>
+        {{ unaided_ph_near.as_p }}
+        <p class="text-4xl">aided far</p>
+        {{ aided_distance.as_p }}
+        <p class="text-4xl">unaided far</p>
+        {{ unaided_distance.as_p }}
+        <p class="text-4xl">aided ph far</p>
+        {{ aided_ph_distance.as_p }}
+        <p class="text-4xl">unaided ph far</p>
+        {{ unaided_ph_distance.as_p }}
         <button type="submit">Submit</button>
     </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>
 {% endblock  %}

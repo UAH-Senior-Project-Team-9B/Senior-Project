@@ -16,7 +16,7 @@ class CancelExam(BaseView):
             raise Http404
         exam = ExamModel.objects.get(id=exam_id)
         if exam.status != "Complete":
-            exam.delete()
+            exam.cancel()
         else:
             raise Http404
         return redirect(reverse("home_page"))

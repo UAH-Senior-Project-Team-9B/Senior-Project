@@ -204,62 +204,32 @@ class OccularExamModel(models.Model):
 
 
 class VisualAccuityModel(models.Model):
-    distance = models.CharField(choices={"D": "D", "N": "N"}, max_length=255)
 
     visual_acuity_measure_left = models.DecimalField(
         verbose_name="OS Visual Accuity",
         choices=visual_acuity_choices,
         max_digits=4,
         decimal_places=1,
+        blank=True,
+        null=True
     )
-    corrector_indicator_left = models.CharField(
-        verbose_name="OS Corrector Indicator",
-        choices={"cc": "cc (with)", "sc": "sc (without)"},
-        max_length=255,
-    )
-    pinhole_left = models.BooleanField(
-        verbose_name="OS Pinhole Occluder"
-    )  # Needs to be displayed as "PH" when viewing completed data
-
     visual_acuity_measure_right = models.DecimalField(
         verbose_name="OD Measurement",
         choices=visual_acuity_choices,
         max_digits=4,
         decimal_places=1,
+        blank=True,
+        null=True
     )
-    corrector_indicator_right = models.CharField(
-        verbose_name="OD Corrector Indicator",
-        choices={"cc": "cc (with)", "sc": "sc (without)"},
-        max_length=255,
-    )
-    pinhole_right = models.BooleanField(verbose_name="OD Pinhole Occluder")
-
     visual_acuity_measure_both = models.DecimalField(
         verbose_name="OU Visual Accuity",
         choices=visual_acuity_choices,
         max_digits=4,
         decimal_places=1,
         blank=True,
-        null=True,
-    )
-    corrector_indicator_both = models.CharField(
-        verbose_name="OU Corrector Indicator",
-        choices={"cc": "cc (with)", "sc": "sc (without)"},
-        max_length=255,
-        blank=True,
-        null=True,
-    )
-    pinhole_both = models.BooleanField(
-        verbose_name="OU Pinhole Occluder",
-        blank=True,
-        null=True,
+        null=True
     )
 
-    def distance_measurement(self):
-        if self.distance == "D":
-            return "20 feet/6.1 meters"
-        else:
-            return "15.7 inches/40 centimeters"
 
     class Meta:
         permissions = [

@@ -8,6 +8,7 @@ from ophthalmology_portal.Core.forms.exam_creation_form import (
     ExamManagerArrivalTimeForm,
     ExamTimeForm,
     ExamArrivalForm,
+    ExamPatientViewNonCompleteForm
 )
 from ophthalmology_portal.Core.forms.patient_info_form import (
     EmergencyContactForm,
@@ -21,7 +22,7 @@ from ophthalmology_portal.Core.forms.prescription_creation_form import (
 )
 from ophthalmology_portal.Core.forms.test_information_creation_form import (
     BothVisualAccuityCreationForm,
-    IndividualVisualAccuityCreationForm,
+    VisualAccuitySubmissionForm,
     OccularExamCreationForm,
     OccularExamViewForm,
     VisualAccuityViewForm,
@@ -60,11 +61,12 @@ __all__ = [
     "BothOccularExamCreationForm",
     "IndividualOccularExamCreationForm",
     "BothVisualAccuityCreationForm",
-    "IndividualVisualAccuityCreationForm",
+    "VisualAccuitySubmissionForm",
     "PatientUserViewOnlyForm",
     "EmergencyContactViewOnlyForm",
     "InsuranceProviderViewOnlyForm",
     "ExamManagerArrivalTimeForm",
     "ExamTimeForm",
     "ExamArrivalForm",
+    "ExamPatientViewNonCompleteForm",
 ]

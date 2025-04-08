@@ -1,4 +1,5 @@
 import datetime
+import random
 from zoneinfo import ZoneInfo
 
 from django.contrib.auth.models import (
@@ -23,7 +24,7 @@ from ophthalmology_portal.Core.forms.prescription_creation_form import (
 )
 from ophthalmology_portal.Core.forms.test_information_creation_form import (
     OccularExamCreationForm,
-    IndividualVisualAccuityCreationForm,
+    VisualAccuitySubmissionForm,
     BothVisualAccuityCreationForm,
 )
 from ophthalmology_portal.Core.models.user_models import OphthalmologistUserModel
@@ -212,28 +213,70 @@ class Command(BaseCommand):
                 },
                 file_data,
             )
-            visual_form = IndividualVisualAccuityCreationForm({
-                "distance": "D",
+            aided_near = VisualAccuitySubmissionForm({
                 "visual_acuity_measure_left": 10,
-                "corrector_indicator_left": "cc",
                 "visual_acuity_measure_right": 10,
-                "corrector_indicator_right": "cc",
+                "visual_acuity_measure_both": 10,
             })
-            exam1 = exam_form.save()
+            unaided_near = VisualAccuitySubmissionForm({
+                "visual_acuity_measure_left": 10,
+                "visual_acuity_measure_right": 10,
+                "visual_acuity_measure_both": 10,
+            }, prefix="unaided_near")
+            pinhole_aided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="aided_ph_near")
+            pinhole_unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_ph_near")
+            aided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="aided_distance")
+            unaided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near_distance")
+            pinhole_aided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="aided_ph_distance")
+            pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_ph_distance")
             prescription = prescription_form.save(commit=False)
             prescription.prescriber_id = doctor.id
             prescription.save()
             occular = occular_form.save()
-            visual = visual_form.save()
+            exam1 = exam_form.save()
+
             exam1.prescription_id = prescription.id
             exam1.occular_exam_information_id = occular.id
-            exam1.visual_accuity_information_id = visual.id
+
+            exam1.visual_accuity_aided_near = aided_near.save()
+            exam1.visual_accuity_unaided_near = unaided_near.save()
+            exam1.visual_accuity_pinhole_unaided_near = pinhole_unaided_near.save()
+            exam1.visual_accuity_pinhole_aided_near = pinhole_aided_near.save()
+            exam1.visual_accuity_aided_distance = aided_distance.save()
+            exam1.visual_accuity_unaided_distance = unaided_distance.save()
+            exam1.visual_accuity_pinhole_aided_distance = pinhole_aided_distance.save()
+            exam1.visual_accuity_pinhole_unaided_distance = pinhole_unaided_distance.save()
 
             exam1.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
                     "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(11, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
@@ -291,22 +334,63 @@ class Command(BaseCommand):
                     },
                     file_data,
                 )
-                visual_form = IndividualVisualAccuityCreationForm({
-                    "distance": "D",
+                aided_near = VisualAccuitySubmissionForm({
                     "visual_acuity_measure_left": 10,
-                    "corrector_indicator_left": "cc",
                     "visual_acuity_measure_right": 10,
-                    "corrector_indicator_right": "cc",
+                    "visual_acuity_measure_both": 10,
                 })
+                unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                pinhole_aided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_near")
+                pinhole_unaided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_near")
+                aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_distance")
+                unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_near_distance")
+                pinhole_aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_distance")
+                pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_distance")
                 exam1 = exam_form.save()
                 prescription = prescription_form.save(commit=False)
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
+                exam1.visual_accuity_aided_near = aided_near.save()
+                exam1.visual_accuity_unaided_near = unaided_near.save()
+                exam1.visual_accuity_pinhole_unaided_near = pinhole_unaided_near.save()
+                exam1.visual_accuity_pinhole_aided_near = pinhole_aided_near.save()
+                exam1.visual_accuity_aided_distance = aided_distance.save()
+                exam1.visual_accuity_unaided_distance = unaided_distance.save()
+                exam1.visual_accuity_pinhole_aided_distance = pinhole_aided_distance.save()
+                exam1.visual_accuity_pinhole_unaided_distance = pinhole_unaided_distance.save()
+
 
                 exam1.save()
 
@@ -376,6 +460,7 @@ class Command(BaseCommand):
                 exam_form = ExamCreationPostForm({
                     "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(12, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
@@ -433,7 +518,7 @@ class Command(BaseCommand):
                     },
                     file_data,
                 )
-                visual_form = IndividualVisualAccuityCreationForm({
+                visual_form = VisualAccuitySubmissionForm({
                     "distance": "D",
                     "visual_acuity_measure_left": 10,
                     "corrector_indicator_left": "cc",
@@ -445,10 +530,9 @@ class Command(BaseCommand):
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
 
                 exam1.save()
 
@@ -518,6 +602,7 @@ class Command(BaseCommand):
                 exam_form = ExamCreationPostForm({
                     "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(10, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
@@ -575,22 +660,73 @@ class Command(BaseCommand):
                     },
                     file_data,
                 )
-                visual_form = IndividualVisualAccuityCreationForm({
-                    "distance": "D",
+                aided_near = VisualAccuitySubmissionForm({
                     "visual_acuity_measure_left": 10,
-                    "corrector_indicator_left": "cc",
                     "visual_acuity_measure_right": 10,
-                    "corrector_indicator_right": "cc",
-                })
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                pinhole_aided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_near")
+                pinhole_unaided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_near")
+                aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_distance")
+                unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_near_distance")
+                pinhole_aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_distance")
+                pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_distance")
                 exam1 = exam_form.save()
                 prescription = prescription_form.save(commit=False)
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
+                exam1.occular_exam_information_id = occular.id
+                aided_near = aided_near.save()
+                unaided_near = unaided_near.save()
+                pinhole_unaided_near = pinhole_unaided_near.save()
+                pinhole_aided_near = pinhole_aided_near.save()
+                aided_distance = aided_distance.save()
+                unaided_distance = unaided_distance.save()
+                pinhole_aided_distance = pinhole_aided_distance.save()
+                pinhole_unaided_distance = pinhole_unaided_distance.save()
+
+                exam1.visual_accuity_aided_near_id = aided_near.id
+                exam1.visual_accuity_unaided_near_id = unaided_near.id
+                exam1.visual_accuity_pinhole_unaided_near_id = pinhole_unaided_near.id
+                exam1.visual_accuity_pinhole_aided_near_id = pinhole_aided_near.id
+                exam1.visual_accuity_aided_distance_id = aided_distance.id
+                exam1.visual_accuity_unaided_distance_id = unaided_distance.id
+                exam1.visual_accuity_pinhole_aided_distance_id = pinhole_aided_distance.id
+                exam1.visual_accuity_pinhole_unaided_distance_id = pinhole_unaided_distance.id
+
                 exam1.save()
 
         if not User.objects.filter(username="patient4"):
@@ -646,18 +782,20 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=15)}",
-                "time": f"{datetime.time(16, 30)}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
+                "time": f"{datetime.time(10, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
             })
             exam = exam_form.save(commit=False)
+            exam.status = "Upcoming"
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
                     "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(9, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
@@ -715,20 +853,71 @@ class Command(BaseCommand):
                     },
                     file_data,
                 )
-                visual_form = IndividualVisualAccuityCreationForm({
-                    "distance": "D",
+                aided_near = VisualAccuitySubmissionForm({
                     "visual_acuity_measure_left": 10,
-                    "corrector_indicator_left": "cc",
                     "visual_acuity_measure_right": 10,
-                    "corrector_indicator_right": "cc",
-                })
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                pinhole_aided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_near")
+                pinhole_unaided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_near")
+                aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_distance")
+                unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_near_distance")
+                pinhole_aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_distance")
+                pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_distance")
                 exam1 = exam_form.save()
                 prescription = prescription_form.save(commit=False)
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
+                aided_near = aided_near.save()
+                unaided_near = unaided_near.save()
+                pinhole_unaided_near = pinhole_unaided_near.save()
+                pinhole_aided_near = pinhole_aided_near.save()
+                aided_distance = aided_distance.save()
+                unaided_distance = unaided_distance.save()
+                pinhole_aided_distance = pinhole_aided_distance.save()
+                pinhole_unaided_distance = pinhole_unaided_distance.save()
+
+                exam1.visual_accuity_aided_near_id = aided_near.id
+                exam1.visual_accuity_unaided_near_id = unaided_near.id
+                exam1.visual_accuity_pinhole_unaided_near_id = pinhole_unaided_near.id
+                exam1.visual_accuity_pinhole_aided_near_id = pinhole_aided_near.id
+                exam1.visual_accuity_aided_distance_id = aided_distance.id
+                exam1.visual_accuity_unaided_distance_id = unaided_distance.id
+                exam1.visual_accuity_pinhole_aided_distance_id = pinhole_aided_distance.id
+                exam1.visual_accuity_pinhole_unaided_distance_id = pinhole_unaided_distance.id
+
+
                 exam1.save()
