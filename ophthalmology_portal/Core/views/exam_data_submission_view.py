@@ -84,14 +84,10 @@ class TestInformationCreationView(BaseView):
             raise Http404
         aided_near = VisualAccuitySubmissionForm(request.POST, prefix="aided_near")
         unaided_near = VisualAccuitySubmissionForm(request.POST, prefix="unaided_near")
-        # aided_near = aided_near.save(commit=False)
-        # unaided_near = unaided_near.save(commit=False)
         pinhole_aided_near = VisualAccuitySubmissionForm(request.POST, prefix="aided_ph_near")
         pinhole_unaided_near = VisualAccuitySubmissionForm(request.POST, prefix="unaided_ph_near")
         aided_distance = VisualAccuitySubmissionForm(request.POST, prefix="aided_distance")
         unaided_distance = VisualAccuitySubmissionForm(request.POST, prefix="unaided_near_distance")
-        # aided_distance = aided_distance.save(commit=False)
-        # unaided_distance = unaided_distance.save(commit=False)
         pinhole_aided_distance = VisualAccuitySubmissionForm(request.POST, prefix="aided_ph_distance")
         pinhole_unaided_distance = VisualAccuitySubmissionForm(request.POST, prefix="unaided_ph_distance")
         form2 = OccularExamCreationForm(request.POST, request.FILES)
@@ -143,6 +139,11 @@ class TestInformationCreationView(BaseView):
             exam.occular_exam_information = form2.save()
             exam.prescription = prescription_temp
             exam.save()
+            prescription_temp.os_visual_acuity_distance = exam.visual_accuity_aided_string_left_distance
+            prescription_temp.od_visual_acuity_distance = exam.visual_accuity_aided_string_right_distance
+            prescription_temp.os_visual_acuity_near = exam.visual_accuity_aided_string_left_near
+            prescription_temp.od_visual_acuity_near = exam.visual_accuity_aided_string_right_near
+            prescription_temp.save()
             return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))
 
 

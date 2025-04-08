@@ -17,7 +17,7 @@ class ExamCreationMainForm(forms.ModelForm):
         exclude = ["date", "time"]
 
 
-class ExamPatientViewForm(forms.ModelForm):
+class ExamViewForm(forms.ModelForm):
     class Meta:
         model = ExamModel
         fields = "__all__"

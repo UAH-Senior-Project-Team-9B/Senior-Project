@@ -6,7 +6,7 @@ from django.urls import reverse
 from reportlab.platypus.tables import Table, TableStyle
 from ophthalmology_portal.Core.forms import (
     ExamManagerViewForm,
-    ExamPatientViewForm,
+    ExamViewForm,
     OccularExamCreationForm,
     OccularExamViewForm,
     PrescriptionCreationForm,
@@ -69,7 +69,7 @@ class ExamDetailsView(BaseView):
             f"{datetime.time(17)}": "5:00 PM",
         }
         if request.user.has_perm("Core.patient") or request.user.has_perm("Core.doctor"):
-            form = ExamPatientViewForm(instance=exam)
+            form = ExamViewForm(instance=exam)
             prescription_form = PrescriptionViewForm(
                 instance=exam.prescription
             )
@@ -101,7 +101,7 @@ class ExamDetailsView(BaseView):
 
         elif request.user.has_perm("Core.manager"):
 
-            form = ExamManagerViewForm(instance=exam)
+            form = ExamViewForm(instance=exam)
 
             if exam.prescription:
                 prescription_form = PrescriptionViewForm(

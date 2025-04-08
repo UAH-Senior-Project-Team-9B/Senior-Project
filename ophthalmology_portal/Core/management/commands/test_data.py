@@ -272,6 +272,11 @@ class Command(BaseCommand):
             exam1.visual_accuity_pinhole_unaided_distance = pinhole_unaided_distance.save()
 
             exam1.save()
+            prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+            prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+            prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+            prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+            prescription.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
                     "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
@@ -535,6 +540,11 @@ class Command(BaseCommand):
                 exam1.occular_exam_information_id = occular.id
 
                 exam1.save()
+                prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+                prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+                prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+                prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+                prescription.save()
 
         if not User.objects.filter(username="patient3"):
             user_form = BaseUserForm({"username": "patient3", "password": "1234"})
@@ -728,6 +738,11 @@ class Command(BaseCommand):
                 exam1.visual_accuity_pinhole_unaided_distance_id = pinhole_unaided_distance.id
 
                 exam1.save()
+                prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+                prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+                prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+                prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+                prescription.save()
 
         if not User.objects.filter(username="patient4"):
             user_form = BaseUserForm({"username": "patient4", "password": "1234"})
@@ -921,3 +936,8 @@ class Command(BaseCommand):
 
 
                 exam1.save()
+                prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+                prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+                prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+                prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+                prescription.save()
