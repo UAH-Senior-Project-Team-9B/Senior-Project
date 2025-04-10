@@ -25,6 +25,14 @@ class PatientUserForm(forms.ModelForm):
             "social_security_number",
             "email",
         ]
+        widgets = {
+            "phone_number": forms.TextInput(attrs={
+                "id": "phone_number",  # Needed for JavaScript selector
+                "placeholder": "(123) 456-7890"
+            }),
+        }
+
+
 
 class PatientUserUpdateForm(forms.ModelForm):
     class Meta:

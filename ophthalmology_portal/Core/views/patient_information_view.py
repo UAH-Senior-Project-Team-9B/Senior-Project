@@ -15,21 +15,21 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 class PatientInformationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
         patient = PatientUserModel.objects.get(user=request.user)
-        patient_information = PatientUserForm(instance=patient)
-        emergency_contact = EmergencyContactForm(
+        patient_information_form = PatientUserForm(instance=patient)
+        emergency_contact_form = EmergencyContactForm(
             instance=patient.emergencycontactmodel
         )
-        insurance_provider = InsuranceProviderForm(
+        insurance_provider_form = InsuranceProviderForm(
             instance=patient.insuranceprovidermodel
         )
         return render(
             request,
             "patient_information_template.html",
             {
-                "patient_information": patient_information,
+                "patient_information_form": patient_information_form,
                 "base_template_name": self.get_base_template(request.user),
-                "emergency_contact": emergency_contact,
-                "insurance_provider": insurance_provider,
+                "emergency_contact_form": emergency_contact_form,
+                "insurance_provider_form": insurance_provider_form,
             },
         )
 
