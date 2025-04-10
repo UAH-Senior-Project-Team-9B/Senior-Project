@@ -117,7 +117,12 @@ class ExamDetailsView(BaseView):
                 prescription_form = PrescriptionViewForm(
                     instance=exam.prescription
                 )
+                update_button = False
             else:
+                if exam.status == ExamModel.status_choices['progressing']:
+                    update_button = True
+                else:
+                    update_button = False
                 form = ExamPatientViewNonCompleteForm(instance=exam)
                 occular_form = None
                 prescription_form = None
@@ -135,6 +140,7 @@ class ExamDetailsView(BaseView):
                     "exam": exam,
                     "occular_form": occular_form,
                     "upload": False,
+                    "update_button": update_button,
                 },
             )
         if request.user.has_perm("Core.patient"):

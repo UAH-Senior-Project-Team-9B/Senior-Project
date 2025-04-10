@@ -14,6 +14,9 @@
     {% if stageable %}
         <a  href="{%url 'progress_exam' exam_id %}">Update Exam Status</a>
     {% endif %}
+    {% if update_button %}
+        <a  href="{%url 'exam_data_submission' exam_id %}">Enter Exam Information</a>
+    {% endif %}
     {{ form.as_p }}
     {% if prescription_form %}
         <p class="text-4xl">Prescription</p>

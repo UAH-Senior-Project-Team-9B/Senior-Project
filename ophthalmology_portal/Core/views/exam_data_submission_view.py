@@ -30,7 +30,6 @@ class TestInformationCreationView(BaseView):
             exam = ExamModel.objects.get(id=exam_id, doctor=user)
         except:
             raise Http404
-        breakpoint()
         if exam.status == ExamModel.status_choices['progressing']:
             prescription_form = PrescriptionCreationForm
             occular_form = OccularExamCreationForm
@@ -42,7 +41,6 @@ class TestInformationCreationView(BaseView):
             unaided_distance = VisualAccuitySubmissionForm(prefix="unaided_distance")
             pinhole_aided_distance = VisualAccuitySubmissionForm(prefix="aided_ph_distance")
             pinhole_unaided_distance = VisualAccuitySubmissionForm(prefix="unaided_ph_distance")
-            breakpoint()
             return render(
                 request,
                 "exam_data_submission.html",

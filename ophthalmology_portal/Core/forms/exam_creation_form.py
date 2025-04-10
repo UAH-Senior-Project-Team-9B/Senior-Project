@@ -34,7 +34,7 @@ class ExamPatientViewNonCompleteForm(forms.ModelForm):
     class Meta:
         model = ExamModel
         fields = "__all__"
-        exclude = ["visual_accuity_unaided_string_right_near", "visual_accuity_unaided_string_left_near", "visual_accuity_unaided_string_both_near", "visual_accuity_aided_string_right_near", "visual_accuity_aided_string_left_near", "visual_accuity_aided_string_both_near", "visual_accuity_unaided_string_right_distance", "visual_accuity_unaided_string_left_distance", "visual_accuity_unaided_string_both_distance", "visual_accuity_aided_string_right_distance", "visual_accuity_aided_string_left_distance", "visual_accuity_aided_string_both_distance"]
+        exclude = ["prescription", "occular_exam_information", "visual_accuity_unaided_near", "visual_accuity_aided_near", "visual_accuity_pinhole_unaided_near", "visual_accuity_pinhole_aided_near", "visual_accuity_unaided_distance", "visual_accuity_aided_distance", "visual_accuity_pinhole_unaided_distance", "visual_accuity_pinhole_aided_distance", "visual_accuity_unaided_string_right_near", "visual_accuity_unaided_string_left_near", "visual_accuity_unaided_string_both_near", "visual_accuity_aided_string_right_near", "visual_accuity_aided_string_left_near", "visual_accuity_aided_string_both_near", "visual_accuity_unaided_string_right_distance", "visual_accuity_unaided_string_left_distance", "visual_accuity_unaided_string_both_distance", "visual_accuity_aided_string_right_distance", "visual_accuity_aided_string_left_distance", "visual_accuity_aided_string_both_distance"]
         widgets = {
             'status': forms.TextInput
         }
