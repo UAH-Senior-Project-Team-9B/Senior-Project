@@ -10,6 +10,14 @@
         <script src="node_modules/alpinejs/dist/cdn.min.js"></script> {% endcomment %}
         {% comment %} Fix the above {% endcomment %}
         Patient Header
+        <script>
+            function pageShown(evt){
+                if (evt.persisted) {
+                    window.location.reload();
+                }
+            }
+            window.addEventListener("pageshow", pageShown, false);
+        </script>
     </head>
     <body>
         <a href="{% url 'personal_exam_history'%}">Exam History</a>

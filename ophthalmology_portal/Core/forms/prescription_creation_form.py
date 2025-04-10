@@ -7,7 +7,7 @@ class PrescriptionCreationForm(forms.ModelForm):
     class Meta:
         model = PrescriptionModel
         fields = "__all__"
-        exclude = ["prescriber", "patient"]
+        exclude = ["prescriber", "patient", "os_visual_acuity_distance", "os_visual_acuity_near", "od_visual_acuity_distance", "od_visual_acuity_near"]
 
 
 class PrescriptionViewForm(forms.ModelForm):

@@ -86,6 +86,23 @@ class PrescriptionModel(models.Model):
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
     )
-    visual_acuity = models.DecimalField(
-        choices=visual_acuity_choices, max_digits=4, decimal_places=1
+    os_visual_acuity_distance = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    os_visual_acuity_near = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    od_visual_acuity_distance = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    od_visual_acuity_near = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
     )

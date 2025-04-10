@@ -7,18 +7,28 @@
 </head>
 <body>
     <h2>Exam View</h2>
+    <p class="text-4xl">Appointment Information</p>
+    {% if cancellable %}
+        <a  href="{%url 'cancel_exam' exam_id %}">Cancel Exam</a>
+    {% endif %}
+    {% if stageable %}
+        <a  href="{%url 'progress_exam' exam_id %}">Update Exam Status</a>
+    {% endif %}
+    {% if update_button %}
+        <a  href="{%url 'exam_data_submission' exam_id %}">Enter Exam Information</a>
+    {% endif %}
     {{ form.as_p }}
-    {% if upload %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    {% if prescription_form %}
+        <p class="text-4xl">Prescription</p>
+        <a class="nav-link" href="{% url 'prescription_download' exam_id%}" name="Download">Download</a>
         {{ prescription_form.as_p }}
+    {% endif %}
+    {% if visual_form %}
+        <p class="text-4xl">Vissual Accuity Information</p>
         {{ visual_form.as_p }}
-        {{ occular_form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-    {% else %}
-        {{ prescription_form.as_p }}
-        {{ visual_form.as_p }}
+    {% endif %}
+    {% if occular_form %}
+        <p class="text-4xl">Occular Exam Data</p>
         {{ occular_form.as_p }}
     {% endif %}
 </body>

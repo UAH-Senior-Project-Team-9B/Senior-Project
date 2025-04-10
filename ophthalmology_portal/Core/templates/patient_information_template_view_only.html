@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends base_template_name %}
+{% block content%}
+<html>
+<head>
+    <title>Patient Information</title>
+</head>
+<body>
+    <h2>Personal Information</h2>
+    <a href="{% url exam_url exam_button_id %}">{{ exam_button }}</a>
+    {{ patient_information.as_p }}
+    <p class="text-4xl">Contact Information</p>
+    {{ emergency_contact.as_p }}
+    <p class="text-4xl">Insurance Information</p>
+    {{ insurance_provider.as_p }}
+</body>
+</html>
+{% endblock  %}

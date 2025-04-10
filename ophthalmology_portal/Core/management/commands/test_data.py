@@ -1,4 +1,6 @@
 import datetime
+import random
+from zoneinfo import ZoneInfo
 
 from django.contrib.auth.models import (
     Group,
@@ -22,8 +24,10 @@ from ophthalmology_portal.Core.forms.prescription_creation_form import (
 )
 from ophthalmology_portal.Core.forms.test_information_creation_form import (
     OccularExamCreationForm,
-    VisualAccuityCreationForm,
+    VisualAccuitySubmissionForm,
+    BothVisualAccuityCreationForm,
 )
+from ophthalmology_portal.Core.models.exam_model import ExamModel
 from ophthalmology_portal.Core.models.user_models import OphthalmologistUserModel
 
 
@@ -110,7 +114,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Doe",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365,)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -135,7 +139,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -151,14 +155,14 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today()}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
                 "time": f"{datetime.time(11, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
             })
             prescription_form = PrescriptionCreationForm({
-                "date_prescribed": f"{datetime.date.today()}",
+                "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
                 "od_cylinder": 0.02,
                 "od_sphere": 0.02,
                 "od_axis": 0.02,
@@ -185,61 +189,106 @@ class Command(BaseCommand):
             }
             occular_form = OccularExamCreationForm(
                 {
-                    "Vitreous Segment": "CRITICAL",
-                    "Macula Segment": "CRITICAL",
-                    "Vasculature Segment": "CRITICAL",
-                    "Posterior Pole Segment": "CRITICAL",
-                    "Peripheral Retina Segment": "CRITICAL",
-                    "Misc Retina Segment": "CRITICAL",
-                    "Diabeti Eval Segment": "CRITICAL",
-                    "HTL Evaluation Segment": "CRITICAL",
-                    "ARMD Segment": "CRITICAL",
-                    "OS Sponeaneous Venous Pulsation": "+",
-                    "OD Venous Pulsation": "+",
-                    "OS Reflex": "+",
-                    "OD Reflex": "+",
-                    "Evaluation Performed": "Not Performed",
+                    "vitreous_segment": "CRITICAL",
+                    "macula_segment": "CRITICAL",
+                    "vasculature_segment": "CRITICAL",
+                    "posterior_pole_segment": "CRITICAL",
+                    "peripheral_retina_segment": "CRITICAL",
+                    "misc_retina_segment": "CRITICAL",
+                    "biabeti_eval_segment": "CRITICAL",
+                    "htl_eval_segment": "CRITICAL",
+                    "armd_segment": "CRITICAL",
+                    "left_venous_pulsation": "+",
+                    "right_venous_pulsation": "+",
+                    "left_foveal_reflex": "+",
+                    "right_venous_pulsation": "+",
+                    "fundus_record": "Not Performed",
                     "dilated_with_drops": 1,
                     "dilated_with_drug": "Atropine",
-                    "OD Cup-Disc Horizontal Ratio": 0.01,
-                    "OD Cup-Disc Vertical Ratio": 0.01,
-                    "OS Cup-Disc Horizontal Ratio": 0.01,
-                    "OS Cup-Disc Vertical Ratio": 0.01,
-                    "Optic Nerve": "CRITICAL",
-                    "Nerve Fiber Layer": "CRITICAL",
+                    "od_cup_ratio_horizontal": 0.01,
+                    "od_cup_ratio_vertical": 0.01,
+                    "os_cup_ratio_horizontal": 0.01,
+                    "os_cup_ratio_vertical": 0.01,
+                    "optic_nerve": "CRITICAL",
+                    "nerve_fiber": "CRITICAL",
                 },
                 file_data,
             )
-            visual_form = VisualAccuityCreationForm({
-                "distance": "D",
-                "OS Visual Accuity": 10,
-                "Corrector Indicator": "cc",
-                "Right Eye Measurement": 10,
-                "OD Corrector Indicator": "cc",
-                "OU Visual Accuity": 10,
-                "OU Corrector Indicator": "cc",
+            aided_near = VisualAccuitySubmissionForm({
+                "visual_acuity_measure_left": 10,
+                "visual_acuity_measure_right": 10,
+                "visual_acuity_measure_both": 10,
             })
-            exam1 = exam_form.save()
+            unaided_near = VisualAccuitySubmissionForm({
+                "visual_acuity_measure_left": 10,
+                "visual_acuity_measure_right": 10,
+                "visual_acuity_measure_both": 10,
+            }, prefix="unaided_near")
+            pinhole_aided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="aided_ph_near")
+            pinhole_unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_ph_near")
+            aided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="aided_distance")
+            unaided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near_distance")
+            pinhole_aided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="aided_ph_distance")
+            pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_ph_distance")
             prescription = prescription_form.save(commit=False)
             prescription.prescriber_id = doctor.id
             prescription.save()
             occular = occular_form.save()
-            visual = visual_form.save()
+            exam1 = exam_form.save()
+
             exam1.prescription_id = prescription.id
             exam1.occular_exam_information_id = occular.id
-            exam1.visual_accuity_information_id = visual.id
+
+            exam1.visual_accuity_aided_near = aided_near.save()
+            exam1.visual_accuity_unaided_near = unaided_near.save()
+            exam1.visual_accuity_pinhole_unaided_near = pinhole_unaided_near.save()
+            exam1.visual_accuity_pinhole_aided_near = pinhole_aided_near.save()
+            exam1.visual_accuity_aided_distance = aided_distance.save()
+            exam1.visual_accuity_unaided_distance = unaided_distance.save()
+            exam1.visual_accuity_pinhole_aided_distance = pinhole_aided_distance.save()
+            exam1.visual_accuity_pinhole_unaided_distance = pinhole_unaided_distance.save()
 
             exam1.save()
+            prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+            prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+            prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+            prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+            prescription.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(11, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,
@@ -266,49 +315,88 @@ class Command(BaseCommand):
                 }
                 occular_form = OccularExamCreationForm(
                     {
-                        "Vitreous Segment": "CRITICAL",
-                        "Macula Segment": "CRITICAL",
-                        "Vasculature Segment": "CRITICAL",
-                        "Posterior Pole Segment": "CRITICAL",
-                        "Peripheral Retina Segment": "CRITICAL",
-                        "Misc Retina Segment": "CRITICAL",
-                        "Diabeti Eval Segment": "CRITICAL",
-                        "HTL Evaluation Segment": "CRITICAL",
-                        "ARMD Segment": "CRITICAL",
-                        "OS Sponeaneous Venous Pulsation": "+",
-                        "OD Venous Pulsation": "+",
-                        "OS Reflex": "+",
-                        "OD Reflex": "+",
-                        "Evaluation Performed": "Not Performed",
+                        "vitreous_segment": "CRITICAL",
+                        "macula_segment": "CRITICAL",
+                        "vasculature_segment": "CRITICAL",
+                        "posterior_pole_segment": "CRITICAL",
+                        "peripheral_retina_segment": "CRITICAL",
+                        "misc_retina_segment": "CRITICAL",
+                        "biabeti_eval_segment": "CRITICAL",
+                        "htl_eval_segment": "CRITICAL",
+                        "armd_segment": "CRITICAL",
+                        "left_venous_pulsation": "+",
+                        "right_venous_pulsation": "+",
+                        "left_foveal_reflex": "+",
+                        "right_venous_pulsation": "+",
+                        "fundus_record": "Not Performed",
                         "dilated_with_drops": 1,
                         "dilated_with_drug": "Atropine",
-                        "OD Cup-Disc Horizontal Ratio": 0.01,
-                        "OD Cup-Disc Vertical Ratio": 0.01,
-                        "OS Cup-Disc Horizontal Ratio": 0.01,
-                        "OS Cup-Disc Vertical Ratio": 0.01,
-                        "Optic Nerve": "CRITICAL",
-                        "Nerve Fiber Layer": "CRITICAL",
+                        "od_cup_ratio_horizontal": 0.01,
+                        "od_cup_ratio_vertical": 0.01,
+                        "os_cup_ratio_horizontal": 0.01,
+                        "os_cup_ratio_vertical": 0.01,
+                        "optic_nerve": "CRITICAL",
+                        "nerve_fiber": "CRITICAL",
                     },
                     file_data,
                 )
-                visual_form = VisualAccuityCreationForm({
-                    "distance": "D",
-                    "OS Visual Accuity": 10,
-                    "Corrector Indicator": "cc",
-                    "Right Eye Measurement": 10,
-                    "OD Corrector Indicator": "cc",
-                    "OU Visual Accuity": 10,
-                    "OU Corrector Indicator": "cc",
+                aided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
                 })
+                unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                pinhole_aided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_near")
+                pinhole_unaided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_near")
+                aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_distance")
+                unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_near_distance")
+                pinhole_aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_distance")
+                pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_distance")
                 exam1 = exam_form.save()
                 prescription = prescription_form.save(commit=False)
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
+                exam1.visual_accuity_aided_near = aided_near.save()
+                exam1.visual_accuity_unaided_near = unaided_near.save()
+                exam1.visual_accuity_pinhole_unaided_near = pinhole_unaided_near.save()
+                exam1.visual_accuity_pinhole_aided_near = pinhole_aided_near.save()
+                exam1.visual_accuity_aided_distance = aided_distance.save()
+                exam1.visual_accuity_unaided_distance = unaided_distance.save()
+                exam1.visual_accuity_pinhole_aided_distance = pinhole_aided_distance.save()
+                exam1.visual_accuity_pinhole_unaided_distance = pinhole_unaided_distance.save()
+
 
                 exam1.save()
 
@@ -323,7 +411,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Nye",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -349,7 +437,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -365,25 +453,26 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today()}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
                 "time": f"{datetime.time(12, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
             })
             exam = exam_form.save(commit=False)
-            exam.status = "Upcoming"
+            exam.status = ExamModel.status_choices['upcoming']
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(12, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,
@@ -410,51 +499,53 @@ class Command(BaseCommand):
                 }
                 occular_form = OccularExamCreationForm(
                     {
-                        "Vitreous Segment": "CRITICAL",
-                        "Macula Segment": "CRITICAL",
-                        "Vasculature Segment": "CRITICAL",
-                        "Posterior Pole Segment": "CRITICAL",
-                        "Peripheral Retina Segment": "CRITICAL",
-                        "Misc Retina Segment": "CRITICAL",
-                        "Diabeti Eval Segment": "CRITICAL",
-                        "HTL Evaluation Segment": "CRITICAL",
-                        "ARMD Segment": "CRITICAL",
-                        "OS Sponeaneous Venous Pulsation": "+",
-                        "OD Venous Pulsation": "+",
-                        "OS Reflex": "+",
-                        "OD Reflex": "+",
-                        "Evaluation Performed": "Not Performed",
+                        "vitreous_segment": "CRITICAL",
+                        "macula_segment": "CRITICAL",
+                        "vasculature_segment": "CRITICAL",
+                        "posterior_pole_segment": "CRITICAL",
+                        "peripheral_retina_segment": "CRITICAL",
+                        "misc_retina_segment": "CRITICAL",
+                        "biabeti_eval_segment": "CRITICAL",
+                        "htl_eval_segment": "CRITICAL",
+                        "armd_segment": "CRITICAL",
+                        "left_venous_pulsation": "+",
+                        "right_venous_pulsation": "+",
+                        "left_foveal_reflex": "+",
+                        "right_venous_pulsation": "+",
+                        "fundus_record": "Not Performed",
                         "dilated_with_drops": 1,
                         "dilated_with_drug": "Atropine",
-                        "OD Cup-Disc Horizontal Ratio": 0.01,
-                        "OD Cup-Disc Vertical Ratio": 0.01,
-                        "OS Cup-Disc Horizontal Ratio": 0.01,
-                        "OS Cup-Disc Vertical Ratio": 0.01,
-                        "Optic Nerve": "CRITICAL",
-                        "Nerve Fiber Layer": "CRITICAL",
+                        "od_cup_ratio_horizontal": 0.01,
+                        "od_cup_ratio_vertical": 0.01,
+                        "os_cup_ratio_horizontal": 0.01,
+                        "os_cup_ratio_vertical": 0.01,
+                        "optic_nerve": "CRITICAL",
+                        "nerve_fiber": "CRITICAL",
                     },
                     file_data,
                 )
-                visual_form = VisualAccuityCreationForm({
+                visual_form = VisualAccuitySubmissionForm({
                     "distance": "D",
-                    "OS Visual Accuity": 10,
-                    "Corrector Indicator": "cc",
-                    "Right Eye Measurement": 10,
-                    "OD Corrector Indicator": "cc",
-                    "OU Visual Accuity": 10,
-                    "OU Corrector Indicator": "cc",
+                    "visual_acuity_measure_left": 10,
+                    "corrector_indicator_left": "cc",
+                    "visual_acuity_measure_right": 10,
+                    "corrector_indicator_right": "cc",
                 })
                 exam1 = exam_form.save()
                 prescription = prescription_form.save(commit=False)
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
 
                 exam1.save()
+                prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+                prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+                prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+                prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+                prescription.save()
 
         if not User.objects.filter(username="patient3"):
             user_form = BaseUserForm({"username": "patient3", "password": "1234"})
@@ -467,7 +558,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Green",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -493,7 +584,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -509,25 +600,26 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today()}",
-                "time": f"{datetime.time(3, 30)}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
+                "time": f"{datetime.time(15, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
             })
             exam = exam_form.save(commit=False)
-            exam.status = "In Progress"
+            exam.status = ExamModel.status_choices["progressing"]
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(10, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,
@@ -554,50 +646,104 @@ class Command(BaseCommand):
                 }
                 occular_form = OccularExamCreationForm(
                     {
-                        "Vitreous Segment": "CRITICAL",
-                        "Macula Segment": "CRITICAL",
-                        "Vasculature Segment": "CRITICAL",
-                        "Posterior Pole Segment": "CRITICAL",
-                        "Peripheral Retina Segment": "CRITICAL",
-                        "Misc Retina Segment": "CRITICAL",
-                        "Diabeti Eval Segment": "CRITICAL",
-                        "HTL Evaluation Segment": "CRITICAL",
-                        "ARMD Segment": "CRITICAL",
-                        "OS Sponeaneous Venous Pulsation": "+",
-                        "OD Venous Pulsation": "+",
-                        "OS Reflex": "+",
-                        "OD Reflex": "+",
-                        "Evaluation Performed": "Not Performed",
+                        "vitreous_segment": "CRITICAL",
+                        "macula_segment": "CRITICAL",
+                        "vasculature_segment": "CRITICAL",
+                        "posterior_pole_segment": "CRITICAL",
+                        "peripheral_retina_segment": "CRITICAL",
+                        "misc_retina_segment": "CRITICAL",
+                        "biabeti_eval_segment": "CRITICAL",
+                        "htl_eval_segment": "CRITICAL",
+                        "armd_segment": "CRITICAL",
+                        "left_venous_pulsation": "+",
+                        "right_venous_pulsation": "+",
+                        "left_foveal_reflex": "+",
+                        "right_venous_pulsation": "+",
+                        "fundus_record": "Not Performed",
                         "dilated_with_drops": 1,
                         "dilated_with_drug": "Atropine",
-                        "OD Cup-Disc Horizontal Ratio": 0.01,
-                        "OD Cup-Disc Vertical Ratio": 0.01,
-                        "OS Cup-Disc Horizontal Ratio": 0.01,
-                        "OS Cup-Disc Vertical Ratio": 0.01,
-                        "Optic Nerve": "CRITICAL",
-                        "Nerve Fiber Layer": "CRITICAL",
+                        "od_cup_ratio_horizontal": 0.01,
+                        "od_cup_ratio_vertical": 0.01,
+                        "os_cup_ratio_horizontal": 0.01,
+                        "os_cup_ratio_vertical": 0.01,
+                        "optic_nerve": "CRITICAL",
+                        "nerve_fiber": "CRITICAL",
                     },
                     file_data,
                 )
-                visual_form = VisualAccuityCreationForm({
-                    "distance": "D",
-                    "OS Visual Accuity": 10,
-                    "Corrector Indicator": "cc",
-                    "Right Eye Measurement": 10,
-                    "OD Corrector Indicator": "cc",
-                    "OU Visual Accuity": 10,
-                    "OU Corrector Indicator": "cc",
-                })
+                aided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                pinhole_aided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_near")
+                pinhole_unaided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_near")
+                aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_distance")
+                unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_near_distance")
+                pinhole_aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_distance")
+                pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_distance")
                 exam1 = exam_form.save()
                 prescription = prescription_form.save(commit=False)
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
+                exam1.occular_exam_information_id = occular.id
+                aided_near = aided_near.save()
+                unaided_near = unaided_near.save()
+                pinhole_unaided_near = pinhole_unaided_near.save()
+                pinhole_aided_near = pinhole_aided_near.save()
+                aided_distance = aided_distance.save()
+                unaided_distance = unaided_distance.save()
+                pinhole_aided_distance = pinhole_aided_distance.save()
+                pinhole_unaided_distance = pinhole_unaided_distance.save()
+
+                exam1.visual_accuity_aided_near_id = aided_near.id
+                exam1.visual_accuity_unaided_near_id = unaided_near.id
+                exam1.visual_accuity_pinhole_unaided_near_id = pinhole_unaided_near.id
+                exam1.visual_accuity_pinhole_aided_near_id = pinhole_aided_near.id
+                exam1.visual_accuity_aided_distance_id = aided_distance.id
+                exam1.visual_accuity_unaided_distance_id = unaided_distance.id
+                exam1.visual_accuity_pinhole_aided_distance_id = pinhole_aided_distance.id
+                exam1.visual_accuity_pinhole_unaided_distance_id = pinhole_unaided_distance.id
+
                 exam1.save()
+                prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+                prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+                prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+                prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+                prescription.save()
 
         if not User.objects.filter(username="patient4"):
             user_form = BaseUserForm({"username": "patient4", "password": "1234"})
@@ -610,7 +756,7 @@ class Command(BaseCommand):
                 "middle_initial": "j",
                 "last_name": "Mama",
                 "gender": "Male",
-                "date_of_birth": f"{datetime.date.today() - datetime.timedelta(days=23 * 365)}",
+                "date_of_birth": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=23 * 365)}",
                 "street_address": "3828 Piermont Dr",
                 "city": "Albuquerque",
                 "state": "New Mexico",
@@ -636,7 +782,7 @@ class Command(BaseCommand):
                 "insurance_provider": "Blue Cross Blue Shield",
                 "contract_number": "1111111111111",
                 "group_number": "123141243",
-                "effective_date": f"{datetime.date.today() - datetime.timedelta(days=5 * 365)}",
+                "effective_date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=5 * 365)}",
                 "co_pay": "5.00",
                 "insurance_street_address": "125 insurance street",
                 "insurance_city": "Montgomery",
@@ -652,24 +798,26 @@ class Command(BaseCommand):
             emergency.save()
             insurance.save()
             exam_form = ExamCreationPostForm({
-                "date": f"{datetime.date.today() + datetime.timedelta(days=15)}",
-                "time": f"{datetime.time(4, 30)}",
+                "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()}",
+                "time": f"{datetime.time(10, 30)}",
                 "patient": patient,
                 "doctor": doctor,
                 "reason_for_visit": "Eyes be hurtin",
             })
             exam = exam_form.save(commit=False)
+            exam.status = ExamModel.status_choices['upcoming']
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
-                    "date": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "time": f"{datetime.time(9, 30)}",
+                    "arrival_time": f"{datetime.time(random.randint(9, 16), random.randint(1, 59))}",
                     "patient": patient,
                     "doctor": doctor,
                     "reason_for_visit": "Eyes be hurtin",
                 })
                 prescription_form = PrescriptionCreationForm({
-                    "date_prescribed": f"{datetime.date.today() - datetime.timedelta(days=i * 30)}",
+                    "date_prescribed": f"{datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() - datetime.timedelta(days=i * 30)}",
                     "od_cylinder": 0.02,
                     "od_sphere": 0.02,
                     "od_axis": 0.02,
@@ -696,47 +844,101 @@ class Command(BaseCommand):
                 }
                 occular_form = OccularExamCreationForm(
                     {
-                        "Vitreous Segment": "CRITICAL",
-                        "Macula Segment": "CRITICAL",
-                        "Vasculature Segment": "CRITICAL",
-                        "Posterior Pole Segment": "CRITICAL",
-                        "Peripheral Retina Segment": "CRITICAL",
-                        "Misc Retina Segment": "CRITICAL",
-                        "Diabeti Eval Segment": "CRITICAL",
-                        "HTL Evaluation Segment": "CRITICAL",
-                        "ARMD Segment": "CRITICAL",
-                        "OS Sponeaneous Venous Pulsation": "+",
-                        "OD Venous Pulsation": "+",
-                        "OS Reflex": "+",
-                        "OD Reflex": "+",
-                        "Evaluation Performed": "Not Performed",
+                        "vitreous_segment": "CRITICAL",
+                        "macula_segment": "CRITICAL",
+                        "vasculature_segment": "CRITICAL",
+                        "posterior_pole_segment": "CRITICAL",
+                        "peripheral_retina_segment": "CRITICAL",
+                        "misc_retina_segment": "CRITICAL",
+                        "biabeti_eval_segment": "CRITICAL",
+                        "htl_eval_segment": "CRITICAL",
+                        "armd_segment": "CRITICAL",
+                        "left_venous_pulsation": "+",
+                        "right_venous_pulsation": "+",
+                        "left_foveal_reflex": "+",
+                        "right_venous_pulsation": "+",
+                        "fundus_record": "Not Performed",
                         "dilated_with_drops": 1,
                         "dilated_with_drug": "Atropine",
-                        "OD Cup-Disc Horizontal Ratio": 0.01,
-                        "OD Cup-Disc Vertical Ratio": 0.01,
-                        "OS Cup-Disc Horizontal Ratio": 0.01,
-                        "OS Cup-Disc Vertical Ratio": 0.01,
-                        "Optic Nerve": "CRITICAL",
-                        "Nerve Fiber Layer": "CRITICAL",
+                        "od_cup_ratio_horizontal": 0.01,
+                        "od_cup_ratio_vertical": 0.01,
+                        "os_cup_ratio_horizontal": 0.01,
+                        "os_cup_ratio_vertical": 0.01,
+                        "optic_nerve": "CRITICAL",
+                        "nerve_fiber": "CRITICAL",
                     },
                     file_data,
                 )
-                visual_form = VisualAccuityCreationForm({
-                    "distance": "D",
-                    "OS Visual Accuity": 10,
-                    "Corrector Indicator": "cc",
-                    "Right Eye Measurement": 10,
-                    "OD Corrector Indicator": "cc",
-                    "OU Visual Accuity": 10,
-                    "OU Corrector Indicator": "cc",
-                })
+                aided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                unaided_near = VisualAccuitySubmissionForm({
+                    "visual_acuity_measure_left": 10,
+                    "visual_acuity_measure_right": 10,
+                    "visual_acuity_measure_both": 10,
+                }, prefix="unaided_near")
+                pinhole_aided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_near")
+                pinhole_unaided_near = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_near")
+                aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_distance")
+                unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_near_distance")
+                pinhole_aided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="aided_ph_distance")
+                pinhole_unaided_distance = VisualAccuitySubmissionForm({
+                        "visual_acuity_measure_left": 10,
+                        "visual_acuity_measure_right": 10,
+                        "visual_acuity_measure_both": 10,
+                    }, prefix="unaided_ph_distance")
                 exam1 = exam_form.save()
                 prescription = prescription_form.save(commit=False)
                 prescription.prescriber_id = doctor.id
                 prescription.save()
                 occular = occular_form.save()
-                visual = visual_form.save()
+
                 exam1.prescription_id = prescription.id
                 exam1.occular_exam_information_id = occular.id
-                exam1.visual_accuity_information_id = visual.id
+                aided_near = aided_near.save()
+                unaided_near = unaided_near.save()
+                pinhole_unaided_near = pinhole_unaided_near.save()
+                pinhole_aided_near = pinhole_aided_near.save()
+                aided_distance = aided_distance.save()
+                unaided_distance = unaided_distance.save()
+                pinhole_aided_distance = pinhole_aided_distance.save()
+                pinhole_unaided_distance = pinhole_unaided_distance.save()
+
+                exam1.visual_accuity_aided_near_id = aided_near.id
+                exam1.visual_accuity_unaided_near_id = unaided_near.id
+                exam1.visual_accuity_pinhole_unaided_near_id = pinhole_unaided_near.id
+                exam1.visual_accuity_pinhole_aided_near_id = pinhole_aided_near.id
+                exam1.visual_accuity_aided_distance_id = aided_distance.id
+                exam1.visual_accuity_unaided_distance_id = unaided_distance.id
+                exam1.visual_accuity_pinhole_aided_distance_id = pinhole_aided_distance.id
+                exam1.visual_accuity_pinhole_unaided_distance_id = pinhole_unaided_distance.id
+
+
                 exam1.save()
+                prescription.os_visual_acuity_distance = exam1.visual_accuity_aided_string_left_distance
+                prescription.od_visual_acuity_distance = exam1.visual_accuity_aided_string_right_distance
+                prescription.os_visual_acuity_near = exam1.visual_accuity_aided_string_left_near
+                prescription.od_visual_acuity_near = exam1.visual_accuity_aided_string_right_near
+                prescription.save()

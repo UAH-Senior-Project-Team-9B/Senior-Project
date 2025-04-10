@@ -1,14 +1,21 @@
 {% extends base_template_name %}
 {% block content%}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message.message }}</p>
+    {% endfor %}
+{% endif %}
 {% for exam in page_obj %}
     {# Each "patient" is a patient model object. #}
-    <a href="{% url 'exam_details' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
-    <form  method="get">
-        <input type="submit" class="btn" value="Move to Waiting" name="{{ exam.id }}">
-        <input type="submit" class="btn" value="Move to in Progress" name="{{ exam.id }}">
-        <input type="submit" class="btn" value="Move to Complete" name="{{ exam.id }}">
-        <input type="submit" class="btn" value="Cancel" name="{{ exam.id }}">
-       </form><br>
+    {% if doctor_bool %}
+        <a href="{% url 'exam_details' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
+    {% else %}
+        {% if exam.stageable %}
+            <a  href="{%url 'progress_exam' exam.id %}">Update Exam Status</a>
+        {% endif %}
+        <a href="{% url 'daily_patient' exam.patient.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
+    {% endif %}
+    <br>
 {% endfor %}
 
 <div class="pagination">
