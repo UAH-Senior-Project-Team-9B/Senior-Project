@@ -12,7 +12,6 @@ from ophthalmology_portal.Core.models import ExamModel, OphthalmologistUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 from django.http import Http404
 
-# this is for testing purposes, delete this later
 class ExamConfirmationView(BaseView):
     def get(self, request: HttpRequest, id, *args, **kwargs):
         if not self.manager_verification(request.user):
@@ -32,6 +31,6 @@ class ExamConfirmationView(BaseView):
         if not self.manager_verification(request.user):
             raise Http404
         instance= ExamModel.objects.get(id=id)
-        instance.status="upcoming"
+        instance.status=ExamModel.status_choices['upcoming']
         instance.save()
         return redirect("/exam-confirmations/")

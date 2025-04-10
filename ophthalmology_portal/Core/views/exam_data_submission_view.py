@@ -16,6 +16,7 @@ from ophthalmology_portal.Core.forms.prescription_creation_form import (
     PrescriptionViewForm,
 )
 from ophthalmology_portal.Core.models.exam_model import ExamModel
+from ophthalmology_portal.Core.models.user_models import OphthalmologistUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 from django.contrib import messages
 
@@ -24,8 +25,13 @@ class TestInformationCreationView(BaseView):
         if not self.doctor_verification(request.user):
             raise Http404
         form = ExamDoctorViewForm(instance=ExamModel.objects.get(id=exam_id))
-
-        if ExamModel.objects.get(id=exam_id).status == "Exam In Progress":
+        user = OphthalmologistUserModel.objects.get(user=request.user)
+        try:
+            exam = ExamModel.objects.get(id=exam_id, doctor=user)
+        except:
+            raise Http404
+        breakpoint()
+        if exam.status == ExamModel.status_choices['progressing']:
             prescription_form = PrescriptionCreationForm
             occular_form = OccularExamCreationForm
             aided_near = VisualAccuitySubmissionForm(prefix="aided_near")
@@ -36,6 +42,7 @@ class TestInformationCreationView(BaseView):
             unaided_distance = VisualAccuitySubmissionForm(prefix="unaided_distance")
             pinhole_aided_distance = VisualAccuitySubmissionForm(prefix="aided_ph_distance")
             pinhole_unaided_distance = VisualAccuitySubmissionForm(prefix="unaided_ph_distance")
+            breakpoint()
             return render(
                 request,
                 "exam_data_submission.html",
@@ -81,6 +88,10 @@ class TestInformationCreationView(BaseView):
 
     def post(self, request: HttpRequest, exam_id, *args, **kwargs):
         if not self.doctor_verification(request.user):
+            raise Http404
+        try:
+            exam = ExamModel.objects.get(id=exam_id, doctor=user)
+        except:
             raise Http404
         aided_near = VisualAccuitySubmissionForm(request.POST, prefix="aided_near")
         unaided_near = VisualAccuitySubmissionForm(request.POST, prefix="unaided_near")

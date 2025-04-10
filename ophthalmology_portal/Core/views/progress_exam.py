@@ -13,20 +13,14 @@ from django.contrib import messages
 
 class ProgressExam(BaseView):
     def get(self, request, exam_id, *args, **kwargs):
-        if not self.manager_verification(request.user) and not self.patient_verification(request.user):
+        if not self.manager_verification(request.user):
             raise Http404
+
         exam = ExamModel.objects.get(id=exam_id)
-        if exam.status == "Upcoming":
+        if exam.status == ExamModel.status_choices['upcoming']:
             exam.in_lobby()
-        elif exam.status == 'In Wait Room':
+        elif exam.status == ExamModel.status_choices['waiting']:
             exam.in_progress()
-        elif exam.status == "Exam In Progress":
-            if exam.occular_exam_information and exam.visual_accuity_information:
-                exam.complete()
-            else:
-                messages.add_message(request, messages.ERROR, "Exam data not updated.")
-
-
         else:
             raise Http404
         return redirect(request.META.get('HTTP_REFERER'))

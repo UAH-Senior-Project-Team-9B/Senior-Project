@@ -7,6 +7,7 @@ from django.http import Http404
 from django.shortcuts import render
 
 from ophthalmology_portal.Core.models import ExamModel
+from ophthalmology_portal.Core.models.user_models import OphthalmologistUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 
 
@@ -31,9 +32,9 @@ class DailyExamsView(BaseView):
                     exam = ExamModel.objects.get(id=key)
                     exam.cancel()
             exams = ExamModel.objects.filter(
-                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()) & Q(status="Upcoming")
-                | Q(status="In Wait Room")
-                | Q(status="Exam In Progress")
+                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()) & (Q(status=ExamModel.status_choices['upcoming'])
+                | Q(status=ExamModel.status_choices['waiting'])
+                | Q(status=ExamModel.status_choices['progressing']))
             )
             paginator = Paginator(exams, 10)
             page_number = request.GET.get("page")
@@ -49,11 +50,11 @@ class DailyExamsView(BaseView):
         elif self.doctor_verification(
                 request.user
             ):
+            user = OphthalmologistUserModel.objects.get(user=request.user)
             exams = ExamModel.objects.filter(
-                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()) & Q(status="Upcoming")
-                | Q(status="In Wait Room")
-                | Q(status="Exam In Progress")
-            )
+                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()) & (Q(status=ExamModel.status_choices['upcoming'])
+                | Q(status=ExamModel.status_choices['progressing'])
+                | Q(status=ExamModel.status_choices['waiting'])) and Q(doctor=user))
             paginator = Paginator(exams, 10)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)

@@ -8,18 +8,20 @@ from ophthalmology_portal.Core.models.test_information_model import (
     OccularExamModel,
     VisualAccuityModel,
 )
-
+from django.utils.translation import gettext_lazy as _
 
 class ExamModel(models.Model):
+
+    status_choices = {
+            "pending": "Pending",
+            "upcoming": "Upcoming",
+            "waiting": "In Wait Room",
+            "progressing": "Exam In Progress",
+            "complete": "Completed",
+        }
     status = models.CharField(
         max_length=16,
-        choices={
-            "Pending": "Pending",
-            "Upcoming": "Upcoming",
-            "In Wait Room": "In Wait Room",
-            "Exam In Progress": "Exam In Progress",
-            "Completed": "Completed",
-        },
+        choices=status_choices,
         null=True,
         blank=True,
     )

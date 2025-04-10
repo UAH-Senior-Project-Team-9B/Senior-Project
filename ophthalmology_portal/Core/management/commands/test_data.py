@@ -27,6 +27,7 @@ from ophthalmology_portal.Core.forms.test_information_creation_form import (
     VisualAccuitySubmissionForm,
     BothVisualAccuityCreationForm,
 )
+from ophthalmology_portal.Core.models.exam_model import ExamModel
 from ophthalmology_portal.Core.models.user_models import OphthalmologistUserModel
 
 
@@ -459,7 +460,7 @@ class Command(BaseCommand):
                 "reason_for_visit": "Eyes be hurtin",
             })
             exam = exam_form.save(commit=False)
-            exam.status = "Upcoming"
+            exam.status = ExamModel.status_choices['upcoming']
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
@@ -606,7 +607,7 @@ class Command(BaseCommand):
                 "reason_for_visit": "Eyes be hurtin",
             })
             exam = exam_form.save(commit=False)
-            exam.status = "Exam In Progress"
+            exam.status = ExamModel.status_choices["progressing"]
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({
@@ -804,7 +805,7 @@ class Command(BaseCommand):
                 "reason_for_visit": "Eyes be hurtin",
             })
             exam = exam_form.save(commit=False)
-            exam.status = "Upcoming"
+            exam.status = ExamModel.status_choices['upcoming']
             exam.save()
             for i in range(1, 6):
                 exam_form = ExamCreationPostForm({

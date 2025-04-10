@@ -80,6 +80,8 @@ class PatientExamCreationView(BaseView):
         data["patient"] = request.user.patientusermodel.id
         form = ExamCreationPostForm(data)
         if form.is_valid():
-            form.save()
+            exam = form.save(commit=False)
+            exam.status = ExamModel.status_choices['pending']
+            exam.save()
             return redirect(reverse("home_page"))
         return redirect("/exam-request/")

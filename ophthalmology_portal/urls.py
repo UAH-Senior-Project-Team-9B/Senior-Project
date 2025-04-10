@@ -98,7 +98,7 @@ urlpatterns = [
         "api/remove_exam/<int:exam_id>", views.CancelExam.as_view(), name="cancel_exam"
     ),
     path(
-        "api/progress_exam/<int:exam_id>", views.ProgressExam.as_view(), name="progress_exam"
+        "api/progress-exam/<int:exam_id>", views.ProgressExam.as_view(), name="progress_exam"
     )
 
 ]

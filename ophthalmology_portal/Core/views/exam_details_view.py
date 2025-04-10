@@ -15,30 +15,69 @@ from ophthalmology_portal.Core.forms import (
 )
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from ophthalmology_portal.Core.forms.exam_creation_form import ExamArrivalForm, ExamManagerArrivalTimeForm, ExamPatientViewNonCompleteForm, ExamTimeForm
 from ophthalmology_portal.Core.models import ExamModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 from django.http import Http404
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
 import datetime
 from django.http import FileResponse
 
 class PrescriptionPDF(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
+        elements = []
         exam=ExamModel.objects.get(id=exam_id)
         buffer = io.BytesIO()
+        canv = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
+        textob = canv.beginText()
+        textob.setTextOrigin(inch,inch)
+        # for line in lines:
+        #     textob.textLine(line)
+        # canv.drawText(textob)
+        # elements.append(textob)
         doc = SimpleDocTemplate(buffer, pagesize=letter)
-        elements = []
         presc = exam.prescription
-        data = [["Rx", "SPH", "CYL", "AXIS", "PRISM", "BASE"],
-                ["O.D.", f"{presc.od_sphere}", f"{presc.od_cylinder}", f"{presc.od_axis}", f"{presc.od_prism}", f"{presc.od_prism_base}"],
-                ["O.S.", f"{presc.os_sphere}", f"{presc.os_cylinder}", f"{presc.os_axis}", f"{presc.os_prism}", f"{presc.os_prism_base}"],
-                ["ADD","","","","O.D.", f"{presc.od_add}"],
-                ["","","","","O.S.", f"{presc.os_add}"]]
+        name = f"{exam.patient}"
+
+        max_len = 100
+        white_space = "&nbsp;"
+        for i in range(0, (max_len-len(name))):
+            white_space = white_space + "&nbsp;"
+        elements.append(Paragraph(f"Patient: <u>{exam.patient}{white_space}</u> Issued: <u>{presc.date_prescribed}</u>"))
+        elements.append(Spacer(1,1/4*inch))
+        data = [["", "Rx", "SPH", "CYL", "AXIS", "PRISM", "BASE"],
+                ["Distance","O.D.", f"{presc.od_sphere}", f"{presc.od_cylinder}", f"{presc.od_axis}", f"{presc.od_prism}", f"{presc.od_prism_base}"],
+                ["","O.S.", f"{presc.os_sphere}", f"{presc.os_cylinder}", f"{presc.os_axis}", f"{presc.os_prism}", f"{presc.os_prism_base}"],
+                ["ADD","O.D.", f"{presc.od_add}", "","","", ""],
+                ["","O.S.",f"{presc.os_add}","","", "", ""]]
         table = Table(data)
-        table.setStyle(TableStyle([('GRID',(0,0),(6,5),1,colors.black), ('SPAN',(0,3),(3,4))]))
+        table.setStyle(TableStyle([
+            ('GRID',(1,0),(6,2),1,colors.black),
+            ('GRID',(0,1),(2,5),1,colors.black),
+            ('SPAN',(0,1),(0,2)),
+            ('SPAN',(0,3),(0,4)),
+            ('SPAN',(3,3),(-1,-1)),
+            ]))
         elements.append(table)
+        elements.append(Spacer(1,1/4*inch))
+        name = f"{presc.prescriber}"
+        max_len = 130
+        white_space = "&nbsp;"
+        for i in range(0, (max_len-len(name))):
+            white_space = white_space + "&nbsp;"
+        elements.append(Paragraph(f"Prescriber: <u>{name}{white_space}</u>"))
         doc.build(elements)
+        # width = 400
+        # height = 100
+        # x = 100
+        # y = 400
+        # table.wrapOn(canv, width, height)
+        # table.drawOn(canv, x, y)
+        # canv.save()
         buffer.seek(0)
         return FileResponse(buffer, as_attachment=True, filename=f"{exam.date}_prescription.pdf")
 
@@ -68,19 +107,52 @@ class ExamDetailsView(BaseView):
             f"{datetime.time(16, 30)}": "4:30 PM",
             f"{datetime.time(17)}": "5:00 PM",
         }
-        if request.user.has_perm("Core.patient") or request.user.has_perm("Core.doctor"):
-            form = ExamViewForm(instance=exam)
-            prescription_form = PrescriptionViewForm(
-                instance=exam.prescription
-            )
-            visual_form = ExamPatientViewNonCompleteForm(
-                instance=exam
-            )
+        if request.user.has_perm("Core.doctor"):
 
-            occular_form = OccularExamViewForm(
-                instance=exam.occular_exam_information
+            if exam.status == ExamModel.status_choices['complete']:
+                form = ExamViewForm(instance=exam)
+                occular_form = OccularExamViewForm(
+                    instance=exam.occular_exam_information
+                )
+                prescription_form = PrescriptionViewForm(
+                    instance=exam.prescription
+                )
+            else:
+                form = ExamPatientViewNonCompleteForm(instance=exam)
+                occular_form = None
+                prescription_form = None
+
+            cancellable = False
+            return render(
+                request,
+                "exam_details.html",
+                {
+                    "cancellable": cancellable,
+                    "form": form,
+                    "exam_id": exam_id,
+                    "base_template_name": self.get_base_template(request.user),
+                    "prescription_form": prescription_form,
+                    "exam": exam,
+                    "occular_form": occular_form,
+                    "upload": False,
+                },
             )
-            if exam.status == "Upcoming":
+        if request.user.has_perm("Core.patient"):
+
+            if exam.status == ExamModel.status_choices['complete']:
+                form = ExamViewForm(instance=exam)
+                occular_form = OccularExamViewForm(
+                    instance=exam.occular_exam_information
+                )
+                prescription_form = PrescriptionViewForm(
+                    instance=exam.prescription
+                )
+            else:
+                form = ExamPatientViewNonCompleteForm(instance=exam)
+                occular_form = None
+                prescription_form = None
+
+            if exam.status == ExamModel.status_choices['upcoming']:
                     cancellable = True
             else:
                 cancellable = False
@@ -101,7 +173,7 @@ class ExamDetailsView(BaseView):
 
         elif request.user.has_perm("Core.manager"):
 
-            form = ExamViewForm(instance=exam)
+
 
             if exam.prescription:
                 prescription_form = PrescriptionViewForm(
@@ -110,7 +182,8 @@ class ExamDetailsView(BaseView):
             else:
                 prescription_form= None
 
-            if exam.status=="Upcoming":
+            if exam.status==ExamModel.status_choices['upcoming']:
+                form = ExamPatientViewNonCompleteForm(instance=exam)
                 if exam.date == datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date():
                     stageable = True
                 else:
@@ -152,7 +225,8 @@ class ExamDetailsView(BaseView):
                         "maximum": maximum,
                     },
                 )
-            elif exam.status=="Exam In Progress" or exam.status == "In Wait Room":
+            elif exam.status == ExamModel.status_choices['waiting']:
+                form = ExamPatientViewNonCompleteForm(instance=exam)
                 cancellable = True
                 stageable = True
                 return render(
@@ -169,6 +243,7 @@ class ExamDetailsView(BaseView):
                     },
                 )
             else:
+                form = ExamViewForm(instance=exam)
                 cancellable = False
                 stageable = False
                 return render(

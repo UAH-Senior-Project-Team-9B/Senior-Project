@@ -15,7 +15,7 @@ class CancelExam(BaseView):
         if not self.manager_verification(request.user) and not self.patient_verification(request.user):
             raise Http404
         exam = ExamModel.objects.get(id=exam_id)
-        if exam.status != "Complete":
+        if exam.status != ExamModel.status_choices['complete']:
             exam.cancel()
         else:
             raise Http404
