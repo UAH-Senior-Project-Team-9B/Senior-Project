@@ -21,6 +21,10 @@ class ProgressExam(BaseView):
             exam.in_lobby()
         elif exam.status == ExamModel.status_choices['waiting']:
             exam.in_progress()
+        elif exam.status == ExamModel.status_choices['progressing']:
+            complete = exam.complete()
+            if not complete:
+                messages.warning(request, "Exams that have not been completed by an Ophthalmogist can not be ended early.")
         else:
             raise Http404
         return redirect(request.META.get('HTTP_REFERER'))

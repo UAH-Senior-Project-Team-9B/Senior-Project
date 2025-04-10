@@ -9,6 +9,7 @@ from ophthalmology_portal.Core.models.test_information_model import (
     VisualAccuityModel,
 )
 from django.utils.translation import gettext_lazy as _
+from django.contrib import messages
 
 class ExamModel(models.Model):
 
@@ -213,8 +214,6 @@ class ExamModel(models.Model):
     def save(self, **kwargs):
         if not self.status:
             self.status = "Upcoming"
-        if self.occular_exam_information:
-            self.status = "Completed"
         if self.visual_accuity_aided_near:
             self.aided_string_near()
         if self.visual_accuity_unaided_near:
@@ -247,9 +246,15 @@ class ExamModel(models.Model):
         self.save()
 
     def complete(self):
-        self.status = "Completed"
-        self.save()
-
-    def cancel(self):
-        self.status = "Canceled"
-        self.save()
+        if self.occular_exam_information:
+            self.status = "Completed"
+            self.save()
+            return True
+        else:
+            return False
+    def stageable(self):
+        if self.date == datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date():
+            if self.status != "Completed" and self.status != "Pending":
+                return True
+        else:
+            return False
