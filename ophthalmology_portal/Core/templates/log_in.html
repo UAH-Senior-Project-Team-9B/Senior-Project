@@ -1,25 +1,39 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
-{% block content%}
-<html>
-<head>
-    <title class="text-sky-500">User Login</title>
-</head>
-<body>
-    <h2>User Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-blue-100">
+  <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-8 w-full max-w-sm">
+
+
+    <h1 class="text-3xl font-bold text-sky-600 text-center mb-2">eye-c-u</h1>
+    <hr class="my-4" />
+    <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Login</h2>
+
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <div class="text-center">
+        <label class="block text-sm font-medium mb-1">Username</label>
+        <input name="username" type="text" required placeholder="Enter username"
+               class="input input-bordered px-3 py-2 w-11/12" />
+      </div>
+
+      <div class="text-center">
+        <label class="block text-sm font-medium mb-1">Password</label>
+        <input name="password" type="password" required placeholder="Enter password"
+               class="input input-bordered px-3 py-2 w-11/12" />
+      </div>
+
+      <div class="flex justify-center">
+        <button type="submit" class="btn btn-primary w-4/5">Login</button>
+      </div>
     </form>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message.message }}</p>
-        {% endfor %}
-    {% endif %}
-    <a href="{% url 'registration'%}">Register here</a>
 
 
-</body>
-</html>
-{% endblock  %}
+    <div class="mt-6 text-center text-sm">
+      <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Forgot your password?</a><br>
+      <a href="{% url 'registration' %}" class="text-blue-500 hover:underline">Register here</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

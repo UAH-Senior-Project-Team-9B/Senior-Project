@@ -1,16 +1,39 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="{% static 'css/tailwind.css' %}" />
-        <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-        {% comment %} <script src="node_modules/@alpinejs/anchor/dist/cdn.min.js"></script>
-        <script src="node_modules/alpinejs/dist/cdn.min.js"></script> {% endcomment %}
-        {% comment %} Fix the above {% endcomment %}
-    </head>
-    <body>
-        <main>{% block content %}{% endblock %}</main>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}" />
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+
+  <body>
+    <main>{% block content %}{% endblock %}</main>
+
+    <!-- Phone Number Auto-Formatting Script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const phoneInput = document.getElementById("phone_number");
+        if (phoneInput) {
+          phoneInput.addEventListener("input", function (e) {
+            let x = phoneInput.value.replace(/\D/g, "").substring(0, 10);
+            let formatted = "";
+
+            if (x.length > 0) {
+              formatted += "(" + x.substring(0, 3);
+            }
+            if (x.length >= 4) {
+              formatted += ") " + x.substring(3, 6);
+            }
+            if (x.length >= 7) {
+              formatted += "-" + x.substring(6, 10);
+            }
+
+            phoneInput.value = formatted;
+          });
+        }
+      });
+    </script>
+  </body>
 </html>
