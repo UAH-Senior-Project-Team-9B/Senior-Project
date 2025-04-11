@@ -66,10 +66,10 @@ class OccularExamModel(models.Model):
     misc_retina_segment = models.CharField(
         verbose_name="Misc Retina Segment", choices=posterior_segment_choices, max_length=255
     )
-    biabeti_eval_segment = models.CharField(
+    diabeti_eval_segment = models.CharField(
         verbose_name="Diabeti Eval Segment", choices=posterior_segment_choices, max_length=255
     )
-    htl_eval_segment = models.CharField(
+    htn_eval_segment = models.CharField(
         verbose_name="HTL Evaluation Segment", choices=posterior_segment_choices, max_length=255
     )
     armd_segment = models.CharField(
