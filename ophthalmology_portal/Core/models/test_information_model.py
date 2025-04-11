@@ -88,7 +88,7 @@ class OccularExamModel(models.Model):
     left_foveal_reflex = models.CharField(
         verbose_name="OS Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
     )
-    right_venous_pulsation = models.CharField(
+    right_foveal_reflex = models.CharField(
         verbose_name="OD Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
     )
 
