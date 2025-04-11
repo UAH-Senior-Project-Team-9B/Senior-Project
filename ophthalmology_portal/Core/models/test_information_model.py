@@ -2,20 +2,20 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 visual_acuity_choices = {
-    10: "20/10",
-    12.5: "20/12.5",
-    16: "20/16",
-    20: "20/20",
-    25: "20/25",
-    32: "20/32",
-    40: "20/40",
-    50: "20/50",
-    63: "20/63",
-    80: "20/80",
-    100: "20/100",
-    125: "20/125",
-    160: "20/160",
-    200: "20/200",
+    "20/10": "20/10",
+    "20/12.5": "20/12.5",
+    "20/16": "20/16",
+    "20/20": "20/20",
+    "20/25": "20/25",
+    "20/32": "20/32",
+    "20/40": "20/40",
+    "20/50": "20/50",
+    "20/63": "20/63",
+    "20/80": "20/80",
+    "20/100": "20/100",
+    "20/125": "20/125",
+    "20/160": "20/160",
+    "20/200": "20/200",
 }
 
 posterior_segment_choices = {
@@ -47,16 +47,22 @@ dilating_agents = {
 
 class OccularExamModel(models.Model):
     vitreous_segment = models.CharField(
-        verbose_name="Vitreous Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Vitreous Segment",
+        choices=posterior_segment_choices,
+        max_length=255,
     )
     macula_segment = models.CharField(
         verbose_name="Macula Segment", choices=posterior_segment_choices, max_length=255
     )
     vasculature_segment = models.CharField(
-        verbose_name="Vasculature Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Vasculature Segment",
+        choices=posterior_segment_choices,
+        max_length=255,
     )
     posterior_pole_segment = models.CharField(
-        verbose_name="Posterior Pole Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Posterior Pole Segment",
+        choices=posterior_segment_choices,
+        max_length=255,
     )
     peripheral_retina_segment = models.CharField(
         verbose_name="Peripheral Retina Segment",
@@ -64,13 +70,19 @@ class OccularExamModel(models.Model):
         max_length=255,
     )
     misc_retina_segment = models.CharField(
-        verbose_name="Misc Retina Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Misc Retina Segment",
+        choices=posterior_segment_choices,
+        max_length=255,
     )
     diabeti_eval_segment = models.CharField(
-        verbose_name="Diabeti Eval Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="Diabeti Eval Segment",
+        choices=posterior_segment_choices,
+        max_length=255,
     )
     htn_eval_segment = models.CharField(
-        verbose_name="HTL Evaluation Segment", choices=posterior_segment_choices, max_length=255
+        verbose_name="HTL Evaluation Segment",
+        choices=posterior_segment_choices,
+        max_length=255,
     )
     armd_segment = models.CharField(
         verbose_name="ARMD Segment", choices=posterior_segment_choices, max_length=255
@@ -83,7 +95,9 @@ class OccularExamModel(models.Model):
         max_length=1,
     )
     right_venous_pulsation = models.CharField(
-        verbose_name="OD Venous Pulsation", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
+        verbose_name="OD Venous Pulsation",
+        choices={"+": "+", "-": "-", "X": "X"},
+        max_length=1,
     )
     left_foveal_reflex = models.CharField(
         verbose_name="OS Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
@@ -163,7 +177,9 @@ class OccularExamModel(models.Model):
         verbose_name="Optic Nerve", choices=posterior_segment_choices, max_length=255
     )
     nerve_fiber = models.CharField(
-        verbose_name="Nerve Fiber Layer", choices=posterior_segment_choices, max_length=255
+        verbose_name="Nerve Fiber Layer",
+        choices=posterior_segment_choices,
+        max_length=255,
     )
 
     od_deep = models.BooleanField(verbose_name="OD Deep/Lamina")
@@ -204,32 +220,27 @@ class OccularExamModel(models.Model):
 
 
 class VisualAccuityModel(models.Model):
-
-    visual_acuity_measure_left = models.DecimalField(
+    visual_acuity_measure_left = models.CharField(
         verbose_name="OS Visual Accuity",
         choices=visual_acuity_choices,
-        max_digits=4,
-        decimal_places=1,
+        max_length=255,
         blank=True,
-        null=True
+        null=True,
     )
-    visual_acuity_measure_right = models.DecimalField(
+    visual_acuity_measure_right = models.CharField(
         verbose_name="OD Measurement",
         choices=visual_acuity_choices,
-        max_digits=4,
-        decimal_places=1,
+        max_length=255,
         blank=True,
-        null=True
+        null=True,
     )
-    visual_acuity_measure_both = models.DecimalField(
+    visual_acuity_measure_both = models.CharField(
         verbose_name="OU Visual Accuity",
         choices=visual_acuity_choices,
-        max_digits=4,
-        decimal_places=1,
+        max_length=255,
         blank=True,
-        null=True
+        null=True,
     )
-
 
     class Meta:
         permissions = [
