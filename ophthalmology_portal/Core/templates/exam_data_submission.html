@@ -1,51 +1,878 @@
 <!DOCTYPE html>
 {% extends base_template_name %}
 {% block content%}
-<html>
-<head>
-    <title>Exam View</title>
-</head>
-<body>
-    <h2>Exam View</h2>
-    {{ form.as_p }}
-        <form method="post" enctype="multipart/form-data">
-        <input type="checkbox" hx-trigger="change"  hx-indicator=".htmx-indicator" hx-get="{% url 'exam_data_submission' exam_id%}" hx-target="#visual" id="both" name="both">
-        <label for="both">Data Submission for both eyes?</label>
-        {% csrf_token %}
-        {{ prescription_form.as_p }}
-        {{ occular_form.as_p }}
-        <p class="text-4xl">aided near</p>
-        {{ aided_near.as_p }}
-        <p class="text-4xl">unaided near</p>
-        {{ unaided_near.as_p }}
-        <p class="text-4xl">aided ph near</p>
-        {{ aided_ph_near.as_p }}
-        <p class="text-4xl">unaided ph near</p>
-        {{ unaided_ph_near.as_p }}
-        <p class="text-4xl">aided far</p>
-        {{ aided_distance.as_p }}
-        <p class="text-4xl">unaided far</p>
-        {{ unaided_distance.as_p }}
-        <p class="text-4xl">aided ph far</p>
-        {{ aided_ph_distance.as_p }}
-        <p class="text-4xl">unaided ph far</p>
-        {{ unaided_ph_distance.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-                {{ message }}
-            </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</body>
-</html>
-{% endblock  %}
+<div class="flex items-center justify-center min-h-screen bg-blue-100">
+    <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-8 w-3/5">
 
-<script>
-    document.getElementById("demo").innerHTML = "Hello JavaScript!";
-</script>
+        <h1 class="texxt-3xl font-bold text-sky-600 text-center mb-2">EYE-C-U</h1>
+        <hr class="my-4" />
+        <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Exam Data Submission</h2>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <label class="text-md font-semibold text-left text-gray-700 mb-6">Visual Acuity</label>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Distance Aided OS</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_distance.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_ph_distance.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Distance Aided OD</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_distance.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_ph_distance.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Distance Aided OU</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_distance.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_ph_distance.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Distance Unaided OS</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_distance.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Distance Unaided OD</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_distance.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Distance Unaided OU</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_distance.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Near Aided OS</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_near.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_near.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Near Aided OD</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_near.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_near.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Near Aided OU</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_near.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in aided_near.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Near Unaided OS</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_near.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_near.fields.visual_acuity_measure_left.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Near Unaided OD</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_near.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_near.fields.visual_acuity_measure_right.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Near Unaided OU</label>
+                <select class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_near.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+                <label class="text-sm font-medium">PH</label>
+                <select class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in unaided_near.fields.visual_acuity_measure_both.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Corrective Lens Prescription</label>
+            </div>
+
+            <div>
+                <label class="text-sm font-semibold text-left text-gray-700">Left Eye</label>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Sphere</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Axis</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Add</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Prism</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Prism Base</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Far Acuity</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Near Acuity</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div>
+                <label class="text-sm font-semibold text-left text-gray-700">Right Eye</label>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Sphere</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Axis</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Add</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Prism</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Prism Base</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Far Acuity</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Near Acuity</label>
+                <input type="number" value="0" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Occular Examination Findings</label>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Vitreous:</label>
+                <select name="vitreous_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.vitreous_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Macula:</label>
+                <select name="macula_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.macula_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Vasculature:</label>
+                <select name="vasculature_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.vasculature_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Posterior Pole:</label>
+                <select name="posterior_pole_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.posterior_pole_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Peripheral Retina:</label>
+                <select name="peripheral_retina_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.peripheral_retina_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-cent">
+                <label class="text-sm font-medium w-32">Misc Retina:</label>
+                <select name="misc_retina_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.misc_retina_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Diabeti Eval:</label>
+                <select name="diabeti_eval_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.diabeti_eval_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">HTN Eval:</label>
+                <select name="htn_eval_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.htn_eval_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">ARMD:</label>
+                <select name="armd_segment" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.armd_segment.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Ophthalmic Indicators</label>
+            </div>
+
+            <div>
+                <label class="text-sm font-semibold text-left text-gray-700">Sponeaneous Venous Pulsation</label>
+            </div>
+            <div class="flex">
+                <div class="w-12">
+                    <label class="text-sm font-medium">OD:</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="right_venous_pulsation" checked id="svp-radio-plus-od" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="svp-radio-plus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="right_venous_pulsation" id="svp-radio-minus-od" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="svp-radio-minus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="right_venous_pulsation" id="svp-radio-x-od" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="svp-radio-x-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="w-12">
+                    <label class="text-sm font-medium">OS:</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="left_venous_pulsation" checked id="svp-radio-plus-os" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="svp-radio-plus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input id="svp-radio-minus-os" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="svp-radio-minus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="left_venous_pulsation" id="svp-radio-x-os" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="svp-radio-x-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
+                </div>
+            </div>
+
+            <div>
+                <label class="text-sm font-semibold text-left text-gray-700">Foveal Reflex</label>
+            </div>
+            <div class="flex">
+                <div class="w-12">
+                    <label class="text-sm font-medium">OD:</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="right_foveal_reflex" checked id="fv-radio-plus-od" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fv-radio-plus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="right_foveal_reflex" id="fv-radio-minus-od" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fv-radio-minus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="right_foveal_reflex" id="fv-radio-x-od" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fv-radio-x-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="w-12">
+                    <label class="text-sm font-medium">OS:</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="left_foveal_reflex" checked id="fv-radio-plus-os" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fv-radio-plus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="left_foveal_reflex" id="fv-radio-minus-os" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fv-radio-minus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="left_foveal_reflex" id="fv-radio-x-os" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="fv-radio-x-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
+                </div>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Fundus Evaluation Method</label>
+            </div>
+
+            <div class="flex items-center mb-4">
+                <input name="fundus_record" checked id="fem-radio-np" type="radio" value="Not Performed" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="fem-radio-np" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Not Performed</label>
+            </div>
+            <div class="flex items-center mb-4">
+                <input name="fundus_record" id="fem-radio-spb" type="radio" value="Small Pupil BIO" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="fem-radio-spb" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Small Pupil BIO</label>
+            </div>
+            <div class="flex items-center mb-4">
+                <input name="fundus_record" id="fem-radio-de" type="radio" value="Dilated Eval" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="fem-radio-de" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Dilated Eval</label>
+            </div>
+                <div class="flex items-center mb-4">
+                <input name="fundus_record" id="fem-radio-ue" type="radio" value="Undilated Eval" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="fem-radio-ue" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Undilated Eval</label>
+            </div>
+            <div class="flex items-center mb-4">
+                <input name="fundus_record" id="fem-radio-oi" type="radio" value="Optomap Imaging" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="fem-radio-oi" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Optomap Imaging</label>
+               </div>
+            <div class="flex items-center">
+                <input name="fundus_record" id="fem-radio-dfeoi" type="radio" value="DFE with Optomap" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="fem-radio-dfeoi" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">DFE with Optomap</label>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Dilation</label>
+            </div>
+
+            <div class="flex">
+                <div class="w-24">
+                    <label class="text-sm font-medium mb-1">Dilated With:</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="dilated_with_drops" checked id="dilation-radio-1" type="radio" value=1 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="dilation-radio-1" class="ms-  text-sm font-medium text-gray-900 dark:text-gray-300">1 gtt</label>
+                </div>
+                <div class="flex items-center w-1/12">
+                    <input name="dilated_with_drops" id="dilation-radio-2" type="radio" value=2 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="dilation-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">2 gtt</label>
+                </div>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-24">Dilation Drug:</label>
+                <select name="dilated_with_drug" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.dilated_with_drug.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Evaluation</label>
+            </div>
+
+            <div class="flex items-center">
+                <input name="d78_lens" id="78d-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="78d-lens-checkbox" class="text-sm font-medium">78D lens</label>
+            </div>
+
+            <div class="flex items-center">
+                <input name="d90_lens" id="90d-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="90d-lens-checkbox" class="text-sm font-medium">90D lens</label>
+            </div>
+
+            <div class="flex items-center">
+                <input name="d20_lens" id="20d-bio-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="20d-bio-lens-checkbox" class="text-sm font-medium">20D BIO lens</label>
+            </div>
+
+            <div class="flex items-center">
+                <input name="PR22_lens" id="pr-22-bio-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="pr-22-bio-lens-checkbox" class="text-sm font-medium">PR 2.2 BIO lens</label>
+            </div>
+
+            <div class="flex items-center">
+                <input name="scleral_depression" id="scleral-depression-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="scleral-depression-checkbox" class="text-sm font-medium">Scleral depression</label>
+            </div>
+
+            <div class="flex items-center">
+                <input name="ophthalmoscope" id="opthalmoscope-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="opthalmoscope-checkbox" class="text-sm font-medium">Opthalmoscope</label>
+            </div>
+
+            <div class="flex items-center">
+                <input name="other" id="other_checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="other_checkbox" class="text-sm font-medium">Other</label>
+            </div>
+
+            <textarea name="other_information" rows="4" class="border-2 w-1/2 resize-y min-h-20 max-h-80" placeholder="Additional notes"></textarea>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Notes</label>
+            </div>
+
+            <div class="flex">
+                <input name="advised" id="patient-advised-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="patient-advised-checkbox" class="text-sm font-medium mb-1">Patient advised of effects of DFE</label>
+            </div>
+
+            <div class="flex">
+                <input name="rescheduled" id="dfe-rescheduled-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="dfe-rescheduled-checkbox" class="text-sm font-medium mb-1">DFE rescheduled</label>
+            </div>
+
+            <div class="flex">
+                <input name="declined" id="dfe-declined-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="dfe-declined-checkbox" class="text-sm font-medium mb-1">DFE declined</label>
+            </div>
+
+            <div class="flex">
+                <input name="imaging" id="fundus-imaging-performed-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="fundus-imaging-performed-checkbox" class="text-sm font-medium mb-1">Fundus imaging performed</label>
+            </div>
+
+            <div class="flex">
+                <input name="refused" id="dfe-refused-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="dfe-refused-checkbox" class="text-sm font-medium mb-1">DFE refused AME</label>
+            </div>
+
+            <div class="flex">
+                <input name="not_indicated" id="dfe-not-indicated-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="dfe-not-indicated-checkbox" class="text-sm font-medium mb-1">DFE not indicated</label>
+            </div>
+
+            <div class="flex">
+                <input name="contraindicated" id="dfe-contraindicated" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="dfe-contraindicated" class="text-sm font-medium mb-1">DFE contraindicated</label>
+            </div>
+
+            <div class="flex">
+                <input name="recent" id="recent-dfe-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                <label for="recent-dfe-checkbox" class="text-sm font-medium mb-1">Recent DFE</label>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Cup/Disc Ratio Tool Settings</label>
+            </div>
+
+            <div class="w-full max-w-xs">
+                <label for="cup-disc-ratio-tool-od" class="text-sm font-medium mb-1">OD Horizontal</label>
+                <input name="od_cup_ratio_horizontal" id="cup-disc-ratio-tool-od" type="range" min="0" max="1" value="0" class="range" step="0.05" />
+                <div class="flex justify-between px-2.5 mt-2 text-xs">
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                </div>
+                <div class="flex justify-between mt-2 text-xs">
+                  <span class="start-0">0.00</span>
+                  <span class="start-1/4">0.25</span>
+                  <span class="start-1/2">0.50</span>
+                  <span class="start-3/4">0.75</span>
+                  <span class="end-0">1.00</span>
+                </div>
+              </div>
+
+              <div class="w-full max-w-xs">
+                <label for="cup-disc-ratio-tool-od" class="text-sm font-medium mb-1">OD Vertical</label>
+                <input name="od_cup_ratio_vertical" id="cup-disc-ratio-tool-od" type="range" min="0" max="1" value="0" class="range" step="0.05" />
+                <div class="flex justify-between px-2.5 mt-2 text-xs">
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                </div>
+                <div class="flex justify-between mt-2 text-xs">
+                  <span class="start-0">0.00</span>
+                  <span class="start-1/4">0.25</span>
+                  <span class="start-1/2">0.50</span>
+                  <span class="start-3/4">0.75</span>
+                  <span class="end-0">1.00</span>
+                </div>
+              </div>
+
+              <div class="w-full max-w-xs">
+                <label for="cup-disc-ratio-tool-os" class="text-sm font-medium mb-1">OS Horizontal</label>
+                <input name="os_cup_ratio_horizontal" id="cup-disc-ratio-tool-os" type="range" min="0" max="1" value="0" class="range" step="0.05" />
+                <div class="flex justify-between px-2.5 mt-2 text-xs">
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                </div>
+                <div class="flex justify-between mt-2 text-xs">
+                  <span class="start-0">0.00</span>
+                  <span class="start-1/4">0.25</span>
+                  <span class="start-1/2">0.50</span>
+                  <span class="start-3/4">0.75</span>
+                  <span class="end-0">1.00</span>
+                </div>
+            </div>
+
+            <div class="w-full max-w-xs">
+                <label for="cup-disc-ratio-tool-os" class="text-sm font-medium mb-1">OS Vertical</label>
+                <input name="os_cup_ratio_vertical" id="cup-disc-ratio-tool-os" type="range" min="0" max="1" value="0" class="range" step="0.05" />
+                <div class="flex justify-between px-2.5 mt-2 text-xs">
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                  <span>|</span>
+                </div>
+                <div class="flex justify-between mt-2 text-xs">
+                  <span class="start-0">0.00</span>
+                  <span class="start-1/4">0.25</span>
+                  <span class="start-1/2">0.50</span>
+                  <span class="start-3/4">0.75</span>
+                  <span class="end-0">1.00</span>
+                </div>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Optic Nerve Head Assessment</label>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium mb-1 w-32">Optic Nerve:</label>
+                <select name="optic_nerve" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.optic_nerve.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium mb-1 w-32">Nerve Fiber Layer:</label>
+                <select name="nerve_fiber" class="border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in occular_form.fields.nerve_fiber.choices %}
+                        <option value="{{ value }}"> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <hr class="my-4" />
+
+                <label class="text-md font-semibold text-left text-gray-700 mb-6">Optic Nerve Descriptors</label>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32"></label>
+                <label class="text-sm font-medium w-1/12 ms-1">OS</label>
+                <label class="text-sm font-medium">OD</label>
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Deep/lamina</label>
+                <div class="w-1/12">
+                    <input name="os_deep" id="deep-lamina-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_deep" id="deep-lamina-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Shallow</label>
+                <div class="w-1/12">
+                    <input name="os_shallow" id="shallow-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_shallow" id="shallow-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Round</label>
+                <div class="w-1/12">
+                    <input name="od_round" id="round-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="os_round" id="round-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Oval</label>
+                <div class="w-1/12">
+                    <input name="os_oval" id="oval-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_oval" id="oval-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Temp. sloping</label>
+                <div class="w-1/12">
+                    <input name="os_temp" id="temp-sloping-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_temp" id="temp-sloping-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Undermining</label>
+                <div class="w-1/12">
+                    <input name="os_under" id="undermining-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_under" id="undermining-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Peripap atrophy</label>
+                <div class="w-1/12">
+                    <input name="os_atrophy" id="peripap-atrophy-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_atrophy" id="peripap-atrophy-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Scleral cresent</label>
+                <div class="w-1/12">
+                    <input name="os_scleral" id="scleral-cresent-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_scleral" id="sclearal-cresent-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Pigment cresent</label>
+                <div class="w-1/12">
+                    <input name="os_pigment" id="pigment-cresent-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_pigment" id="pigment-cresent-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Optic Pit</label>
+                <div class="w-1/12">
+                    <input name="os_pit" id="optic-pit-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_pit" id="optic-pit-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Muyelination</label>
+                <div class="w-1/12">
+                    <input id="muyelination-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input id="muyelination-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <div class="flex items-center">
+                <label class="text-sm font-medium w-32">Glial remnants</label>
+                <div class="w-1/12">
+                    <input name="os_muyelination" id="glial-remnants-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+                </div>
+                <input name="od_muyelination" id="glial-remnants-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-1/6">Submit</button>
+        </div>
+    </div>
+</div>
+{% endblock  %}
