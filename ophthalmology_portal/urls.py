@@ -64,7 +64,6 @@ urlpatterns = [
         name="personal_exam_history",
     ),
     path("daily-exams/", view=views.DailyExamsView.as_view(), name="daily_exams"),
-<<<<<<< HEAD
     path("daily-exams/<int:patient>/", view=views.PatientInformationOtherView.as_view(), name="daily_patient"),
     path("daily-exams/exam/<int:exam_id>/", view=views.ExamDetailsView.as_view(), name="daily_exam_instance"),
     path(
@@ -103,13 +102,4 @@ urlpatterns = [
         "api/progress-exam/<int:exam_id>", views.ProgressExam.as_view(), name="progress_exam"
     )
 
-=======
-    path("exam-request/", view=views.PatientExamCreationView.as_view(), name="exam_request"),
-    path("personal-information/", view=views.PatientInformationView.as_view(), name="patient_information"),
-
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
->>>>>>> jc_registrationpages
 ]
