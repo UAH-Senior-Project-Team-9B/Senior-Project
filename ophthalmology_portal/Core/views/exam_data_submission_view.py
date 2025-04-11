@@ -87,6 +87,7 @@ class TestInformationCreationView(BaseView):
     def post(self, request: HttpRequest, exam_id, *args, **kwargs):
         if not self.doctor_verification(request.user):
             raise Http404
+        user = OphthalmologistUserModel.objects.get(user=request.user)
         try:
             exam = ExamModel.objects.get(id=exam_id, doctor=user)
         except:
@@ -155,6 +156,28 @@ class TestInformationCreationView(BaseView):
             prescription_temp.save()
             return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))
 
+        for field in aided_near.errors:
+            messages.error(request, aided_near.errors[field])
+        for field in unaided_near.errors:
+            messages.error(request, unaided_near.errors[field])
+        for field in pinhole_aided_near.errors:
+            messages.error(request, pinhole_aided_near.errors[field])
+        for field in pinhole_unaided_near.errors:
+            messages.error(request, pinhole_unaided_near.errors[field])
+        for field in aided_distance.errors:
+            messages.error(request, aided_distance.errors[field])
+        for field in unaided_distance.errors:
+            messages.error(request, unaided_distance.errors[field])
+        for field in pinhole_aided_distance.errors:
+            messages.error(request, pinhole_aided_distance.errors[field])
+        for field in pinhole_unaided_distance.errors:
+            messages.error(request, pinhole_unaided_distance.errors[field])
+        for field in form2.errors:
+            messages.error(request, form2.errors[field])
+        for field in form3.errors:
+            messages.error(request, form3.errors[field])
+
+        return redirect(reverse("exam_data_submission", kwargs={"exam_id": exam_id}))
 
 def _validate_accuity(request, parent, child):
 
