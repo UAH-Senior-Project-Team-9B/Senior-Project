@@ -194,6 +194,7 @@ class TestInformationCreationView(BaseView):
             prescription_temp.save()
             exam.occular_exam_information = form2.save()
             exam.prescription = prescription_temp
+            exam.completed = True
             exam.save()
             prescription_temp.os_visual_acuity_distance = (
                 exam.visual_accuity_aided_string_left_distance
