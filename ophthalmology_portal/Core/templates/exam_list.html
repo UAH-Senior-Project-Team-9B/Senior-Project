@@ -1,24 +1,29 @@
 {% extends base_template_name %}
-{% block content%}
-{% for exam in page_obj %}
-    {# Each "patient" is a patient model object. #}
-    <a href="{% url 'exam_details' exam.id  %}">{{ exam }}<br></a>
-{% endfor %}
+{% block content %}
+<div class="w-full space-y-2">
+    {% for exam in page_obj %}
+        <a href="{% url 'exam_details' exam.id %}"
+           class="block text-white text-xl font-bold bg-blue-600 hover:bg-blue-700 p-3 outline outline-2 outline-black text-center no-underline">
+            {{ exam }}
+        </a>
+    {% endfor %}
+</div>
 
-<div class="pagination">
-    <span class="step-links">
+<!-- Pagination -->
+<div class="pagination mt-8 text-center space-x-2">
+    <span class="step-links text-lg">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?page=1" class="text-blue-700 hover:underline">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-blue-700 hover:underline">previous</a>
         {% endif %}
 
-        <span class="current">
+        <span class="current font-semibold">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}" class="text-blue-700 hover:underline">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="text-blue-700 hover:underline">last &raquo;</a>
         {% endif %}
     </span>
 </div>
