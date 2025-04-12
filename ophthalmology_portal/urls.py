@@ -64,7 +64,7 @@ urlpatterns = [
     path("exam-confirmations/", view=views.ExamConfirmationsView.as_view(), name="exam_confirmations"),
     path("exam-confirmations/<int:id>/", view=views.ExamConfirmationView.as_view(), name="exam_confirmations"),
     path("logout/", view=views.LogOutView.as_view(), name="log_out"),
-    path("prescription-history/", view=views.PrescriptionListView.as_view(),name="prescription_history")
+    path("prescription-history/", view=views.PrescriptionListView.as_view(),name="prescription_history"),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
