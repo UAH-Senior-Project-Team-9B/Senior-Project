@@ -8,7 +8,6 @@ from ophthalmology_portal.Core.forms import (
     OccularExamCreationForm,
     OccularExamViewForm,
     VisualAccuitySubmissionForm,
-    VisualAccuityViewForm,
 )
 from ophthalmology_portal.Core.forms.exam_creation_form import ExamDoctorViewForm
 from ophthalmology_portal.Core.forms.prescription_creation_form import (
@@ -30,7 +29,10 @@ class TestInformationCreationView(BaseView):
             exam = ExamModel.objects.get(id=exam_id, doctor=user)
         except:
             raise Http404
-        if exam.status == ExamModel.status_choices["progressing"]:
+        if (
+            exam.status == ExamModel.status_choices["progressing"]
+            or exam.status == ExamModel.status_choices["postexam"]
+        ):
             prescription_form = PrescriptionCreationForm(instance=exam.prescription)
             occular_form = OccularExamCreationForm(
                 instance=exam.occular_exam_information
@@ -86,8 +88,32 @@ class TestInformationCreationView(BaseView):
         prescription_form = PrescriptionViewForm(
             instance=ExamModel.objects.get(id=exam_id).prescription
         )
-        visual_form = VisualAccuityViewForm(
-            instance=ExamModel.objects.get(id=exam_id).visual_accuity_information
+        aided_near = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_aided_near, prefix="aided_near"
+        )
+        unaided_near = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_unaided_near, prefix="unaided_near"
+        )
+        pinhole_aided_near = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_pinhole_aided_near, prefix="aided_ph_near"
+        )
+        pinhole_unaided_near = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_pinhole_unaided_near,
+            prefix="unaided_ph_near",
+        )
+        aided_distance = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_aided_distance, prefix="aided_distance"
+        )
+        unaided_distance = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_unaided_distance, prefix="unaided_distance"
+        )
+        pinhole_aided_distance = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_pinhole_aided_distance,
+            prefix="aided_ph_distance",
+        )
+        pinhole_unaided_distance = VisualAccuitySubmissionForm(
+            instance=exam.visual_accuity_pinhole_unaided_distance,
+            prefix="unaided_ph_distance",
         )
         occular_form = OccularExamViewForm(
             instance=ExamModel.objects.get(id=exam_id).occular_exam_information
@@ -99,7 +125,15 @@ class TestInformationCreationView(BaseView):
                 "form": form,
                 "base_template_name": self.get_base_template(request.user),
                 "prescription_form": prescription_form,
-                "visual_form": visual_form,
+                "exam_id": exam_id,
+                "aided_near": aided_near,
+                "unaided_near": unaided_near,
+                "aided_ph_near": pinhole_aided_near,
+                "unaided_ph_near": pinhole_unaided_near,
+                "aided_distance": aided_distance,
+                "unaided_distance": unaided_distance,
+                "aided_ph_distance": pinhole_aided_distance,
+                "unaided_ph_distance": pinhole_unaided_distance,
                 "occular_form": occular_form,
                 "upload": False,
             },
@@ -194,7 +228,7 @@ class TestInformationCreationView(BaseView):
             prescription_temp.save()
             exam.occular_exam_information = form2.save()
             exam.prescription = prescription_temp
-            exam.completed = True
+            exam.status = ExamModel.status_choices["postexam"]
             exam.save()
             prescription_temp.os_visual_acuity_distance = (
                 exam.visual_accuity_aided_string_left_distance

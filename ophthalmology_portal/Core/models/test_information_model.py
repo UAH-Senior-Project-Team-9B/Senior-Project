@@ -208,8 +208,8 @@ class OccularExamModel(models.Model):
     os_muyelination = models.BooleanField(verbose_name="OS Muyelination")
     os_remnants = models.BooleanField(verbose_name="OS Glial Remnants")
 
-    image_of_left_eye = models.ImageField(upload_to="database/left_eye/")
-    image_of_right_eye = models.ImageField(upload_to="database/right_eye/")
+    image_of_left_eye = models.ImageField(upload_to="left_eye/")
+    image_of_right_eye = models.ImageField(upload_to="right_eye/")
 
     class Meta:
         permissions = [

@@ -12,13 +12,12 @@ from ophthalmology_portal.Core.models.test_information_model import (
 
 
 class ExamModel(models.Model):
-    completed = models.BooleanField(default=False)
-
     status_choices = {
         "pending": "Pending",
         "upcoming": "Upcoming",
         "waiting": "In Wait Room",
         "progressing": "Exam In Progress",
+        "postexam": "Post Examination",
         "complete": "Completed",
     }
     status = models.CharField(

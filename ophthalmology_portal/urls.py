@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
@@ -64,8 +66,16 @@ urlpatterns = [
         name="personal_exam_history",
     ),
     path("daily-exams/", view=views.DailyExamsView.as_view(), name="daily_exams"),
-    path("daily-exams/<int:patient>/", view=views.PatientInformationOtherView.as_view(), name="daily_patient"),
-    path("daily-exams/exam/<int:exam_id>/", view=views.ExamDetailsView.as_view(), name="daily_exam_instance"),
+    path(
+        "daily-exams/<int:patient>/",
+        view=views.PatientInformationOtherView.as_view(),
+        name="daily_patient",
+    ),
+    path(
+        "daily-exams/exam/<int:exam_id>/",
+        view=views.ExamDetailsView.as_view(),
+        name="daily_exam_instance",
+    ),
     path(
         "exam-request/",
         view=views.PatientExamCreationView.as_view(),
@@ -93,13 +103,24 @@ urlpatterns = [
         name="prescription_history",
     ),
     path(
-        "prescription_pdf/<int:exam_id>", views.PrescriptionPDF.as_view(), name="prescription_download"
+        "prescription_pdf/<int:exam_id>",
+        views.PrescriptionPDF.as_view(),
+        name="prescription_download",
+    ),
+    path(
+        "prescription_print/<int:exam_id>/",
+        views.PrescriptionPrintPDF.as_view(),
+        name="prescription_printer",
     ),
     path(
         "api/remove_exam/<int:exam_id>", views.CancelExam.as_view(), name="cancel_exam"
     ),
     path(
-        "api/progress-exam/<int:exam_id>", views.ProgressExam.as_view(), name="progress_exam"
-    )
-
+        "api/progress-exam/<int:exam_id>",
+        views.ProgressExam.as_view(),
+        name="progress_exam",
+    ),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
