@@ -19,9 +19,13 @@ class DailyExamsView(BaseView):
             raise Http404
         if self.manager_verification(request.user):
             exams = ExamModel.objects.filter(
-                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()) & (Q(status=ExamModel.status_choices['upcoming'])
-                | Q(status=ExamModel.status_choices['waiting'])
-                | Q(status=ExamModel.status_choices['progressing']))
+                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date())
+                & (
+                    Q(status=ExamModel.status_choices["upcoming"])
+                    | Q(status=ExamModel.status_choices["waiting"])
+                    | Q(status=ExamModel.status_choices["progressing"])
+                    | Q(status=ExamModel.status_choices["postexam"])
+                )
             )
             paginator = Paginator(exams, 10)
             page_number = request.GET.get("page")
@@ -34,14 +38,17 @@ class DailyExamsView(BaseView):
                     "base_template_name": self.get_base_template(request.user),
                 },
             )
-        elif self.doctor_verification(
-                request.user
-            ):
+        elif self.doctor_verification(request.user):
             user = OphthalmologistUserModel.objects.get(user=request.user)
             exams = ExamModel.objects.filter(
-                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()) & (Q(status=ExamModel.status_choices['upcoming'])
-                | Q(status=ExamModel.status_choices['progressing'])
-                | Q(status=ExamModel.status_choices['waiting'])))
+                Q(date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date())
+                & (
+                    Q(status=ExamModel.status_choices["upcoming"])
+                    | Q(status=ExamModel.status_choices["progressing"])
+                    | Q(status=ExamModel.status_choices["waiting"])
+                    | Q(status=ExamModel.status_choices["postexam"])
+                )
+            )
             exams = exams.filter(doctor=user)
             paginator = Paginator(exams, 10)
             page_number = request.GET.get("page")
