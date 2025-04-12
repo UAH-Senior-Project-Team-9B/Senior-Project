@@ -1,921 +1,917 @@
 <!DOCTYPE html>
 {% extends base_template_name %}
 {% block content%}
-<div class="flex items-center justify-center min-h-screen bg-blue-100">
-    <div class="bg-white border border-gray-300 rounded-lg shadow-lg p-8 w-3/5">
 
-        <h1 class="texxt-3xl font-bold text-gray-700 text-center mb-2">Exam Data Submission</h1>
+<h1 class="texxt-3xl font-bold text-gray-700 text-center mb-2">Exam Data Submission</h1>
+<hr class="my-4" />
+
+<form method="post" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+
+    <label class="text-md font-semibold text-left text-gray-700 mb-6">Visual Acuity</label>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Distance Aided OS</label>
+        <select name="{{ aided_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_distance.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if aided_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ aided_ph_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_ph_distance.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if aided_ph_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Distance Aided OD</label>
+        <select name="{{ aided_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_distance.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if aided_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ aided_ph_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_ph_distance.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if aided_ph_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Distance Aided OU</label>
+        <select name="{{ aided_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_distance.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if aided_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ aided_ph_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_ph_distance.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if aided_ph_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Distance Unaided OS</label>
+        <select name="{{ unaided_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_distance.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if unaided_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ unaided_ph_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Distance Unaided OD</label>
+        <select name="{{ unaided_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_distance.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if unaided_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ unaided_ph_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Distance Unaided OU</label>
+        <select name="{{ unaided_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_distance.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if unaided_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ unaided_ph_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Near Aided OS</label>
+        <select name="{{ aided_near.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_near.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if aided_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ aided_ph_near.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_ph_near.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if aided_ph_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Near Aided OD</label>
+        <select name="{{ aided_near.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_near.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if aided_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ aided_ph_near.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_ph_near.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if aided_ph_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Near Aided OU</label>
+        <select name="{{ aided_near.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_near.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if aided_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ aided_ph_near.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in aided_ph_near.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if aided_ph_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Near Unaided OS</label>
+        <select name="{{ unaided_near.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_near.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if unaided_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ unaided_ph_near.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_ph_near.fields.visual_acuity_measure_left.choices %}
+                <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Near Unaided OD</label>
+        <select name="{{ unaided_near.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_near.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if unaided_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ unaided_ph_near.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_ph_near.fields.visual_acuity_measure_right.choices %}
+                <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Near Unaided OU</label>
+        <select name="{{ unaided_near.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_near.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if unaided_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+        <label class="text-sm font-medium">PH</label>
+        <select name="{{ unaided_ph_near.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in unaided_ph_near.fields.visual_acuity_measure_both.choices %}
+                <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
         <hr class="my-4" />
 
-        <form method="post" enctype="multipart/form-data" class="space-y-4">
-            {% csrf_token %}
-
-            <label class="text-md font-semibold text-left text-gray-700 mb-6">Visual Acuity</label>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Distance Aided OS</label>
-                <select name="{{ aided_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_distance.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if aided_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ aided_ph_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_ph_distance.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if aided_ph_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Distance Aided OD</label>
-                <select name="{{ aided_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_distance.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if aided_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ aided_ph_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_ph_distance.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if aided_ph_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Distance Aided OU</label>
-                <select name="{{ aided_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_distance.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if aided_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ aided_ph_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_ph_distance.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if aided_ph_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Distance Unaided OS</label>
-                <select name="{{ unaided_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_distance.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if unaided_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ unaided_ph_distance.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Distance Unaided OD</label>
-                <select name="{{ unaided_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_distance.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if unaided_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ unaided_ph_distance.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Distance Unaided OU</label>
-                <select name="{{ unaided_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_distance.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if unaided_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ unaided_ph_distance.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_ph_distance.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Near Aided OS</label>
-                <select name="{{ aided_near.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_near.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if aided_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ aided_ph_near.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_ph_near.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if aided_ph_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Near Aided OD</label>
-                <select name="{{ aided_near.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_near.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if aided_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ aided_ph_near.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_ph_near.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if aided_ph_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Near Aided OU</label>
-                <select name="{{ aided_near.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_near.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if aided_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ aided_ph_near.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in aided_ph_near.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if aided_ph_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Near Unaided OS</label>
-                <select name="{{ unaided_near.visual_acuity_measure_left.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_near.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if unaided_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ unaided_ph_near.visual_acuity_measure_left.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_ph_near.fields.visual_acuity_measure_left.choices %}
-                        <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Near Unaided OD</label>
-                <select name="{{ unaided_near.visual_acuity_measure_right.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_near.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if unaided_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ unaided_ph_near.visual_acuity_measure_right.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_ph_near.fields.visual_acuity_measure_right.choices %}
-                        <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Near Unaided OU</label>
-                <select name="{{ unaided_near.visual_acuity_measure_both.html_name }}" class="w-1/12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_near.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if unaided_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-                <label class="text-sm font-medium">PH</label>
-                <select name="{{ unaided_ph_near.visual_acuity_measure_both.html_name }}" class="w-1/12 ms-2 border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in unaided_ph_near.fields.visual_acuity_measure_both.choices %}
-                        <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <hr class="my-4" />
-
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Corrective Lens Prescription</label>
-            </div>
-
-            <div>
-                <label class="text-sm font-semibold text-left text-gray-700">Left Eye</label>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Sphere</label>
-                <input name="os_sphere" type="number" value="{{ prescription_form.os_sphere.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Cylinder</label>
-                <input name="os_cylinder" type="number" value="{{ prescription_form.os_cylinder.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Axis</label>
-                <input name="os_axis" type="number" value="{{ prescription_form.os_axis.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Add</label>
-                <input name="os_add" type="number" value="{{ prescription_form.os_add.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Prism</label>
-                <input name="os_prism" type="number" value="{{ prescription_form.os_prism.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Prism Base</label>
-                <input name="os_prism_base" type="number" value="{{ prescription_form.os_prism_base.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div>
-                <label class="text-sm font-semibold text-left text-gray-700">Right Eye</label>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Sphere</label>
-                <input name="od_sphere" type="number" value="{{ prescription_form.od_sphere.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Cylinder</label>
-                <input name="od_cylinder" type="number" value="{{ prescription_form.od_cylinder.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Axis</label>
-                <input name="od_axis" type="number" value="{{ prescription_form.od_axis.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Add</label>
-                <input name="od_add" type="number" value="{{ prescription_form.od_add.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Prism</label>
-                <input name="od_prism" type="number" value="{{ prescription_form.od_prism.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Prism Base</label>
-                <input name="od_prism_base" type="number" value="{{ prescription_form.od_prism_base.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div>
-                <hr class="my-4" />
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Occular Examination Findings</label>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Vitreous:</label>
-                <select name="vitreous_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.vitreous_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.vitreous_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "vitreous_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Macula:</label>
-                <select name="macula_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.macula_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.macula_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "macula_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Vasculature:</label>
-                <select name="vasculature_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.vasculature_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.vasculature_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "vasculature_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Posterior Pole:</label>
-                <select name="posterior_pole_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.posterior_pole_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.posterior_pole_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "posterior_pole_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Peripheral Retina:</label>
-                <select name="peripheral_retina_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.peripheral_retina_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.peripheral_retina_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "peripheral_retina_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-cent">
-                <label class="text-sm font-medium w-32">Misc Retina:</label>
-                <select name="misc_retina_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.misc_retina_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.misc_retina_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "misc_retina_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Diabeti Eval:</label>
-                <select name="diabeti_eval_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.diabeti_eval_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.diabeti_eval_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "diabeti_eval_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">HTN Eval:</label>
-                <select name="htn_eval_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.htn_eval_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.htn_eval_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "htn_eval_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">ARMD:</label>
-                <select name="armd_segment" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.armd_segment.choices %}
-                        <option value="{{ value }}" {% if occular_form.armd_segment.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "armd_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div>
-                <hr class="my-4" />
-
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Ophthalmic Indicators</label>
-            </div>
-
-            <div>
-                <label class="text-sm font-semibold text-left text-gray-700">Sponeaneous Venous Pulsation</label>
-            </div>
-            <div class="flex">
-                <div class="w-12">
-                    <label class="text-sm font-medium">OD:</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="right_venous_pulsation" checked id="svp-radio-plus-od" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="svp-radio-plus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="right_venous_pulsation" {% if occular_form.right_venous_pulsation.value == '-' %} checked {% endif %} id="svp-radio-minus-od" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="svp-radio-minus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="right_venous_pulsation" {% if occular_form.right_venous_pulsation.value == 'X' %} checked {% endif %} id="svp-radio-x-od" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="svp-radio-x-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
-                </div>
-            </div>
-            <div class="flex">
-                <div class="w-12">
-                    <label class="text-sm font-medium">OS:</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="left_venous_pulsation" checked id="svp-radio-plus-os" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="svp-radio-plus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="left_venous_pulsation" {% if occular_form.left_venous_pulsation.value == '-' %} checked {% endif %} id="svp-radio-minus-os" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="svp-radio-minus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="left_venous_pulsation" {% if occular_form.left_venous_pulsation.value == 'X' %} checked {% endif %} id="svp-radio-x-os" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="svp-radio-x-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
-                </div>
-            </div>
-
-            <div>
-                <label class="text-sm font-semibold text-left text-gray-700">Foveal Reflex</label>
-            </div>
-            <div class="flex">
-                <div class="w-12">
-                    <label class="text-sm font-medium">OD:</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="right_foveal_reflex" checked id="fv-radio-plus-od" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="fv-radio-plus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="right_foveal_reflex" {% if occular_form.right_foveal_reflex.value == '-' %} checked {% endif %} id="fv-radio-minus-od" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="fv-radio-minus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="right_foveal_reflex" {% if occular_form.right_foveal_reflex.value == 'X' %} checked {% endif %} id="fv-radio-x-od" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="fv-radio-x-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
-                </div>
-            </div>
-            <div class="flex">
-                <div class="w-12">
-                    <label class="text-sm font-medium">OS:</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="left_foveal_reflex" checked id="fv-radio-plus-os" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="fv-radio-plus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="left_foveal_reflex" {% if occular_form.left_foveal_reflex.value == '-' %} checked {% endif %} id="fv-radio-minus-os" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="fv-radio-minus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="left_foveal_reflex" {% if occular_form.left_foveal_reflex.value == 'X' %} checked {% endif %} id="fv-radio-x-os" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="fv-radio-x-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
-                </div>
-            </div>
-
-            <div>
-                <hr class="my-4" />
-
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Fundus Evaluation Method</label>
-            </div>
-
-            <div class="flex items-center mb-4">
-                <input name="fundus_record" checked id="fem-radio-np" type="radio" value="Not Performed" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="fem-radio-np" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Not Performed</label>
-            </div>
-            <div class="flex items-center mb-4">
-                <input name="fundus_record" {% if occular_form.fundus_record.value == 'Small Pupil BIO' %} checked {% endif %} id="fem-radio-spb" type="radio" value="Small Pupil BIO" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="fem-radio-spb" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Small Pupil BIO</label>
-            </div>
-            <div class="flex items-center mb-4">
-                <input name="fundus_record" {% if occular_form.fundus_record.value == 'Dilated Eval' %} checked {% endif %} id="fem-radio-de" type="radio" value="Dilated Eval" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="fem-radio-de" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Dilated Eval</label>
-            </div>
-                <div class="flex items-center mb-4">
-                <input name="fundus_record" {% if occular_form.fundus_record.value == 'Undilated Eval' %} checked {% endif %} id="fem-radio-ue" type="radio" value="Undilated Eval" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="fem-radio-ue" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Undilated Eval</label>
-            </div>
-            <div class="flex items-center mb-4">
-                <input name="fundus_record" {% if occular_form.fundus_record.value == 'Optomap Imaging' %} checked {% endif %} id="fem-radio-oi" type="radio" value="Optomap Imaging" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="fem-radio-oi" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Optomap Imaging</label>
-               </div>
-            <div class="flex items-center">
-                <input name="fundus_record" {% if occular_form.fundus_record.value == 'DFE with Optomap' %} checked {% endif %} id="fem-radio-dfeoi" type="radio" value="DFE with Optomap" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <label for="fem-radio-dfeoi" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">DFE with Optomap</label>
-            </div>
-
-            <div>
-                <hr class="my-4" />
-
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Dilation</label>
-            </div>
-
-            <div class="flex">
-                <div class="w-24">
-                    <label class="text-sm font-medium mb-1">Dilated With:</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="dilated_with_drops" checked id="dilation-radio-1" type="radio" value=1 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="dilation-radio-1" class="ms-  text-sm font-medium text-gray-900 dark:text-gray-300">1 gtt</label>
-                </div>
-                <div class="flex items-center w-1/12">
-                    <input name="dilated_with_drops" {% if occular_form.dilated_with_drops.value == '2' %} checked {% endif %} id="dilation-radio-2" type="radio" value=2 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="dilation-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">2 gtt</label>
-                </div>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">Dilation Drug:</label>
-                <select name="dilated_with_drug" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.dilated_with_drug.choices %}
-                        <option value="{{ value }}" {% if occular_form.dilated_with_drug.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "dilated_with_drug" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div>
-                <hr class="my-4" />
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Evaluation</label>
-            </div>
-
-            <input type="hidden" name="d78_lens" value=False>
-
-            <div class="flex items-center">
-                <input name="d78_lens" {% if occular_form.d78_lens.value %} checked {% endif %} id="78d-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="78d-lens-checkbox" class="text-sm font-medium">78D lens</label>
-            </div>
-
-            <input type="hidden" name="d90_lens" value=False>
-
-            <div class="flex items-center">
-                <input name="d90_lens" {% if occular_form.d90_lens.value %} checked {% endif %} id="90d-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="90d-lens-checkbox" class="text-sm font-medium">90D lens</label>
-            </div>
-
-            <input type="hidden" name="d20_lens" value=False>
-
-            <div class="flex items-center">
-                <input name="d20_lens" {% if occular_form.d20_lens.value %} checked {% endif %} id="20d-bio-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="20d-bio-lens-checkbox" class="text-sm font-medium">20D BIO lens</label>
-            </div>
-
-            <input type="hidden" name="PR22_lens" value=False>
-
-            <div class="flex items-center">
-                <input name="PR22_lens" {% if occular_form.PR22_lens.value %} checked {% endif %} id="pr-22-bio-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="pr-22-bio-lens-checkbox" class="text-sm font-medium">PR 2.2 BIO lens</label>
-            </div>
-
-            <input type="hidden" name="scleral_depression" value=False>
-
-            <div class="flex items-center">
-                <input name="scleral_depression" {% if occular_form.scleral_depression.value %} checked {% endif %} id="scleral-depression-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="scleral-depression-checkbox" class="text-sm font-medium">Scleral depression</label>
-            </div>
-
-            <input type="hidden" name="ophthalmoscope" value=False>
-
-            <div class="flex items-center">
-                <input name="ophthalmoscope" {% if occular_form.ophthalmoscope.value %} checked {% endif %} id="opthalmoscope-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="opthalmoscope-checkbox" class="text-sm font-medium">Opthalmoscope</label>
-            </div>
-
-            <input type="hidden" name="other" value=False>
-
-            <div class="flex items-center">
-                <input name="other" {% if occular_form.other.value %} checked {% endif %} id="other_checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="other_checkbox" class="text-sm font-medium">Other</label>
-            </div>
-
-            <textarea name="other_information"rows="4" autocomplete="off" class="border-2 w-1/2 resize-y min-h-20 max-h-80" placeholder="Additional notes">{{ occular_form.other_information.value|default_if_none:'' }}</textarea>
-
-            <div>
-                <hr class="my-4" />
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Notes</label>
-            </div>
-
-            <input type="hidden" name="advised" value=False>
-
-            <div class="flex">
-                <input name="advised" {% if occular_form.advised.value %} checked {% endif %} id="patient-advised-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="patient-advised-checkbox" class="text-sm font-medium mb-1">Patient advised of effects of DFE</label>
-            </div>
-
-            <input type="hidden" name="rescheduled" value=False>
-
-            <div class="flex">
-                <input name="rescheduled" {% if occular_form.rescheduled.value %} checked {% endif %} id="dfe-rescheduled-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="dfe-rescheduled-checkbox" class="text-sm font-medium mb-1">DFE rescheduled</label>
-            </div>
-
-            <input type="hidden" name="declined" value=False>
-
-            <div class="flex">
-                <input name="declined" {% if occular_form.declined.value %} checked {% endif %} id="dfe-declined-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="dfe-declined-checkbox" class="text-sm font-medium mb-1">DFE declined</label>
-            </div>
-
-            <input type="hidden" name="imaging" value=False>
-
-            <div class="flex">
-                <input name="imaging" {% if occular_form.imaging.value %} checked {% endif %} id="fundus-imaging-performed-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="fundus-imaging-performed-checkbox" class="text-sm font-medium mb-1">Fundus imaging performed</label>
-            </div>
-
-            <input type="hidden" name="refused" value=False>
-
-            <div class="flex">
-                <input name="refused" {% if occular_form.refused.value %} checked {% endif %} id="dfe-refused-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="dfe-refused-checkbox" class="text-sm font-medium mb-1">DFE refused AME</label>
-            </div>
-
-            <input type="hidden" name="not_indicated" value=False>
-
-            <div class="flex">
-                <input name="not_indicated" {% if occular_form.not_indicated.value %} checked {% endif %} id="dfe-not-indicated-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="dfe-not-indicated-checkbox" class="text-sm font-medium mb-1">DFE not indicated</label>
-            </div>
-
-            <input type="hidden" name="contraindicated" value=False>
-
-            <div class="flex">
-                <input name="contraindicated" {% if occular_form.contraindicated.value %} checked {% endif %} id="dfe-contraindicated" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="dfe-contraindicated" class="text-sm font-medium mb-1">DFE contraindicated</label>
-            </div>
-
-            <input type="hidden" name="recent" value=False>
-
-            <div class="flex">
-                <input name="recent" {% if occular_form.recent.value %} checked {% endif %} id="recent-dfe-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                <label for="recent-dfe-checkbox" class="text-sm font-medium mb-1">Recent DFE</label>
-            </div>
-
-            <div>
-                <hr class="my-4" />
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Cup/Disc Ratio Tool Settings</label>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">OS Horizontal</label>
-                <input name="os_cup_ratio_horizontal" type="number" value="{{ occular_form.os_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">OS Vertical</label>
-                <input name="os_cup_ratio_vertical" type="number" value="{{ occular_form.os_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">OD Horizontal</label>
-                <input name="od_cup_ratio_horizontal" type="number" value="{{ occular_form.od_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-24">OD Vertical</label>
-                <input name="od_cup_ratio_vertical" type="number" value="{{ occular_form.od_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-            </div>
-
-            <div>
-                <hr class="my-4" />
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Optic Nerve Head Assessment</label>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium mb-1 w-32">Optic Nerve:</label>
-                <select name="optic_nerve" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.optic_nerve.choices %}
-                        <option value="{{ value }}" {% if occular_form.optic_nerve.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "optic_nerve" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium mb-1 w-32">Nerve Fiber Layer:</label>
-                <select name="nerve_fiber" class="border-2 border-gray-300 rounded-md py-0">
-                    {% for value, label in occular_form.fields.nerve_fiber.choices %}
-                        <option value="{{ value }}" {% if occular_form.nerve_fiber.value == value %} selected {% endif %}> {{ label }} </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "nerve_fiber" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div>
-                <hr class="my-4" />
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Optic Nerve Descriptors</label>
-            </div>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32"></label>
-                <label class="text-sm font-medium w-1/12 ms-1">OS</label>
-                <label class="text-sm font-medium">OD</label>
-            </div>
-
-            <input type="hidden" name="os_deep" value=False>
-            <input type="hidden" name="od_deep" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Deep/lamina</label>
-                <div class="w-1/12">
-                    <input name="os_deep" {% if occular_form.os_deep.value %} checked {% endif %} id="deep-lamina-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_deep" {% if occular_form.od_deep.value %} checked {% endif %} id="deep-lamina-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_shallow" value=False>
-            <input type="hidden" name="od_shallow" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Shallow</label>
-                <div class="w-1/12">
-                    <input name="os_shallow" {% if occular_form.os_shallow.value %} checked {% endif %} id="shallow-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_shallow" {% if occular_form.od_shallow.value %} checked {% endif %} id="shallow-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_round" value=False>
-            <input type="hidden" name="od_round" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Round</label>
-                <div class="w-1/12">
-                    <input name="os_round" {% if occular_form.os_round.value %} checked {% endif %} id="round-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_round" {% if occular_form.od_round.value %} checked {% endif %} id="round-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_oval" value=False>
-            <input type="hidden" name="od_oval" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Oval</label>
-                <div class="w-1/12">
-                    <input name="os_oval" {% if occular_form.os_oval.value %} checked {% endif %} id="oval-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_oval" {% if occular_form.od_oval.value %} checked {% endif %} id="oval-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_temp" value=False>
-            <input type="hidden" name="od_temp" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Temp. sloping</label>
-                <div class="w-1/12">
-                    <input name="os_temp" {% if occular_form.os_temp.value %} checked {% endif %} id="temp-sloping-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_temp" {% if occular_form.od_temp.value %} checked {% endif %} id="temp-sloping-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_under" value=False>
-            <input type="hidden" name="od_under" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Undermining</label>
-                <div class="w-1/12">
-                    <input name="os_under" {% if occular_form.os_under.value %} checked {% endif %} id="undermining-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_under" {% if occular_form.od_under.value %} checked {% endif %} id="undermining-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_atrophy" value=False>
-            <input type="hidden" name="od_atrophy" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Peripap atrophy</label>
-                <div class="w-1/12">
-                    <input name="os_atrophy" {% if occular_form.os_atrophy.value %} checked {% endif %} id="peripap-atrophy-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_atrophy" {% if occular_form.od_atrophy.value %} checked {% endif %} id="peripap-atrophy-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_scleral" value=False>
-            <input type="hidden" name="od_scleral" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Scleral cresent</label>
-                <div class="w-1/12">
-                    <input name="os_scleral" {% if occular_form.os_scleral.value %} checked {% endif %} id="scleral-cresent-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_scleral" {% if occular_form.od_scleral.value %} checked {% endif %} id="sclearal-cresent-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_pigment" value=False>
-            <input type="hidden" name="od_pigment" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Pigment cresent</label>
-                <div class="w-1/12">
-                    <input name="os_pigment" {% if occular_form.os_pigment.value %} checked {% endif %} id="pigment-cresent-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_pigment" {% if occular_form.od_pigment.value %} checked {% endif %} id="pigment-cresent-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_pit" value=False>
-            <input type="hidden" name="od_pit" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Optic Pit</label>
-                <div class="w-1/12">
-                    <input name="os_pit" {% if occular_form.os_pit.value %} checked {% endif %} id="optic-pit-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_pit" {% if occular_form.od_pit.value %} checked {% endif %} id="optic-pit-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_muyelination" value=False>
-            <input type="hidden" name="od_muyelination" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Muyelination</label>
-                <div class="w-1/12">
-                    <input name="os_muyelination" id="os_muyelination" {% if occular_form.os_muyelination.value %} checked {% endif %} type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_muyelination" id="od_muyelination" {% if occular_form.od_muyelination.value %} checked {% endif %} type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <input type="hidden" name="os_remnants" value=False>
-            <input type="hidden" name="od_remnants" value=False>
-
-            <div class="flex items-center">
-                <label class="text-sm font-medium w-32">Glial remnants</label>
-                <div class="w-1/12">
-                    <input name="os_remnants" {% if occular_form.os_remnants.value %} checked {% endif %} id="glial-remnants-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-                </div>
-                <input name="od_remnants" {% if occular_form.od_remnants.value %} checked {% endif %} id="glial-remnants-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
-            </div>
-
-            <div>
-                <hr class="my-4" />
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Images</label>
-            </div>
-
-            <div>
-                <label class="text-sm font-medium w-32">Left Eye Image</label>
-                <input name="image_of_left_eye" type="file" accept="image/*"/>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "image_of_left_eye" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div>
-                <label class="text-sm font-medium w-32">Right Eye Image</label>
-                <input name="image_of_right_eye" type="file" accept="image/*"/>
-            </div>
-            <div>
-                {% if messages %}
-                    {% for message in messages %}
-                        {% if "image_of_right_eye" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <button type="submit" class="btn btn-sm">Submit</button>
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Corrective Lens Prescription</label>
+    </div>
+
+    <div>
+        <label class="text-sm font-semibold text-left text-gray-700">Left Eye</label>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Sphere</label>
+        <input name="os_sphere" type="number" value="{{ prescription_form.os_sphere.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Cylinder</label>
+        <input name="os_cylinder" type="number" value="{{ prescription_form.os_cylinder.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Axis</label>
+        <input name="os_axis" type="number" value="{{ prescription_form.os_axis.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Add</label>
+        <input name="os_add" type="number" value="{{ prescription_form.os_add.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Prism</label>
+        <input name="os_prism" type="number" value="{{ prescription_form.os_prism.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Prism Base</label>
+        <input name="os_prism_base" type="number" value="{{ prescription_form.os_prism_base.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div>
+        <label class="text-sm font-semibold text-left text-gray-700">Right Eye</label>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Sphere</label>
+        <input name="od_sphere" type="number" value="{{ prescription_form.od_sphere.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Cylinder</label>
+        <input name="od_cylinder" type="number" value="{{ prescription_form.od_cylinder.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Axis</label>
+        <input name="od_axis" type="number" value="{{ prescription_form.od_axis.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Add</label>
+        <input name="od_add" type="number" value="{{ prescription_form.od_add.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Prism</label>
+        <input name="od_prism" type="number" value="{{ prescription_form.od_prism.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Prism Base</label>
+        <input name="od_prism_base" type="number" value="{{ prescription_form.od_prism_base.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div>
+        <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Occular Examination Findings</label>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Vitreous:</label>
+        <select name="vitreous_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.vitreous_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.vitreous_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "vitreous_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Macula:</label>
+        <select name="macula_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.macula_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.macula_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "macula_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Vasculature:</label>
+        <select name="vasculature_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.vasculature_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.vasculature_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "vasculature_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Posterior Pole:</label>
+        <select name="posterior_pole_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.posterior_pole_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.posterior_pole_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "posterior_pole_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Peripheral Retina:</label>
+        <select name="peripheral_retina_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.peripheral_retina_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.peripheral_retina_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "peripheral_retina_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-cent">
+        <label class="text-sm font-medium w-32">Misc Retina:</label>
+        <select name="misc_retina_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.misc_retina_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.misc_retina_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "misc_retina_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Diabeti Eval:</label>
+        <select name="diabeti_eval_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.diabeti_eval_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.diabeti_eval_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "diabeti_eval_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">HTN Eval:</label>
+        <select name="htn_eval_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.htn_eval_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.htn_eval_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "htn_eval_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">ARMD:</label>
+        <select name="armd_segment" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.armd_segment.choices %}
+                <option value="{{ value }}" {% if occular_form.armd_segment.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "armd_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        <hr class="my-4" />
+
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Ophthalmic Indicators</label>
+    </div>
+
+    <div>
+        <label class="text-sm font-semibold text-left text-gray-700">Sponeaneous Venous Pulsation</label>
+    </div>
+    <div class="flex">
+        <div class="w-12">
+            <label class="text-sm font-medium">OD:</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="right_venous_pulsation" checked id="svp-radio-plus-od" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="svp-radio-plus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="right_venous_pulsation" {% if occular_form.right_venous_pulsation.value == '-' %} checked {% endif %} id="svp-radio-minus-od" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="svp-radio-minus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="right_venous_pulsation" {% if occular_form.right_venous_pulsation.value == 'X' %} checked {% endif %} id="svp-radio-x-od" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="svp-radio-x-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
         </div>
     </div>
+    <div class="flex">
+        <div class="w-12">
+            <label class="text-sm font-medium">OS:</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="left_venous_pulsation" checked id="svp-radio-plus-os" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="svp-radio-plus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="left_venous_pulsation" {% if occular_form.left_venous_pulsation.value == '-' %} checked {% endif %} id="svp-radio-minus-os" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="svp-radio-minus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="left_venous_pulsation" {% if occular_form.left_venous_pulsation.value == 'X' %} checked {% endif %} id="svp-radio-x-os" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="svp-radio-x-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
+        </div>
+    </div>
+
+    <div>
+        <label class="text-sm font-semibold text-left text-gray-700">Foveal Reflex</label>
+    </div>
+    <div class="flex">
+        <div class="w-12">
+            <label class="text-sm font-medium">OD:</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="right_foveal_reflex" checked id="fv-radio-plus-od" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="fv-radio-plus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="right_foveal_reflex" {% if occular_form.right_foveal_reflex.value == '-' %} checked {% endif %} id="fv-radio-minus-od" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="fv-radio-minus-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="right_foveal_reflex" {% if occular_form.right_foveal_reflex.value == 'X' %} checked {% endif %} id="fv-radio-x-od" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="fv-radio-x-od" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
+        </div>
+    </div>
+    <div class="flex">
+        <div class="w-12">
+            <label class="text-sm font-medium">OS:</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="left_foveal_reflex" checked id="fv-radio-plus-os" type="radio" value="+" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="fv-radio-plus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">+</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="left_foveal_reflex" {% if occular_form.left_foveal_reflex.value == '-' %} checked {% endif %} id="fv-radio-minus-os" type="radio" value="-" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="fv-radio-minus-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">-</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="left_foveal_reflex" {% if occular_form.left_foveal_reflex.value == 'X' %} checked {% endif %} id="fv-radio-x-os" type="radio" value="X" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="fv-radio-x-os" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">X</label>
+        </div>
+    </div>
+
+    <div>
+        <hr class="my-4" />
+
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Fundus Evaluation Method</label>
+    </div>
+
+    <div class="flex items-center mb-4">
+        <input name="fundus_record" checked id="fem-radio-np" type="radio" value="Not Performed" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="fem-radio-np" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Not Performed</label>
+    </div>
+    <div class="flex items-center mb-4">
+        <input name="fundus_record" {% if occular_form.fundus_record.value == 'Small Pupil BIO' %} checked {% endif %} id="fem-radio-spb" type="radio" value="Small Pupil BIO" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="fem-radio-spb" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Small Pupil BIO</label>
+    </div>
+    <div class="flex items-center mb-4">
+        <input name="fundus_record" {% if occular_form.fundus_record.value == 'Dilated Eval' %} checked {% endif %} id="fem-radio-de" type="radio" value="Dilated Eval" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="fem-radio-de" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Dilated Eval</label>
+    </div>
+        <div class="flex items-center mb-4">
+        <input name="fundus_record" {% if occular_form.fundus_record.value == 'Undilated Eval' %} checked {% endif %} id="fem-radio-ue" type="radio" value="Undilated Eval" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="fem-radio-ue" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Undilated Eval</label>
+    </div>
+    <div class="flex items-center mb-4">
+        <input name="fundus_record" {% if occular_form.fundus_record.value == 'Optomap Imaging' %} checked {% endif %} id="fem-radio-oi" type="radio" value="Optomap Imaging" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="fem-radio-oi" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Optomap Imaging</label>
+        </div>
+    <div class="flex items-center">
+        <input name="fundus_record" {% if occular_form.fundus_record.value == 'DFE with Optomap' %} checked {% endif %} id="fem-radio-dfeoi" type="radio" value="DFE with Optomap" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="fem-radio-dfeoi" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">DFE with Optomap</label>
+    </div>
+
+    <div>
+        <hr class="my-4" />
+
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Dilation</label>
+    </div>
+
+    <div class="flex">
+        <div class="w-24">
+            <label class="text-sm font-medium mb-1">Dilated With:</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="dilated_with_drops" checked id="dilation-radio-1" type="radio" value=1 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="dilation-radio-1" class="ms-  text-sm font-medium text-gray-900 dark:text-gray-300">1 gtt</label>
+        </div>
+        <div class="flex items-center w-1/12">
+            <input name="dilated_with_drops" {% if occular_form.dilated_with_drops.value == '2' %} checked {% endif %} id="dilation-radio-2" type="radio" value=2 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <label for="dilation-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">2 gtt</label>
+        </div>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">Dilation Drug:</label>
+        <select name="dilated_with_drug" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.dilated_with_drug.choices %}
+                <option value="{{ value }}" {% if occular_form.dilated_with_drug.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "dilated_with_drug" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Evaluation</label>
+    </div>
+
+    <input type="hidden" name="d78_lens" value=False>
+
+    <div class="flex items-center">
+        <input name="d78_lens" {% if occular_form.d78_lens.value %} checked {% endif %} id="78d-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="78d-lens-checkbox" class="text-sm font-medium">78D lens</label>
+    </div>
+
+    <input type="hidden" name="d90_lens" value=False>
+
+    <div class="flex items-center">
+        <input name="d90_lens" {% if occular_form.d90_lens.value %} checked {% endif %} id="90d-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="90d-lens-checkbox" class="text-sm font-medium">90D lens</label>
+    </div>
+
+    <input type="hidden" name="d20_lens" value=False>
+
+    <div class="flex items-center">
+        <input name="d20_lens" {% if occular_form.d20_lens.value %} checked {% endif %} id="20d-bio-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="20d-bio-lens-checkbox" class="text-sm font-medium">20D BIO lens</label>
+    </div>
+
+    <input type="hidden" name="PR22_lens" value=False>
+
+    <div class="flex items-center">
+        <input name="PR22_lens" {% if occular_form.PR22_lens.value %} checked {% endif %} id="pr-22-bio-lens-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="pr-22-bio-lens-checkbox" class="text-sm font-medium">PR 2.2 BIO lens</label>
+    </div>
+
+    <input type="hidden" name="scleral_depression" value=False>
+
+    <div class="flex items-center">
+        <input name="scleral_depression" {% if occular_form.scleral_depression.value %} checked {% endif %} id="scleral-depression-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="scleral-depression-checkbox" class="text-sm font-medium">Scleral depression</label>
+    </div>
+
+    <input type="hidden" name="ophthalmoscope" value=False>
+
+    <div class="flex items-center">
+        <input name="ophthalmoscope" {% if occular_form.ophthalmoscope.value %} checked {% endif %} id="opthalmoscope-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="opthalmoscope-checkbox" class="text-sm font-medium">Opthalmoscope</label>
+    </div>
+
+    <input type="hidden" name="other" value=False>
+
+    <div class="flex items-center">
+        <input name="other" {% if occular_form.other.value %} checked {% endif %} id="other_checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="other_checkbox" class="text-sm font-medium">Other</label>
+    </div>
+
+    <textarea name="other_information"rows="4" autocomplete="off" class="border-2 w-1/2 resize-y min-h-20 max-h-80" placeholder="Additional notes">{{ occular_form.other_information.value|default_if_none:'' }}</textarea>
+
+    <div>
+        <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Notes</label>
+    </div>
+
+    <input type="hidden" name="advised" value=False>
+
+    <div class="flex">
+        <input name="advised" {% if occular_form.advised.value %} checked {% endif %} id="patient-advised-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="patient-advised-checkbox" class="text-sm font-medium mb-1">Patient advised of effects of DFE</label>
+    </div>
+
+    <input type="hidden" name="rescheduled" value=False>
+
+    <div class="flex">
+        <input name="rescheduled" {% if occular_form.rescheduled.value %} checked {% endif %} id="dfe-rescheduled-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="dfe-rescheduled-checkbox" class="text-sm font-medium mb-1">DFE rescheduled</label>
+    </div>
+
+    <input type="hidden" name="declined" value=False>
+
+    <div class="flex">
+        <input name="declined" {% if occular_form.declined.value %} checked {% endif %} id="dfe-declined-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="dfe-declined-checkbox" class="text-sm font-medium mb-1">DFE declined</label>
+    </div>
+
+    <input type="hidden" name="imaging" value=False>
+
+    <div class="flex">
+        <input name="imaging" {% if occular_form.imaging.value %} checked {% endif %} id="fundus-imaging-performed-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="fundus-imaging-performed-checkbox" class="text-sm font-medium mb-1">Fundus imaging performed</label>
+    </div>
+
+    <input type="hidden" name="refused" value=False>
+
+    <div class="flex">
+        <input name="refused" {% if occular_form.refused.value %} checked {% endif %} id="dfe-refused-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="dfe-refused-checkbox" class="text-sm font-medium mb-1">DFE refused AME</label>
+    </div>
+
+    <input type="hidden" name="not_indicated" value=False>
+
+    <div class="flex">
+        <input name="not_indicated" {% if occular_form.not_indicated.value %} checked {% endif %} id="dfe-not-indicated-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="dfe-not-indicated-checkbox" class="text-sm font-medium mb-1">DFE not indicated</label>
+    </div>
+
+    <input type="hidden" name="contraindicated" value=False>
+
+    <div class="flex">
+        <input name="contraindicated" {% if occular_form.contraindicated.value %} checked {% endif %} id="dfe-contraindicated" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="dfe-contraindicated" class="text-sm font-medium mb-1">DFE contraindicated</label>
+    </div>
+
+    <input type="hidden" name="recent" value=False>
+
+    <div class="flex">
+        <input name="recent" {% if occular_form.recent.value %} checked {% endif %} id="recent-dfe-checkbox" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        <label for="recent-dfe-checkbox" class="text-sm font-medium mb-1">Recent DFE</label>
+    </div>
+
+    <div>
+        <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Cup/Disc Ratio Tool Settings</label>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">OS Horizontal</label>
+        <input name="os_cup_ratio_horizontal" type="number" value="{{ occular_form.os_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">OS Vertical</label>
+        <input name="os_cup_ratio_vertical" type="number" value="{{ occular_form.os_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">OD Horizontal</label>
+        <input name="od_cup_ratio_horizontal" type="number" value="{{ occular_form.od_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-24">OD Vertical</label>
+        <input name="od_cup_ratio_vertical" type="number" value="{{ occular_form.od_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+    </div>
+
+    <div>
+        <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Optic Nerve Head Assessment</label>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium mb-1 w-32">Optic Nerve:</label>
+        <select name="optic_nerve" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.optic_nerve.choices %}
+                <option value="{{ value }}" {% if occular_form.optic_nerve.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "optic_nerve" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium mb-1 w-32">Nerve Fiber Layer:</label>
+        <select name="nerve_fiber" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.nerve_fiber.choices %}
+                <option value="{{ value }}" {% if occular_form.nerve_fiber.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "nerve_fiber" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Optic Nerve Descriptors</label>
+    </div>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32"></label>
+        <label class="text-sm font-medium w-1/12 ms-1">OS</label>
+        <label class="text-sm font-medium">OD</label>
+    </div>
+
+    <input type="hidden" name="os_deep" value=False>
+    <input type="hidden" name="od_deep" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Deep/lamina</label>
+        <div class="w-1/12">
+            <input name="os_deep" {% if occular_form.os_deep.value %} checked {% endif %} id="deep-lamina-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_deep" {% if occular_form.od_deep.value %} checked {% endif %} id="deep-lamina-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_shallow" value=False>
+    <input type="hidden" name="od_shallow" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Shallow</label>
+        <div class="w-1/12">
+            <input name="os_shallow" {% if occular_form.os_shallow.value %} checked {% endif %} id="shallow-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_shallow" {% if occular_form.od_shallow.value %} checked {% endif %} id="shallow-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_round" value=False>
+    <input type="hidden" name="od_round" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Round</label>
+        <div class="w-1/12">
+            <input name="os_round" {% if occular_form.os_round.value %} checked {% endif %} id="round-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_round" {% if occular_form.od_round.value %} checked {% endif %} id="round-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_oval" value=False>
+    <input type="hidden" name="od_oval" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Oval</label>
+        <div class="w-1/12">
+            <input name="os_oval" {% if occular_form.os_oval.value %} checked {% endif %} id="oval-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_oval" {% if occular_form.od_oval.value %} checked {% endif %} id="oval-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_temp" value=False>
+    <input type="hidden" name="od_temp" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Temp. sloping</label>
+        <div class="w-1/12">
+            <input name="os_temp" {% if occular_form.os_temp.value %} checked {% endif %} id="temp-sloping-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_temp" {% if occular_form.od_temp.value %} checked {% endif %} id="temp-sloping-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_under" value=False>
+    <input type="hidden" name="od_under" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Undermining</label>
+        <div class="w-1/12">
+            <input name="os_under" {% if occular_form.os_under.value %} checked {% endif %} id="undermining-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_under" {% if occular_form.od_under.value %} checked {% endif %} id="undermining-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_atrophy" value=False>
+    <input type="hidden" name="od_atrophy" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Peripap atrophy</label>
+        <div class="w-1/12">
+            <input name="os_atrophy" {% if occular_form.os_atrophy.value %} checked {% endif %} id="peripap-atrophy-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_atrophy" {% if occular_form.od_atrophy.value %} checked {% endif %} id="peripap-atrophy-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_scleral" value=False>
+    <input type="hidden" name="od_scleral" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Scleral cresent</label>
+        <div class="w-1/12">
+            <input name="os_scleral" {% if occular_form.os_scleral.value %} checked {% endif %} id="scleral-cresent-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_scleral" {% if occular_form.od_scleral.value %} checked {% endif %} id="sclearal-cresent-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_pigment" value=False>
+    <input type="hidden" name="od_pigment" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Pigment cresent</label>
+        <div class="w-1/12">
+            <input name="os_pigment" {% if occular_form.os_pigment.value %} checked {% endif %} id="pigment-cresent-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_pigment" {% if occular_form.od_pigment.value %} checked {% endif %} id="pigment-cresent-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_pit" value=False>
+    <input type="hidden" name="od_pit" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Optic Pit</label>
+        <div class="w-1/12">
+            <input name="os_pit" {% if occular_form.os_pit.value %} checked {% endif %} id="optic-pit-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_pit" {% if occular_form.od_pit.value %} checked {% endif %} id="optic-pit-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_muyelination" value=False>
+    <input type="hidden" name="od_muyelination" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Muyelination</label>
+        <div class="w-1/12">
+            <input name="os_muyelination" id="os_muyelination" {% if occular_form.os_muyelination.value %} checked {% endif %} type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_muyelination" id="od_muyelination" {% if occular_form.od_muyelination.value %} checked {% endif %} type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <input type="hidden" name="os_remnants" value=False>
+    <input type="hidden" name="od_remnants" value=False>
+
+    <div class="flex items-center">
+        <label class="text-sm font-medium w-32">Glial remnants</label>
+        <div class="w-1/12">
+            <input name="os_remnants" {% if occular_form.os_remnants.value %} checked {% endif %} id="glial-remnants-checkbox-os" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+        </div>
+        <input name="od_remnants" {% if occular_form.od_remnants.value %} checked {% endif %} id="glial-remnants-checkbox-od" type="checkbox" value=True class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 me-2">
+    </div>
+
+    <div>
+        <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Images</label>
+    </div>
+
+    <div>
+        <label class="text-sm font-medium w-32">Left Eye Image</label>
+        <input name="image_of_left_eye" type="file" accept="image/*"/>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "image_of_left_eye" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        <label class="text-sm font-medium w-32">Right Eye Image</label>
+        <input name="image_of_right_eye" type="file" accept="image/*"/>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "image_of_right_eye" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-sm">Submit</button>
 </div>
 {% endblock  %}
