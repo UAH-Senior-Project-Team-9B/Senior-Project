@@ -1,6 +1,4 @@
+<option value="">-- Select a time --</option>
 {% for key, value in options.items %}
-    <div>
-        <input id="{{ key }}" type="radio" value="{{ key }}" name="time">
-        <label for="{{ key }}">{{ value }}</label>
-    </div>
+  <option value="{{ key }}">{{ value }}</option>
 {% endfor %}

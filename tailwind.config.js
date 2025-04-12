@@ -12,4 +12,8 @@ export default {
         preflight: false,
     },
     plugins: [daisyui, motion],
+    darkMode: "false",
+    daisyui: {
+        darkTheme: "light",
+    },
 };
