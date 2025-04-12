@@ -1,37 +1,39 @@
 {% extends base_template_name %}
-{% block content%}
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message.message }}</p>
+{% block content %}
+<div class="w-full space-y-4">
+    {% for exam in page_obj %}
+        <div class="outline outline-2 outline-black p-4 bg-white rounded-md shadow-md">
+            <a href="{% url 'exam_details' exam.id %}"
+               class="block text-xl font-bold text-blue-700 no-underline hover:underline">
+                {{ exam }}
+            </a>
+            <p class="mt-1 text-gray-700 font-semibold">Status: {{ exam.status }}</p>
+
+            <form method="get" class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <input type="submit" class="btn btn-outline" value="Move to Waiting" name="{{ exam.id }}">
+                <input type="submit" class="btn btn-outline" value="Move to In Progress" name="{{ exam.id }}">
+                <input type="submit" class="btn btn-outline" value="Move to Complete" name="{{ exam.id }}">
+                <input type="submit" class="btn btn-outline text-red-600 border-red-600 hover:bg-red-100" value="Cancel" name="{{ exam.id }}">
+            </form>
+        </div>
     {% endfor %}
-{% endif %}
-{% for exam in page_obj %}
-    {# Each "patient" is a patient model object. #}
-    {% if doctor_bool %}
-        <a href="{% url 'exam_details' exam.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
-    {% else %}
-        {% if exam.stageable %}
-            <a  href="{%url 'progress_exam' exam.id %}">Update Exam Status</a>
-        {% endif %}
-        <a href="{% url 'daily_patient' exam.patient.id  %}">{{ exam }}</a>    Status:{{ exam.status}}
-    {% endif %}
-    <br>
-{% endfor %}
+</div>
 
-<div class="pagination">
-    <span class="step-links">
+<!-- Pagination -->
+<div class="pagination mt-8 text-center space-x-2">
+    <span class="step-links text-lg">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?page=1" class="text-blue-700 hover:underline">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-blue-700 hover:underline">previous</a>
         {% endif %}
 
-        <span class="current">
+        <span class="current font-semibold">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}" class="text-blue-700 hover:underline">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="text-blue-700 hover:underline">last &raquo;</a>
         {% endif %}
     </span>
 </div>
