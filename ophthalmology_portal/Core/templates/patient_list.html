@@ -2,7 +2,7 @@
 {% block content %}
 <div class="w-full space-y-2">
     {% for patient in page_obj %}
-        <a href="{% url 'patient_history' patient.id %}"
+        <a href="{% url 'patient_history_information' patient.id %}"
            class="block no-underline text-white text-xl font-bold bg-blue-600 hover:bg-blue-700 p-3 outline outline-2 outline-black text-center">
             {{ patient }}
         </a>
