@@ -502,7 +502,7 @@
 
 <script>
     function printPrescription(examId) {
-        const printWindow = window.open(`/prescription_print/${examId}/`, 'exam_id');
+        const printWindow = window.open(`/prescription_print/${examId}/`, '_blank');
         printWindow.focus();
 
         printWindow.onload = function () {
