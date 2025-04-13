@@ -17,10 +17,12 @@ class ExamConfirmationView(BaseView):
         if not self.manager_verification(request.user):
             raise Http404
         form = ExamManagerViewForm(instance=ExamModel.objects.get(id=id))
+        exam = ExamModel.objects.get(id=id)
         return render(
             request,
             "pending_exam_template.html",
             {
+                "exam": exam,
                 "form": form,
                 "base_template_name": self.get_base_template(request.user),
                 "upload": False,
