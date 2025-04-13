@@ -1,5 +1,6 @@
 {% extends base_template_name %}
 {% block content %}
+<h1 class="text-3xl font-bold text-gray-700 text-center mb-2">{{ patient_obj }}'s' Exams</h1>
 <div class="w-full space-y-2">
     {% for exam in page_obj %}
         <a href="{% url 'exam_details' exam.id %}"

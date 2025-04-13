@@ -32,7 +32,11 @@ class ExamConfirmationView(BaseView):
     def post(self, request: HttpRequest, id, *args, **kwargs):
         if not self.manager_verification(request.user):
             raise Http404
-        instance= ExamModel.objects.get(id=id)
-        instance.status=ExamModel.status_choices['upcoming']
-        instance.save()
+        if request.POST[f"{id}"] == "Deny":
+            instance= ExamModel.objects.get(id=id)
+            instance.delete()
+        elif request.POST[f"{id}"] == "Confirm":
+            instance= ExamModel.objects.get(id=id)
+            instance.status=ExamModel.status_choices['upcoming']
+            instance.save()
         return redirect("/exam-confirmations/")

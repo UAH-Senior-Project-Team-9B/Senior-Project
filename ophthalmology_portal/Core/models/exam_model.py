@@ -244,7 +244,7 @@ class ExamModel(models.Model):
             ("doctor", "Doctor Permissions"),
             ("manager", "Manager Permissions"),
         ]
-        unique_together = [["date", "time", "doctor"],["patient", "date", "time"]]
+        unique_together = [["date", "time", "doctor"],["patient", "date"]]
 
     def __str__(self):
         return f"Exam on {self.date} at {self.time}"
