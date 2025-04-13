@@ -223,7 +223,6 @@ class ExamDetailsView(BaseView):
                     instance=exam.occular_exam_information
                 )
                 prescription_form = PrescriptionViewForm(instance=exam.prescription)
-                update_button = False
             else:
                 if exam.status == ExamModel.status_choices["postexam"]:
                     form = ExamViewForm(instance=exam)
@@ -231,18 +230,11 @@ class ExamDetailsView(BaseView):
                         instance=exam.occular_exam_information
                     )
                     prescription_form = PrescriptionViewForm(instance=exam.prescription)
-                    update_button = True
-                elif exam.status == ExamModel.status_choices["progressing"]:
-                    update_button = True
-                else:
-                    update_button = False
 
-            cancellable = False
             return render(
                 request,
                 "exam_details.html",
                 {
-                    "cancellable": cancellable,
                     "form": form,
                     "exam_id": exam_id,
                     "base_template_name": self.get_base_template(request.user),
@@ -250,7 +242,6 @@ class ExamDetailsView(BaseView):
                     "exam": exam,
                     "occular_form": occular_form,
                     "upload": False,
-                    "update_button": update_button,
                 },
             )
         if request.user.has_perm("Core.patient"):

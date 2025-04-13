@@ -36,6 +36,7 @@
     <label>Arrival Time:</label>
     <label> {{ exam.arrival_time }}</label>
 </div>
+
 <fieldset class="fieldset border-0 ms-0 me-0 mb-2 pb-0 ps-0 pe-0">
     <legend class="fieldset-legend">Reason for visit</legend>
     <textarea name="other_information"rows="4" class="border-2 w-1/2 resize-none min-h-20 max-h-80" readonly> {{ exam.reason_for_visit }} </textarea>
@@ -43,7 +44,10 @@
 <div class="flex justify-between">
     {% if user.groups.all.0.name == "Office Manager" %}
         {% if exam.status == "Upcoming" %}
-            <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Waiting Room</a>
+            <div>
+                <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Waiting Room</a>
+                <a class="btn btn-xs" href="{%url 'reschedule_exam' exam_id %}">Reschedule</a>
+            </div>
         {% elif exam.status == "In Wait Room" %}
             <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Progress</a>
         {% elif exam.status == "Post Examination" %}

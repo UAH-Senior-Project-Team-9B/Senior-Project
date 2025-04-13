@@ -1,16 +1,15 @@
 import datetime
 from zoneinfo import ZoneInfo
 
-from django.http import HttpRequest
+from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from ophthalmology_portal.Core.forms import ExamCreationMainForm, ExamCreationPostForm
 from ophthalmology_portal.Core.models import ExamModel, OphthalmologistUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
-from django.http import Http404
 
-# this is for testing purposes, delete this later
+
 class ExamCreationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
         if not self.manager_verification(request.user):
@@ -38,8 +37,14 @@ class ExamCreationView(BaseView):
             f"{datetime.time(17)}": "5:00 PM",
         }
         doctors = OphthalmologistUserModel.objects.all()
-        minimum = datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date().strftime("%Y-%m-%d")
-        maximum = datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=2 * 365)
+        minimum = (
+            datetime.datetime.now(ZoneInfo("America/Indiana/Knox"))
+            .date()
+            .strftime("%Y-%m-%d")
+        )
+        maximum = datetime.datetime.now(
+            ZoneInfo("America/Indiana/Knox")
+        ).date() + datetime.timedelta(days=2 * 365)
         maximum = maximum.strftime("%Y-%m-%d")
         if "HX-target" in request.headers:
             template_name = "time_submission.html"
@@ -71,11 +76,16 @@ class ExamCreationView(BaseView):
     def post(self, request: HttpRequest, *args, **kwargs):
         if not self.manager_verification(request.user):
             raise Http404
-        if datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() >= datetime.datetime.strptime(
+        if datetime.datetime.now(
+            ZoneInfo("America/Indiana/Knox")
+        ).date() >= datetime.datetime.strptime(
             request.POST["date"], "%Y-%m-%d"
         ).date() or datetime.datetime.strptime(
             request.POST["date"], "%Y-%m-%d"
-        ).date() >= (datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date() + datetime.timedelta(days=2 * 365)):
+        ).date() >= (
+            datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()
+            + datetime.timedelta(days=2 * 365)
+        ):
             return redirect("/create-exam/")
         form = ExamCreationPostForm(request.POST)
         if form.is_valid():
@@ -83,3 +93,8 @@ class ExamCreationView(BaseView):
             form.save()
             return redirect(reverse("home_page"))
         return redirect("/create-exam/")
+
+
+class ExamRescheduleView(BaseView):
+    def get(self, request: HttpRequest, exam_id, *args, **kwargs):
+        return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))
