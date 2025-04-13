@@ -1,12 +1,13 @@
 {% extends base_template_name %}
 {% block content%}
+<h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Pending Exams</h1>
 <div class="w-full space-y-2 mb-4">
     {% for exam in page_obj %}
         {# Each "patient" is a patient model object. #}
         <a href="{% url 'exam_confirmations' exam.id  %}"
-            class="rounded-md mb-4 block text-black text-xl font-bold bg-white hover:bg-gray-100 outline outline-2 shadow-lg hover:shadow-xl outline-black text-center no-underlinerelative no-underline">
+            class=" group rounded-md mb-4 block text-black text-xl font-bold bg-white hover:bg-gray-100 outline outline-2 shadow-lg hover:shadow-2xl outline-black text-center no-underlinerelative no-underline">
             <div class="">
-                <p class="no-underline text-white text-2xl bg-blue-500 border-0 border-b-2 border-solid pt-1 pb-1 px-3 border-black m-0">{{ exam }}</p>
+                <p class="no-underline text-white text-2xl bg-blue-500 group-hover:bg-blue-600 group-hover:text-gray-200 border-0 border-b-2 border-solid pt-1 pb-1 px-3 border-black m-0">{{ exam }}</p>
             </div>
             <div class="grid grid-cols-2 grid-rows-1 h-3/4">
                 <p class="no-underline">Doctor: {{exam.doctor}}</p>
@@ -15,20 +16,20 @@
         </a>
     {% endfor %}
 </div>
-<div class="pagination">
-    <span class="step-links">
+<div class="pagination mt-8 text-center space-x-2">
+    <span class="step-links text-lg">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?page=1" class="text-blue-700 hover:underline">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-blue-700 hover:underline">previous</a>
         {% endif %}
 
-        <span class="current">
+        <span class="current font-semibold">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}" class="text-blue-700 hover:underline">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="text-blue-700 hover:underline">last &raquo;</a>
         {% endif %}
     </span>
 </div>
