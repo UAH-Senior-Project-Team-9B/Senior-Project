@@ -71,7 +71,7 @@
         <div>
             <a class="btn btn-xs" href="{%url 'exam_data_submission' exam_id %}">Edit Examination</a>
         </div>
-    {% else %}
+    {% elif exam.status == "Exam In Progress" %}
         <div>
             <a class="btn btn-xs" href="{%url 'exam_data_submission' exam_id %}">Begin Examination</a>
         </div>
