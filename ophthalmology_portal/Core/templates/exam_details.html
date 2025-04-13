@@ -43,7 +43,13 @@
 </fieldset>
 <div class="flex justify-between">
     {% if user.groups.all.0.name == "Office Manager" %}
-        {% if exam.status == "Upcoming" %}
+        {% if exam.status == "Pending" %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Confirm" name="{{ exam.id }}">
+                <input type="submit" class="btn" value="Deny" name="{{ exam.id }}">
+            </form>
+        {% elif exam.status == "Upcoming" %}
             <div>
                 <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Waiting Room</a>
                 <a class="btn btn-xs" href="{%url 'reschedule_exam' exam_id %}">Reschedule</a>
