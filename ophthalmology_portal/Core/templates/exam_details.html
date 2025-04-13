@@ -5,12 +5,6 @@
 <h1 class="texxt-3xl font-bold text-gray-700 text-center mb-2">Exam View</h1>
 <hr class="my-4" />
 <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Appointment Information</h2>
-{% if cancellable %}
-    <a  href="{%url 'cancel_exam' exam_id %}">Cancel Exam</a>
-{% endif %}
-{% if stageable %}
-    <a  href="{%url 'progress_exam' exam_id %}">Update Exam Status</a>
-{% endif %}
 <div class="flex justify-between w-full">
     <div>
         <label>Patient:</label>
@@ -46,7 +40,23 @@
     <legend class="fieldset-legend">Reason for visit</legend>
     <textarea name="other_information"rows="4" class="border-2 w-1/2 resize-none min-h-20 max-h-80" readonly> {{ exam.reason_for_visit }} </textarea>
 </fieldset>
-{% if update_button %}
+<div class="flex justify-between">
+    {% if user.groups.all.0.name == "Office Manager" %}
+        {% if exam.status == "Upcoming" %}
+            <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Waiting Room</a>
+        {% elif exam.status == "In Wait Room" %}
+            <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Progress</a>
+        {% elif exam.status == "Post Examination" %}
+            <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Complete Exam</a>
+        {% endif %}
+    {% endif %}
+    {% if user.groups.all.0.name != "Ophthalmologist" %}
+        {% if exam.status == "Upcoming" or exam.status == "In Wait Room" %}
+            <a class="btn btn-xs justify-right bg-red-500" href="{%url 'cancel_exam' exam_id %}">Cancel Exam</a>
+        {% endif %}
+    {% endif %}
+</div>
+{% if user.groups.all.0.name == "Ophthalmologist" %}
     {% if exam.status == "Post Examination" %}
         <div>
             <a class="btn btn-xs" href="{%url 'exam_data_submission' exam_id %}">Edit Examination</a>
@@ -56,59 +66,54 @@
             <a class="btn btn-xs" href="{%url 'exam_data_submission' exam_id %}">Begin Examination</a>
         </div>
     {% endif %}
-
 {% endif %}
-{% if exam.status == "Post Examination" %}
+
+{% if exam.status == "Post Examination" or exam.status == "Completed"%}
     <div>
         <hr class="my-4" />
         <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Prescription</h2>
     </div>
 
-    <div class="overflow-x-auto w-3/4 mx-auto">
-        <table class="table table-bordered border border-gray-300">
-            <thead>
-                <tr>
-                <th colspan="3" class="text-center">Prescription Data</th>
-                </tr>
-            </thead>
+    <div class="overflow-x-auto w-3/4 mx-auto mb-4">
+        <table class="table">
             <tbody>
                 <tr>
                     <th></th>
-                    <th class="text-center">Rx</th>
-                    <th class="text-center">Sphere</th>
-                    <th class="text-center">Cylinder</th>
-                    <th class="text-center">Axis</th>
-                    <th class="text-center">Prism</th>
-                    <th class="text-center">Prism Base</th>
+                    <th class="text-center border-solid border-gray-500">Rx</th>
+                    <th class="text-center border-solid border-gray-500">Sphere</th>
+                    <th class="text-center border-solid border-gray-500">Cylinder</th>
+                    <th class="text-center border-solid border-gray-500">Axis</th>
+                    <th class="text-center border-solid border-gray-500">Prism</th>
+                    <th class="text-center border-solid border-gray-500">Prism Base</th>
                 </tr>
                 <tr>
-                    <th rowspan="2"> Distance </th>
-                    <td class="text-center"> O.D. </td>
-                    <td class="text-center"> {{ prescription_form.od_sphere.value }} </td>
-                    <td class="text-center"> {{ prescription_form.od_cylinder.value }} </td>
-                    <td class="text-center"> {{ prescription_form.od_axis.value }} </td>
-                    <td class="text-center"> {{ prescription_form.od_prism.value }} </td>
-                    <td class="text-center"> {{ prescription_form.od_prism_base.value }} </td>
-                </tr>
-
-                <tr>
-                    <td class="text-center"> O.S. </td>
-                    <td class="text-center"> {{ prescription_form.os_sphere.value }} </td>
-                    <td class="text-center"> {{ prescription_form.os_cylinder.value }} </td>
-                    <td class="text-center"> {{ prescription_form.os_axis.value }} </td>
-                    <td class="text-center"> {{ prescription_form.os_prism.value }} </td>
-                    <td class="text-center"> {{ prescription_form.os_prism_base.value }} </td>
+                    <th rowspan="2" class="border-solid border-gray-500"> Distance </th>
+                    <td class="text-center border-solid border-gray-300"> O.D. </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.od_sphere.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.od_cylinder.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.od_axis.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.od_prism.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.od_prism_base.value }} </td>
                 </tr>
 
                 <tr>
-                    <th rowspan="2"> ADD </th>
-                    <td class="text-center"> O.D. </td>
-                    <td class="text-center"> {{ prescription_form.od_add.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> O.S. </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.os_sphere.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.os_cylinder.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.os_axis.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.os_prism.value }} </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.os_prism_base.value }} </td>
                 </tr>
 
                 <tr>
-                    <td class="text-center"> O.S. </td>
-                    <td class="text-center"> {{ prescription_form.os_add.value }} </td>
+                    <th rowspan="2" class="border-solid border-gray-500"> ADD </th>
+                    <td class="text-center border-solid border-gray-300"> O.D. </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.od_add.value }} </td>
+                </tr>
+
+                <tr>
+                    <td class="text-center border-solid border-gray-300"> O.S. </td>
+                    <td class="text-center border-solid border-gray-300"> {{ prescription_form.os_add.value }} </td>
                 </tr>
             </tbody>
         </table>
@@ -125,111 +130,333 @@
             <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Exam Results</h2>
         </div>
 
-        <div class="overflow-x-auto w-1/2 mx-auto">
-            <table class="table table-bordered border border-gray-300">
-                <thead>
-                    <tr>
-                    <th colspan="2" class="text-center">Test Results</th>
-                    </tr>
-                </thead>
+        {% if user.groups.all.0.name != "Patients" %}
+            <div class="overflow-x-auto w-1/2 mx-auto mb-6">
+                <table class="table table-bordered border border-gray-300">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="text-center border-solid border-gray-500">Test Results</th>
+                        </tr>
+                        <tr>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_aided_string_left_distance }} </td>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_aided_string_left_near }} </td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_aided_string_right_distance }} </td>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_aided_string_right_near }} </td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_aided_string_both_distance }} </td>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_aided_string_both_near }} </td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_unaided_string_left_distance }} </td>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_unaided_string_left_near }} </td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_unaided_string_right_distance }} </td>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_unaided_string_right_near }} </td>
+                        </tr>
+
+                        <tr>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_unaided_string_both_distance }} </td>
+                            <td class="border-solid border-gray-300"> {{ exam.visual_accuity_unaided_string_both_near }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="overflow-x-auto w-1/2 mx-auto mb-6">
+                <table class="table table-bordered border border-gray-300">
+                    <tbody>
+                        <tr>
+                            <th colspan="2"></th>
+                            <th colspan="2" class="text-center border-solid border-gray-500">Distance</th>
+                            <th colspan="2" class="text-center border-solid border-gray-500">Near</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2"></th>
+                            <th class="border-solid border-gray-500"> Normal </th>
+                            <th class="border-solid border-gray-500"> Pinhole </th>
+                            <th class="border-solid border-gray-500"> Normal </th>
+                            <th class="border-solid border-gray-500"> Pinhole </th>
+                        </tr>
+                        <tr>
+                            <th rowspan=2 class="border-solid border-gray-500"> Left Eye </th>
+                            <th class="border-solid border-gray-500"> Aided </th>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_aided_distance.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_aided_distance.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_aided_distance.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_pinhole_aided_distance.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_aided_near.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_aided_near.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_aided_near.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_pinhole_aided_near.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="border-solid border-gray-500"> Unaided </th>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_unaided_distance.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_unaided_distance.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_unaided_distance.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_pinhole_unaided_distance.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_unaided_near.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_unaided_near.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_unaided_near.visual_acuity_measure_left %}
+                                    {{ exam.visual_accuity_pinhole_unaided_near.visual_acuity_measure_left }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th rowspan="2" class="border-solid border-gray-500"> Right Eye </th>
+                            <th class="border-solid border-gray-500"> Aided </th>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_aided_distance.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_aided_distance.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_aided_distance.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_pinhole_aided_distance.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_aided_near.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_aided_near.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_aided_near.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_pinhole_aided_near.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="border-solid border-gray-500"> Unaided </th>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_unaided_distance.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_unaided_distance.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_unaided_distance.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_pinhole_unaided_distance.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_unaided_near.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_unaided_near.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_unaided_near.visual_acuity_measure_right %}
+                                    {{ exam.visual_accuity_pinhole_unaided_near.visual_acuity_measure_right }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th rowspan="2" class="border-solid border-gray-500"> Both Eyes </th>
+                            <th class="border-solid border-gray-500"> Aided </th>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_aided_distance.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_aided_distance.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_aided_distance.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_pinhole_aided_distance.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_aided_near.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_aided_near.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_aided_near.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_pinhole_aided_near.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="border-solid border-gray-500"> Unaided </th>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_unaided_distance.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_unaided_distance.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_unaided_distance.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_pinhole_unaided_distance.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_unaided_near.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_unaided_near.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                            <td class="border-solid border-gray-300 text-center">
+                                {% if exam.visual_accuity_pinhole_unaided_near.visual_acuity_measure_both %}
+                                    {{ exam.visual_accuity_pinhole_unaided_near.visual_acuity_measure_both }}
+                                {% else %}
+                                    Not Recorded
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        <div class="overflow-x-auto w-3/4 mx-auto mb-6">
+            <table class="table table-fixed">
                 <tbody>
                     <tr>
-                        <td> {{ exam.visual_accuity_aided_string_left_distance }} </td>
-                        <td> {{ exam.visual_accuity_aided_string_left_near }} </td>
+                        <th colspan="4" class="text-center border-solid border-gray-500">Ocular Examination Findings</th>
+                    </tr>
+                    <tr>
+                        <td class="border-solid border-gray-500 w-1/3"> Vitreous Segment </td>
+                        <td class="border-solid border-gray-300 text-center w-1/6"> {{ occular_form.vitreous_segment.value }} </td>
+                        <td class="border-solid border-gray-500 w-1/3"> Diabeti Eval Segment </td>
+                        <td class="border-solid border-gray-300 text-center w-1/6"> {{ occular_form.diabeti_eval_segment.value }} </td>
                     </tr>
 
                     <tr>
-                        <td> {{ exam.visual_accuity_aided_string_right_distance }} </td>
-                        <td> {{ exam.visual_accuity_aided_string_right_near }} </td>
+                        <td class="border-solid border-gray-500"> Macula Segment </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.macula_segment.value }} </td>
+                        <td class="border-solid border-gray-500"> HTN Evaluation Segment </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.htn_eval_segment.value }} </td>
                     </tr>
 
                     <tr>
-                        <td> {{ exam.visual_accuity_aided_string_both_distance }} </td>
-                        <td> {{ exam.visual_accuity_aided_string_both_near }} </td>
+                        <td class="border-solid border-gray-500"> Vasculature Segment </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.vasculature_segment.value}} </td>
+                        <td class="border-solid border-gray-500"> ARMD Segment </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.armd_segment.value }} </td>
                     </tr>
 
                     <tr>
-                        <td> {{ exam.visual_accuity_unaided_string_left_distance }} </td>
-                        <td> {{ exam.visual_accuity_unaided_string_left_near }} </td>
+                        <td class="border-solid border-gray-500"> Posterior Pole Segment </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.posterior_pole_segment.value }} </td>
+                        <td class="border-solid border-gray-500"> Custom 1 </td>
+                        <td class="border-solid border-gray-300 text-center"> Custom 1 </td>
                     </tr>
 
                     <tr>
-                        <td> {{ exam.visual_accuity_unaided_string_right_distance }} </td>
-                        <td> {{ exam.visual_accuity_unaided_string_right_near }} </td>
+                        <td class="border-solid border-gray-500"> Peripheral Retina Segment </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.peripheral_retina_segment.value }} </td>
+                        <td class="border-solid border-gray-500"> Custom 2 </td>
+                        <td class="border-solid border-gray-300 text-center"> Custom 2 </td>
                     </tr>
 
                     <tr>
-                        <td> {{ exam.visual_accuity_unaided_string_both_distance }} </td>
-                        <td> {{ exam.visual_accuity_unaided_string_both_near }} </td>
+                        <td class="border-solid border-gray-500"> Misc Retina Segment </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.misc_retina_segment.value }} </td>
+                        <td class="border-solid border-gray-500"> Custom 3 </td>
+                        <td class="border-solid border-gray-300 text-center"> Custom 3 </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="overflow-x-auto w-3/4 mx-auto">
-            <table class="table table-bordered border border-gray-300">
-                <thead>
-                    <tr>
-                    <th colspan="2" class="text-center">Ocular Examination Findings</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> Vitreous Segment: {{ occular_form.vitreous_segment.value }} </td>
-                        <td> Diabeti Eval Segment: {{ occular_form.diabeti_eval_segment.value }} </td>
-                    </tr>
-
-                    <tr>
-                        <td> Macula Segment: {{ occular_form.macula_segment.value }} </td>
-                        <td> HTN Evaluation Segment: {{ occular_form.htn_eval_segment.value }} </td>
-                    </tr>
-
-                    <tr>
-                        <td> Vasculature Segment: {{ occular_form.vasculature_segment.value}} </td>
-                        <td> ARMD Segment: {{ occular_form.armd_segment.value }} </td>
-                    </tr>
-
-                    <tr>
-                        <td> Posterior Pole Segment: {{ occular_form.posterior_pole_segment.value }} </td>
-                        <td> Custom 1 </td>
-                    </tr>
-
-                    <tr>
-                        <td> Peripheral Retina Segment: {{ occular_form.peripheral_retina_segment.value }} </td>
-                        <td> Custom 2 </td>
-                    </tr>
-
-                    <tr>
-                        <td> Misc Retina Segment: {{ occular_form.misc_retina_segment.value }} </td>
-                        <td> Custom 3 </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div>
+            <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Ophthalmic Indicators</h2>
         </div>
 
-        <div class="overflow-x-auto w-1/2 mx-auto">
+        <div class="overflow-x-auto w-1/2 mx-auto mb-6">
             <table class="table table-bordered border border-gray-300">
-                <thead>
-                    <tr>
-                        <th colspan="3" class="text-center">Ophthalmic Indicators</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
                         <th></th>
-                        <th class="text-center"> Left Eye </td>
-                        <th class="text-center"> Right Eye </td>
+                        <th class="text-center border-solid border-gray-500"> Left Eye </td>
+                        <th class="text-center border-solid border-gray-500"> Right Eye </td>
                     </tr>
                     <tr>
-                        <th> Venous Pulsation </th>
-                        <td class="text-center"> {{ occular_form.left_venous_pulsation.value }} </td>
-                        <td class="text-center"> {{ occular_form.right_venous_pulsation.value }} </td>
+                        <th class="border-solid border-gray-500"> Venous Pulsation </th>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.left_venous_pulsation.value }} </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.right_venous_pulsation.value }} </td>
                     </tr>
 
                     <tr>
-                        <th> Foveal Reflex </th>
-                        <td class="text-center"> {{ occular_form.left_foveal_reflex.value }} </td>
-                        <td class="text-center"> {{ occular_form.right_foveal_reflex.value }} </td>
+                        <th class="border-solid border-gray-500"> Foveal Reflex </th>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.left_foveal_reflex.value }} </td>
+                        <td class="border-solid border-gray-300 text-center"> {{ occular_form.right_foveal_reflex.value }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -255,114 +482,105 @@
                 <label> {{ occular_form.dilated_with_drops.value }}</label>
             </div>
 
-            <div>
+            <div class="mb-6">
                 <label>Dilation Drug:</label>
                 <label> {{ occular_form.dilated_with_drug.value }}</label>
             </div>
 
-            <div class="overflow-x-auto w-3/4 mx-auto">
+            <div class="overflow-x-auto w-3/4 mb-6 mx-auto">
                 <table class="table table-bordered border border-gray-300">
-                    <thead>
-                        <tr>
-                        <th colspan="6" class="text-center">Evaluation Methods</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr>
-                            <td> 78D Lens </td>
-                            <td class="text-center"> {{ occular_form.d78_lens }} </td>
-                            <td> 90D Lens</td>
-                            <td class="text-center"> {{ occular_form.d90_lens }} </td>
-                            <td> 20D BIO Lens </td>
-                            <td class="text-center">  {{ occular_form.d20_lens }} </td>
+                            <th colspan="6" class="text-center border-solid border-gray-500">Evaluation Methods</th>
+                        </tr>
+                        <tr>
+                            <td class="border-solid border-gray-500"> 78D Lens </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.d78_lens }} </td>
+                            <td class="border-solid border-gray-500"> 90D Lens</td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.d90_lens }} </td>
+                            <td class="border-solid border-gray-500"> 20D BIO Lens </td>
+                            <td class="text-center border-solid border-gray-300">  {{ occular_form.d20_lens }} </td>
                         </tr>
 
                         <tr>
-                            <td> PR 2.2 BIO Lens </td>
-                            <td class="text-center"> {{ occular_form.PR22_lens }} </td>
-                            <td> Scleral Depression </td>
-                            <td class="text-center"> {{ occular_form.scleral_depression }} </td>
-                            <td> Ophthalmoscope </td>
-                            <td class="text-center"> {{ occular_form.ophthalmoscope }} </td>
+                            <td class="border-solid border-gray-500"> PR 2.2 BIO Lens </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.PR22_lens }} </td>
+                            <td class="border-solid border-gray-500"> Scleral Depression </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.scleral_depression }} </td>
+                            <td class="border-solid border-gray-500"> Ophthalmoscope </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.ophthalmoscope }} </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div>
                 {% if occular_form.other.value %}
-                    <fieldset class="fieldset border-0 ms-0 me-0 mb-2 pb-0 ps-0 pe-0">
+                    <fieldset class="fieldset border-0 ms-0 me-0 mb-6 pb-0 ps-0 pe-0">
                         <legend class="fieldset-legend">Additional Method Notes</legend>
                         <textarea name="other_information"rows="4" class="border-2 w-1/2 resize-none min-h-20 max-h-80" readonly> {{ occular_form.other_information.value }} </textarea>
                     </fieldset>
                 {% endif %}
             </div>
 
-            <div>
-                <label class="text-md font-semibold text-left text-gray-700 mb-6">Notes</label>
-            </div>
-
             <div class="overflow-x-auto w-3/4 mx-auto">
                 <table class="table table-bordered border border-gray-300">
-                    <thead>
-                        <tr>
-                        <th colspan="4" class="text-center">Notes</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr>
-                            <td> Patient advised of the effects of DFE </td>
-                            <td class="text-center"> {{ occular_form.advised }} </td>
-                            <td> DFE rescheduled</td>
-                            <td class="text-center"> {{ occular_form.rescheduled }} </td>
+                            <th colspan="4" class="text-center border-solid border-gray-500">Notes</th>
+                        </tr>
+                        <tr>
+                            <td class="border-solid border-gray-500"> Patient advised of the effects of DFE </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.advised }} </td>
+                            <td class="border-solid border-gray-500"> DFE rescheduled</td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.rescheduled }} </td>
                         </tr>
 
                         <tr>
-                            <td> DFE declined </td>
-                            <td class="text-center">  {{ occular_form.declined }} </td>
-                            <td> Fundus Imaging Performed </td>
-                            <td class="text-center"> {{ occular_form.imaging }} </td>
+                            <td class="border-solid border-gray-500"> DFE declined </td>
+                            <td class="text-center border-solid border-gray-300">  {{ occular_form.declined }} </td>
+                            <td class="border-solid border-gray-500"> Fundus Imaging Performed </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.imaging }} </td>
                         </tr>
 
                         <tr>
-                            <td> DFE refused </td>
-                            <td class="text-center"> {{ occular_form.refused }} </td>
-                            <td> DFE not indicated</td>
-                            <td class="text-center"> {{ occular_form.not_indicated }} </td>
+                            <td class="border-solid border-gray-500"> DFE refused </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.refused }} </td>
+                            <td class="border-solid border-gray-500"> DFE not indicated</td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.not_indicated }} </td>
                         </tr>
 
                         <tr>
-                            <td> DFE contraindicated </td>
-                            <td class="text-center">  {{ occular_form.contraindicated }} </td>
-                            <td> Recent DFE </td>
-                            <td class="text-center"> {{ occular_form.recent }} </td>
+                            <td class="border-solid border-gray-500"> DFE contraindicated </td>
+                            <td class="text-center border-solid border-gray-300">  {{ occular_form.contraindicated }} </td>
+                            <td class="border-solid border-gray-500"> Recent DFE </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.recent }} </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
+            <div>
+                <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Cup/Disc Ratio Tool Settings</h2>
+            </div>
+
             <div class="overflow-x-auto w-1/2 mx-auto">
                 <table class="table table-bordered border border-gray-300">
-                    <thead>
-                        <tr>
-                            <th colspan="3" class="text-center">Cup/Disc Ratio Tool Settings</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr>
                             <th></th>
-                            <th class="text-center"> Left Eye </td>
-                            <th class="text-center"> Right Eye </td>
+                            <th class="text-center border-solid border-gray-500"> Left Eye </td>
+                            <th class="text-center border-solid border-gray-500"> Right Eye </td>
                         </tr>
                         <tr>
-                            <th> Horizontal </th>
-                            <td class="text-center"> {{ occular_form.os_cup_ratio_horizontal.value }} </td>
-                            <td class="text-center"> {{ occular_form.od_cup_ratio_horizontal.value }} </td>
+                            <th class="border-solid border-gray-500"> Horizontal </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_cup_ratio_horizontal.value }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_cup_ratio_horizontal.value }} </td>
                         </tr>
 
                         <tr>
-                            <th> Vertical </th>
-                            <td class="text-center"> {{ occular_form.os_cup_ratio_vertical.value }} </td>
-                            <td class="text-center"> {{ occular_form.od_cup_ratio_vertical.value }} </td>
+                            <th class="border-solid border-gray-500"> Vertical </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_cup_ratio_vertical.value }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_cup_ratio_vertical.value }} </td>
                         </tr>
                     </tbody>
                 </table>
@@ -382,89 +600,88 @@
                 <label> {{ occular_form.nerve_fiber.value }} </label>
             </div>
 
+            <div>
+                <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Optic Nerve Descriptors</h2>
+            </div>
+
             <div class="overflow-x-auto w-1/2 mx-auto">
                 <table class="table table-bordered border border-gray-300">
-                    <thead>
-                        <tr>
-                        <th colspan="3" class="text-center">Optic Nerve Descriptors</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr>
                             <th></th>
-                            <th class="text-center">Left Eye</th>
-                            <th class="text-center">Right Eye</th>
+                            <th class="text-center border-solid border-gray-500">Left Eye</th>
+                            <th class="text-center border-solid border-gray-500">Right Eye</th>
                         </tr>
                         <tr>
-                            <th> Deep </th>
-                            <td class="text-center"> {{ occular_form.os_deep }} </td>
-                            <td class="text-center"> {{ occular_form.od_deep }} </td>
-                        </tr>
-
-                        <tr>
-                            <th> Shallow </th>
-                            <td class="text-center"> {{ occular_form.os_shallow }} </td>
-                            <td class="text-center"> {{ occular_form.od_shallow }} </td>
+                            <th class="border-solid border-gray-500"> Deep </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_deep }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_deep }} </td>
                         </tr>
 
                         <tr>
-                            <th> Round </th>
-                            <td class="text-center"> {{ occular_form.os_round }} </td>
-                            <td class="text-center"> {{ occular_form.od_round }} </td>
+                            <th class="border-solid border-gray-500"> Shallow </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_shallow }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_shallow }} </td>
                         </tr>
 
                         <tr>
-                            <th> Oval </th>
-                            <td class="text-center"> {{ occular_form.os_oval }} </td>
-                            <td class="text-center"> {{ occular_form.od_oval }} </td>
+                            <th class="border-solid border-gray-500"> Round </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_round }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_round }} </td>
                         </tr>
 
                         <tr>
-                            <th> Temp. Sloping </th>
-                            <td class="text-center"> {{ occular_form.os_temp }} </td>
-                            <td class="text-center"> {{ occular_form.od_temp }} </td>
+                            <th class="border-solid border-gray-500"> Oval </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_oval }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_oval }} </td>
                         </tr>
 
                         <tr>
-                            <th> Undermining </th>
-                            <td class="text-center"> {{ occular_form.os_under }} </td>
-                            <td class="text-center"> {{ occular_form.od_under }} </td>
+                            <th class="border-solid border-gray-500"> Temp. Sloping </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_temp }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_temp }} </td>
                         </tr>
 
                         <tr>
-                            <th> Peripap Atrophy </th>
-                            <td class="text-center"> {{ occular_form.os_atrophy }} </td>
-                            <td class="text-center"> {{ occular_form.od_atrophy }} </td>
+                            <th class="border-solid border-gray-500"> Undermining </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_under }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_under }} </td>
                         </tr>
 
                         <tr>
-                            <th> Sclearal Crescent </th>
-                            <td class="text-center"> {{ occular_form.os_scleral }} </td>
-                            <td class="text-center"> {{ occular_form.od_scleral }} </td>
+                            <th class="border-solid border-gray-500"> Peripap Atrophy </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_atrophy }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_atrophy }} </td>
                         </tr>
 
                         <tr>
-                            <th> Pigment Crescent </th>
-                            <td class="text-center"> {{ occular_form.os_pigment }} </td>
-                            <td class="text-center"> {{ occular_form.od_pigment }} </td>
+                            <th class="border-solid border-gray-500"> Sclearal Crescent </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_scleral }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_scleral }} </td>
                         </tr>
 
                         <tr>
-                            <th> Optic Pit </th>
-                            <td class="text-center"> {{ occular_form.os_pit }} </td>
-                            <td class="text-center"> {{ occular_form.od_pit }} </td>
+                            <th class="border-solid border-gray-500"> Pigment Crescent </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_pigment }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_pigment }} </td>
                         </tr>
 
                         <tr>
-                            <th> Muyelination </th>
-                            <td class="text-center"> {{ occular_form.os_muyelination }} </td>
-                            <td class="text-center"> {{ occular_form.od_muyelination }} </td>
+                            <th class="border-solid border-gray-500"> Optic Pit </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_pit }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_pit }} </td>
                         </tr>
 
                         <tr>
-                            <th> Glial Remnants </th>
-                            <td class="text-center"> {{ occular_form.os_remnants }} </td>
-                            <td class="text-center"> {{ occular_form.od_remnants }} </td>
+                            <th class="border-solid border-gray-500"> Muyelination </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_muyelination }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_muyelination }} </td>
+                        </tr>
+
+                        <tr>
+                            <th class="border-solid border-gray-500"> Glial Remnants </th>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.os_remnants }} </td>
+                            <td class="text-center border-solid border-gray-300"> {{ occular_form.od_remnants }} </td>
                         </tr>
                     </tbody>
                 </table>
