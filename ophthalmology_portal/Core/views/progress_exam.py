@@ -22,6 +22,8 @@ class ProgressExam(BaseView):
         elif exam.status == ExamModel.status_choices['waiting']:
             exam.in_progress()
         elif exam.status == ExamModel.status_choices['progressing']:
+            exam.postexam()
+        elif exam.status == ExamModel.status_choices['postexam']:
             complete = exam.complete()
             if not complete:
                 messages.warning(request, "Exams that have not been completed by an Ophthalmogist can not be ended early.")
