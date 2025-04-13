@@ -260,6 +260,16 @@ class ExamModel(models.Model):
         self.status = "Exam In Progress"
         self.save()
 
+
+    def postexam(self):
+        if (self.occular_exam_information and self.prescription and (self.visual_accuity_unaided_near
+            or self.visual_accuity_aided_near or self.visual_accuity_aided_distance or self.visual_accuity_unaided_distance)):
+            self.status = "Post Examination"
+            self.save()
+            return True
+        else:
+            return False
+
     def complete(self):
         if self.occular_exam_information:
             self.status = "Completed"

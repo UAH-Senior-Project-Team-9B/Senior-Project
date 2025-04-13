@@ -15,7 +15,7 @@ from django.http import Http404
 class ExamConfirmationView(BaseView):
     def get(self, request: HttpRequest, id, *args, **kwargs):
         if not self.manager_verification(request.user):
-            return Http404
+            raise Http404
         form = ExamManagerViewForm(instance=ExamModel.objects.get(id=id))
         return render(
             request,
