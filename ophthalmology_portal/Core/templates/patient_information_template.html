@@ -9,11 +9,11 @@
     <h2>Personal Information</h2>
     <form method="post">
         {% csrf_token %}
-        {{ patient_information.as_p }}
+        {{ patient_information_form.as_p }}
         <p class="text-4xl">Contact Information</p>
-        {{ emergency_contact.as_p }}
+        {{ emergency_contact_form.as_p }}
         <p class="text-4xl">Insurance Information</p>
-        {{ insurance_provider.as_p }}
+        {{ insurance_provider_form.as_p }}
         <button type="submit">Submit</button>
     </form>
 </body>

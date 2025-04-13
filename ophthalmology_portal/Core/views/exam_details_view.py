@@ -4,14 +4,13 @@ from zoneinfo import ZoneInfo
 
 from django.http import FileResponse, Http404, HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, resolve
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 from reportlab.platypus.tables import Table, TableStyle
-
 from ophthalmology_portal.Core.forms import (
     ExamViewForm,
     OccularExamViewForm,
@@ -22,11 +21,17 @@ from ophthalmology_portal.Core.forms.exam_creation_form import (
     ExamTimeForm,
 )
 from ophthalmology_portal.Core.models import ExamModel
+from ophthalmology_portal.Core.models.user_models import PatientUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 
 
 class PrescriptionPDF(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
+        if request.user.has_perm("Core.patient"):
+            try:
+                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
+            except:
+                raise Http404
         elements = []
         exam = ExamModel.objects.get(id=exam_id)
         buffer = io.BytesIO()
@@ -108,16 +113,18 @@ class PrescriptionPDF(BaseView):
 
 class PrescriptionPrintPDF(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
+        if request.user.has_perm("Core.patient"):
+            try:
+                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
+            except:
+                raise Http404
+        else:
+            exam = ExamModel.objects.get(id=exam_id)
         elements = []
-        exam = ExamModel.objects.get(id=exam_id)
         buffer = io.BytesIO()
         canv = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
         textob = canv.beginText()
         textob.setTextOrigin(inch, inch)
-        # for line in lines:
-        #     textob.textLine(line)
-        # canv.drawText(textob)
-        # elements.append(textob)
         doc = SimpleDocTemplate(buffer, pagesize=letter)
         presc = exam.prescription
         name = f"{exam.patient}"
@@ -192,7 +199,7 @@ class PrescriptionPrintPDF(BaseView):
 
 class ExamDetailsView(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
-        exam = ExamModel.objects.get(id=exam_id)
+
         options = {
             f"{datetime.time(8)}": "8:00 AM",
             f"{datetime.time(8, 30)}": "8:30 AM",
@@ -215,7 +222,9 @@ class ExamDetailsView(BaseView):
             f"{datetime.time(17)}": "5:00 PM",
         }
         if request.user.has_perm("Core.doctor"):
+            exam = ExamModel.objects.get(id=exam_id)
             form = ExamPatientViewNonCompleteForm(instance=exam)
+
             occular_form = None
             prescription_form = None
             if exam.status == ExamModel.status_choices["complete"]:
@@ -255,6 +264,12 @@ class ExamDetailsView(BaseView):
                 },
             )
         if request.user.has_perm("Core.patient"):
+            if resolve(request.path_info).url_name == "daily_exam_instance":
+                raise Http404
+            try:
+                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
+            except:
+                raise Http404
             if (
                 exam.status == ExamModel.status_choices["complete"]
                 or exam.status == ExamModel.status_choices["postexam"]
@@ -289,6 +304,7 @@ class ExamDetailsView(BaseView):
             )
 
         elif request.user.has_perm("Core.manager"):
+            exam = ExamModel.objects.get(id=exam_id)
             if exam.prescription:
                 prescription_form = PrescriptionViewForm(instance=exam.prescription)
             else:

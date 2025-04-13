@@ -453,6 +453,7 @@ class Command(BaseCommand):
                 )
 
                 exam1.save()
+                exam1.complete()
 
         if not User.objects.filter(username="patient2"):
             user_form = BaseUserForm({"username": "patient2", "password": "1234"})
@@ -608,6 +609,7 @@ class Command(BaseCommand):
                     exam1.visual_accuity_aided_string_right_near
                 )
                 prescription.save()
+                exam1.complete()
 
         if not User.objects.filter(username="patient3"):
             user_form = BaseUserForm({"username": "patient3", "password": "1234"})
@@ -842,6 +844,7 @@ class Command(BaseCommand):
                     exam1.visual_accuity_aided_string_right_near
                 )
                 prescription.save()
+                exam1.complete()
 
         if not User.objects.filter(username="patient4"):
             user_form = BaseUserForm({"username": "patient4", "password": "1234"})
@@ -1075,3 +1078,4 @@ class Command(BaseCommand):
                     exam1.visual_accuity_aided_string_right_near
                 )
                 prescription.save()
+                exam1.complete()
