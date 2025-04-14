@@ -9,7 +9,7 @@ from ophthalmology_portal.Core.models.test_information_model import (
     OccularExamModel,
     VisualAccuityModel,
 )
-
+from django_cryptography.fields import encrypt
 
 class ExamModel(models.Model):
     status_choices = {
@@ -96,43 +96,43 @@ class ExamModel(models.Model):
         null=True,
         related_name="exam_aided_ph_distance",
     )
-    visual_accuity_unaided_string_right_near = models.CharField(
+    visual_accuity_unaided_string_right_near = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_unaided_string_left_near = models.CharField(
+    ))
+    visual_accuity_unaided_string_left_near = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_unaided_string_both_near = models.CharField(
+    ))
+    visual_accuity_unaided_string_both_near = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_aided_string_right_near = models.CharField(
+    ))
+    visual_accuity_aided_string_right_near = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_aided_string_left_near = models.CharField(
+    ))
+    visual_accuity_aided_string_left_near = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_aided_string_both_near = models.CharField(
+    ))
+    visual_accuity_aided_string_both_near = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
+    ))
 
-    visual_accuity_unaided_string_right_distance = models.CharField(
+    visual_accuity_unaided_string_right_distance = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_unaided_string_left_distance = models.CharField(
+    ))
+    visual_accuity_unaided_string_left_distance = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_unaided_string_both_distance = models.CharField(
+    ))
+    visual_accuity_unaided_string_both_distance = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_aided_string_right_distance = models.CharField(
+    ))
+    visual_accuity_aided_string_right_distance = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_aided_string_left_distance = models.CharField(
+    ))
+    visual_accuity_aided_string_left_distance = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
-    visual_accuity_aided_string_both_distance = models.CharField(
+    ))
+    visual_accuity_aided_string_both_distance = encrypt(models.CharField(
         max_length=255, null=True, blank=True, default="Not Recorded"
-    )
+    ))
 
     reason_for_visit = models.TextField(max_length=255)
 
@@ -244,7 +244,7 @@ class ExamModel(models.Model):
             ("doctor", "Doctor Permissions"),
             ("manager", "Manager Permissions"),
         ]
-        unique_together = ["date", "time", "doctor"]
+        unique_together = [["date", "time", "doctor"],["patient", "date"]]
 
     def __str__(self):
         return f"Exam on {self.date} at {self.time}"
@@ -259,6 +259,16 @@ class ExamModel(models.Model):
     def in_progress(self):
         self.status = "Exam In Progress"
         self.save()
+
+
+    def postexam(self):
+        if (self.occular_exam_information and self.prescription and (self.visual_accuity_unaided_near
+            or self.visual_accuity_aided_near or self.visual_accuity_aided_distance or self.visual_accuity_unaided_distance)):
+            self.status = "Post Examination"
+            self.save()
+            return True
+        else:
+            return False
 
     def complete(self):
         self.status = "Completed"

@@ -2,6 +2,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from ophthalmology_portal.Core.models import user_models
+from django_cryptography.fields import encrypt
 
 visual_acuity_choices = {
     "20/10": "20/10",
@@ -26,83 +27,83 @@ class PrescriptionModel(models.Model):
         user_models.OphthalmologistUserModel, on_delete=models.CASCADE
     )
     date_prescribed = models.DateField(auto_now_add=True)
-    od_sphere = models.DecimalField(
+    od_sphere = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    od_cylinder = models.DecimalField(
+    ))
+    od_cylinder = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    od_axis = models.DecimalField(
+    ))
+    od_axis = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    od_add = models.DecimalField(
+    ))
+    od_add = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    od_prism = models.DecimalField(
+    ))
+    od_prism = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    od_prism_base = models.DecimalField(
+    ))
+    od_prism_base = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    os_sphere = models.DecimalField(
+    ))
+    os_sphere = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    os_cylinder = models.DecimalField(
+    ))
+    os_cylinder = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    os_axis = models.DecimalField(
+    ))
+    os_axis = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    os_add = models.DecimalField(
+    ))
+    os_add = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    os_prism = models.DecimalField(
+    ))
+    os_prism = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    os_prism_base = models.DecimalField(
+    ))
+    os_prism_base = encrypt(models.DecimalField(
         decimal_places=2,
         validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
         max_digits=3,
-    )
-    os_visual_acuity_distance = models.CharField(
+    ))
+    os_visual_acuity_distance = encrypt(models.CharField(
         max_length=255,
         null=True,
         blank=True,
-    )
-    os_visual_acuity_near = models.CharField(
+    ))
+    os_visual_acuity_near = encrypt(models.CharField(
         max_length=255,
         null=True,
         blank=True,
-    )
-    od_visual_acuity_distance = models.CharField(
+    ))
+    od_visual_acuity_distance = encrypt(models.CharField(
         max_length=255,
         null=True,
         blank=True,
-    )
-    od_visual_acuity_near = models.CharField(
+    ))
+    od_visual_acuity_near = encrypt(models.CharField(
         max_length=255,
         null=True,
         blank=True,
-    )
+    ))

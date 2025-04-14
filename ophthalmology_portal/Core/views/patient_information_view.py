@@ -13,15 +13,17 @@ from ophthalmology_portal.Core.forms import (
 from ophthalmology_portal.Core.forms.patient_info_form import EmergencyContactViewOnlyForm, InsuranceProviderViewOnlyForm
 from ophthalmology_portal.Core.forms.user_forms import PatientUserViewOnlyForm
 from ophthalmology_portal.Core.models import PatientUserModel, ExamModel
+from ophthalmology_portal.Core.models.patient_info_model import EmergencyContactModel, InsuranceProviderModel
 from ophthalmology_portal.Core.views.base_view import BaseView
+from django.http import Http404
 
 
 class PatientInformationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
 
         patient = PatientUserModel.objects.get(user=request.user)
-        patient_information = PatientUserViewForm(instance=patient)
-        emergency_contact = EmergencyContactForm(
+        patient_information_form = PatientUserViewForm(instance=patient)
+        emergency_contact_form = EmergencyContactForm(
             instance=patient.emergencycontactmodel
         )
         insurance_provider_form = InsuranceProviderForm(
@@ -38,26 +40,40 @@ class PatientInformationView(BaseView):
             },
         )
 
-    def post(self, request: HttpRequest, exam_id, *args, **kwargs):
+    def post(self, request: HttpRequest, *args, **kwargs):
+
         form = PatientUserUpdateForm(request.POST)
         form2 = EmergencyContactForm(request.POST)
         form3 = InsuranceProviderForm(request.POST)
+
         if form.is_valid() and form2.is_valid() and form3.is_valid():
+            patient=PatientUserModel.objects.get(user=request.user)
+            emergency=EmergencyContactModel.objects.get(patient=patient)
+            insurance=InsuranceProviderModel.objects.get(patient=patient)
+            form = PatientUserUpdateForm(request.POST,instance=patient)
+            form2 = EmergencyContactForm(request.POST, instance=emergency)
+            form3 = InsuranceProviderForm(request.POST, instance=insurance)
+
             form.save()
             form2.save()
             form3.save()
             return redirect(reverse("patient_information"))
-        for field in form.errors:
-            messages.error(request, form.errors[field])
-        for field in form2.errors:
-            messages.error(request, form2.errors[field])
-        for field in form3.errors:
-            messages.error(request, form3.errors[field])
-        return redirect(reverse("patient_information", kwargs={"exam_id": exam_id}))
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(request, f"{error}", extra_tags=f"{field}")
+        for field, errors in form2.errors.items():
+            for error in errors:
+                messages.error(request, f"{error}", extra_tags=f"{field}")
+        for field, errors in form3.errors.items():
+            for error in errors:
+                messages.error(request, f"{error}", extra_tags=f"{field}")
+        return redirect(reverse("patient_information"))
 
 
 class PatientInformationOtherView(BaseView):
     def get(self, request: HttpRequest, patient, *args, **kwargs):
+        if not self.manager_verification(request.user) and not self.doctor_verification(request.user):
+            raise Http404
         patient = PatientUserModel.objects.get(id=patient)
         patient_information = PatientUserViewOnlyForm(instance=patient)
         emergency_contact = EmergencyContactViewOnlyForm(

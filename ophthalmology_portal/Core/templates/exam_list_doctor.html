@@ -1,5 +1,6 @@
 {% extends base_template_name %}
 {% block content%}
+<h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Patient's Exams</h1>
 {% for exam in page_obj %}
     {# Each "patient" is a patient model object. #}
     {% if exam.status == "Exam In Progress" %}

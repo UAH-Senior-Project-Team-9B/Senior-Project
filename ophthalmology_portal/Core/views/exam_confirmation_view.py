@@ -15,12 +15,14 @@ from django.http import Http404
 class ExamConfirmationView(BaseView):
     def get(self, request: HttpRequest, id, *args, **kwargs):
         if not self.manager_verification(request.user):
-            return Http404
+            raise Http404
         form = ExamManagerViewForm(instance=ExamModel.objects.get(id=id))
+        exam = ExamModel.objects.get(id=id)
         return render(
             request,
             "pending_exam_template.html",
             {
+                "exam": exam,
                 "form": form,
                 "base_template_name": self.get_base_template(request.user),
                 "upload": False,
@@ -30,7 +32,11 @@ class ExamConfirmationView(BaseView):
     def post(self, request: HttpRequest, id, *args, **kwargs):
         if not self.manager_verification(request.user):
             raise Http404
-        instance= ExamModel.objects.get(id=id)
-        instance.status=ExamModel.status_choices['upcoming']
-        instance.save()
+        if request.POST[f"{id}"] == "Deny":
+            instance= ExamModel.objects.get(id=id)
+            instance.delete()
+        elif request.POST[f"{id}"] == "Confirm":
+            instance= ExamModel.objects.get(id=id)
+            instance.status=ExamModel.status_choices['upcoming']
+            instance.save()
         return redirect("/exam-confirmations/")

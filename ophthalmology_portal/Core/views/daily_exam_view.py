@@ -26,7 +26,7 @@ class DailyExamsView(BaseView):
                     | Q(status=ExamModel.status_choices["progressing"])
                     | Q(status=ExamModel.status_choices["postexam"])
                 )
-            )
+            ).reverse()
             paginator = Paginator(exams, 10)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)
