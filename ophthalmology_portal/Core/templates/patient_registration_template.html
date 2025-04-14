@@ -8,49 +8,436 @@
     <hr class="my-4" />
     <h2 class="text-xl font-semibold text-center text-gray-700 mb-6">Patient Registration</h2>
 
-    <form method="post" class="space-y-10">
-      {% csrf_token %}
-
-      <!-- Patient Info -->
-      <div>
-        <h3 class="text-lg font-semibold text-center text-gray-800 mb-4">Patient Information</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {{ form.as_p }}
+    <form method="post">
+        {% csrf_token %}
+        <p class="text-4xl">Patient Information</p>
+        <div class="grid grid-cols-2 gap-y-5">
+            <div>
+                <label class="text-sm font-medium w-32">Title:</label>
+                <select name="{{ patient_information_form.title.html_name }}" class="w-12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in patient_information_form.fields.title.choices %}
+                        <option value="{{ value }}" {% if patient_information_form.title.value == value %} selected {% endif %}> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">First Name:</label>
+                <input type="text" name="{{ patient_information_form.first_name.html_name }}" value="{{ patient_information_form.first_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "first_name" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="text-sm font-medium w-32">Middle Initial:</label>
+                    <input type="text" maxlength="1" name="{{ patient_information_form.middle_initial.html_name }}" value="{{ patient_information_form.middle_initial.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if "middle_initial" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Last Name:</label>
+                <input type="text" name="{{ patient_information_form.last_name.html_name }}" value="{{ patient_information_form.last_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "last_name" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Gender:</label>
+                <select name="{{ patient_information_form.gender.html_name }}" class="w-32 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in patient_information_form.fields.gender.choices %}
+                        <option value="{{ value }}" {% if patient_information_form.gender.value == value %} selected {% endif %}> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Date of Birth:</label>
+                <input type="date" name="{{ patient_information_form.date_of_birth.html_name }}" value="{{ patient_information_form.date_of_birth.value|date:'Y-m-d' }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "date_of_birth" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="text-sm font-medium w-32">Street Address:</label>
+                    <input type="text" name="{{ patient_information_form.street_address.html_name }}" value="{{ patient_information_form.street_address.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if "street_address" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">City:</label>
+                <input type="text" name="{{ patient_information_form.city.html_name }}" value="{{ patient_information_form.city.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">State:</label>
+                <select name="{{ patient_information_form.state.html_name }}" class="w-32 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in patient_information_form.fields.state.choices %}
+                        <option value="{{ value }}" {% if patient_information_form.state.value == value %} selected {% endif %}> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Zip code:</label>
+                <input type="text" maxlength="10" name="{{ patient_information_form.zip_code.html_name }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "zip_code" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="text-sm font-medium w-32">Phone Number:</label>
+                    <input id="phone_number" type="text" maxlength="14" name="{{ patient_information_form.phone_number.html_name }}" value="{{ patient_information_form.phone_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if "phone_number" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Social Security:</label>
+                <input id="social_security" type="text" maxlength="11" name="{{ patient_information_form.social_security_number.html_name }}" value="{{ patient_information_form.social_security_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "social_security_number" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Email:</label>
+                <input type="email" name="{{ patient_information_form.email.html_name }}" value="{{ patient_information_form.email.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "email" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
-      </div>
-
-      <!-- Emergency Contact -->
-      <div>
-        <h3 class="text-lg font-semibold text-center text-gray-800 mb-4">Emergency Contact</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {{ form2.as_p }}
+        <hr class="my-4">
+        <p class="text-4xl">Contact Information</p>
+        <div class="flex flex-col gap-5">
+            <div>
+                <label class="text-sm font-medium w-32">Title:</label>
+                <select name="{{ emergency_contact_form.contact_title.html_name }}" class="w-12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in emergency_contact_form.fields.contact_title.choices %}
+                        <option value="{{ value }}" {% if emergency_contact_form.contact_title.value == value %} selected {% endif %}> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">First Name:</label>
+                <input type="text" name="{{ emergency_contact_form.contact_first_name.html_name }}" value="{{ emergency_contact_form.contact_first_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contact_first_name" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Middle Initial:</label>
+                <input type="text" maxlength="1" name="{{ emergency_contact_form.contact_middle_initial.html_name }}" value="{{ emergency_contact_form.contact_middle_initial.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contact_middle_initial" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Last Name:</label>
+                <input type="text" name="{{ emergency_contact_form.contact_last_name.html_name }}" value="{{ emergency_contact_form.contact_last_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contact_last_name" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Relationship:</label>
+                <input type="text" name="{{ emergency_contact_form.contact_relationship.html_name }}" value="{{ emergency_contact_form.contact_relationship.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contact_relationship" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Phone Number:</label>
+                <input id="contact_phone_number" type="text" maxlength="14" name="{{ emergency_contact_form.contact_phone_number.html_name }}" value="{{ emergency_contact_form.contact_phone_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contact_phone_number" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Email:</label>
+                <input type="email" name="{{ emergency_contact_form.contact_email.html_name }}" value="{{ emergency_contact_form.contact_email.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contact_email" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
-      </div>
-
-      <!-- Insurance Info -->
-      <div>
-        <h3 class="text-lg font-semibold text-center text-gray-800 mb-4">Insurance Information</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {{ form3.as_p }}
+        <hr class="my-4">
+        <p class="text-4xl">Insurance Information</p>
+        <div class="flex flex-col gap-5">
+            <div>
+                <label class="text-sm font-medium w-32">Insurance Provider:</label>
+                <input type="text" name="{{ insurance_provider_form.insurance_provider.html_name }}" value="{{ insurance_provider_form.insurance_provider.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "insurance_provider" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Contract Number:</label>
+                <input type="text" maxlength="13" name="{{ insurance_provider_form.contract_number.html_name }}" value="{{ insurance_provider_form.contract_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contract_number" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Group Number:</label>
+                <input type="text" name="{{ insurance_provider_form.group_number.html_name }}" value="{{ insurance_provider_form.group_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "group_number" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Effective Date:</label>
+                <input type="date" name="{{ insurance_provider_form.effective_date.html_name }}" value="{{ insurance_provider_form.effective_date.value|date:'Y-m-d' }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "effective_date" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Co-Pay:</label>
+                <input type="number" step=".01" name="{{ insurance_provider_form.co_pay.html_name }}" value="{{ insurance_provider_form.co_pay.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "co_pay" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Street Address:</label>
+                <input type="text" name="{{ insurance_provider_form.insurance_street_address.html_name }}" value="{{ insurance_provider_form.insurance_street_address.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "insurance_street_address" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">City:</label>
+                <input type="text" name="{{ insurance_provider_form.insurance_city.html_name }}" value="{{ insurance_provider_form.insurance_city.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "insurance_city" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">State:</label>
+                <select name="{{ insurance_provider_form.insurance_state.html_name }}" class="w-24 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
+                    {% for value, label in insurance_provider_form.fields.insurance_state.choices %}
+                        <option value="{{ value }}" {% if insurance_provider_form.insurance_state.value == value %} selected {% endif %}> {{ label }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Zip Code:</label>
+                <input type="text" maxlength="9" name="{{ insurance_provider_form.insurance_zip_code.html_name }}" value="{{ insurance_provider_form.insurance_zip_code.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "insurance_zip_code" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Phone Number:</label>
+                <input id="insurance_phone_number" type="text" maxlength="14" name="{{ insurance_provider_form.insurance_phone_number.html_name }}" value="{{ insurance_provider_form.insurance_phone_number.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "insurance_phone_number" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <label class="text-sm font-medium w-32">Primare Care Provider:</label>
+                <input type="text" name="{{ insurance_provider_form.primary_care_provider.html_name }}" value="{{ insurance_provider_form.primary_care_provider.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "primary_care_provider" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="flex justify-center">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-          Submit
-        </button>
-      </div>
-
-      {% if messages %}
-        <div class="text-center text-red-600 mt-4 text-sm">
-          {% for message in messages %}
-            {{ message.message }}<br>
-          {% endfor %}
-        </div>
-      {% endif %}
+        <hr class="my-4">
+        <button type="submit">Submit</button>
     </form>
 
   </div>
 </div>
+
+<!-- Phone Number Auto-Formatting Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const phoneInput = document.getElementById("phone_number");
+    if (phoneInput) {
+      phoneInput.addEventListener("input", function (e) {
+        let x = phoneInput.value.replace(/\D/g, "").substring(0, 10);
+        let formatted = "";
+
+        if (x.length > 0) {
+          formatted += "(" + x.substring(0, 3);
+        }
+        if (x.length >= 4) {
+          formatted += ") " + x.substring(3, 6);
+        }
+        if (x.length >= 7) {
+          formatted += "-" + x.substring(6, 10);
+        }
+
+        phoneInput.value = formatted;
+      });
+    }
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const phoneInput = document.getElementById("contact_phone_number");
+    if (phoneInput) {
+      phoneInput.addEventListener("input", function (e) {
+        let x = phoneInput.value.replace(/\D/g, "").substring(0, 10);
+        let formatted = "";
+
+        if (x.length > 0) {
+          formatted += "(" + x.substring(0, 3);
+        }
+        if (x.length >= 4) {
+          formatted += ") " + x.substring(3, 6);
+        }
+        if (x.length >= 7) {
+          formatted += "-" + x.substring(6, 10);
+        }
+
+        phoneInput.value = formatted;
+      });
+    }
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const phoneInput = document.getElementById("insurance_phone_number");
+    if (phoneInput) {
+      phoneInput.addEventListener("input", function (e) {
+        let x = phoneInput.value.replace(/\D/g, "").substring(0, 10);
+        let formatted = "";
+
+        if (x.length > 0) {
+          formatted += "(" + x.substring(0, 3);
+        }
+        if (x.length >= 4) {
+          formatted += ") " + x.substring(3, 6);
+        }
+        if (x.length >= 7) {
+          formatted += "-" + x.substring(6, 10);
+        }
+
+        phoneInput.value = formatted;
+      });
+    }
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const social = document.getElementById("social_security");
+    if (social) {
+      social.addEventListener("input", function (e) {
+        let x = social.value.replace(/\D/g, "").substring(0, 11);
+        let formatted = "";
+
+        if (x.length > 0) {
+          formatted += "" + x.substring(0, 3);
+        }
+        if (x.length >= 4) {
+          formatted += "-" + x.substring(3, 5);
+        }
+        if (x.length >= 6) {
+          formatted += "-" + x.substring(5, 11);
+        }
+
+        social.value = formatted;
+      });
+    }
+  });
+</script>
 {% endblock %}
