@@ -13,10 +13,7 @@
             <div class="flex justify-between items-start mb-4">
                 <!-- Patient (Clickable link) -->
                 <div>
-                    <a href="{% url 'patient_information' %}"
-                       class="text-sm font-semibold text-blue-700 hover:underline">
-                        Patient: {{ exam.patient }}
-                    </a>
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Patient:</span> {{ exam.patient }}</p>
                 </div>
 
                 <!-- Doctor and Status -->
@@ -31,12 +28,16 @@
                 <!-- Left side buttons -->
                 <div class="flex space-x-2">
                     <!-- Update Status Button -->
-                    <form method="get" action="{% url 'progress_exam' exam.id %}">
-                        <button type="submit"
-                                class="text-sm font-semibold text-yellow-600 border border-yellow-600 px-3 py-1 rounded hover:bg-yellow-100">
-                            Update Status
-                        </button>
-                    </form>
+                    {% if user.groups.all.0.name == "Office Manager" %}
+                        {% if exam.status != "Exam In Progress" and exam.status != "Completed" and exam.status != "Post Examination" %}
+                            <form method="get" action="{% url 'progress_exam' exam.id %}">
+                                <button type="submit"
+                                        class="text-sm font-semibold text-yellow-600 border border-yellow-600 px-3 py-1 rounded hover:bg-yellow-100">
+                                    Update Status
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
 
                     <!-- View Exam Button -->
                     <form method="get" action="{% url 'exam_details' exam.id %}">
@@ -45,14 +46,23 @@
                             View Exam
                         </button>
                     </form>
+
+                    <form method="get" action="{% url 'patient_history_information' exam.patient.id %}">
+                        <button type="submit"
+                                class="text-sm font-semibold text-blue-700 border border-blue-700 px-3 py-1 rounded hover:bg-blue-100">
+                            View Patient
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Cancel Button -->
-                <form method="get">
-                    <input type="submit"
-                           class="text-sm font-semibold text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-100"
-                           value="Cancel" name="{{ exam.id }}">
-                </form>
+                {% if user.groups.all.0.name == "Office Manager" %}
+                    <form method="get">
+                        <input type="submit"
+                            class="text-sm font-semibold text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-100"
+                            value="Cancel" name="{{ exam.id }}">
+                    </form>
+                {% endif %}
             </div>
         </div>
     {% endfor %}
