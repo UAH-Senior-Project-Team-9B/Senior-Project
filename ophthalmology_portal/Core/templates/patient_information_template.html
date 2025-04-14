@@ -19,6 +19,13 @@
                         <option value="{{ value }}" {% if patient_information_form.title.value == value %} selected {% endif %}> {{ label }} </option>
                     {% endfor %}
                 </select>
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "title" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
             <div>
                 <label class="text-lg font-medium w-44">First Name:</label>

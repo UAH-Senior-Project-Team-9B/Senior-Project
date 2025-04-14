@@ -19,6 +19,13 @@
                         <option value="{{ value }}" {% if patient_information_form.title.value == value %} selected {% endif %}> {{ label }} </option>
                     {% endfor %}
                 </select>
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "first_name" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
             <div>
                 <label class="text-md font-medium w-44">First Name:</label>
@@ -62,6 +69,13 @@
                         <option value="{{ value }}" {% if patient_information_form.gender.value == value %} selected {% endif %}> {{ label }} </option>
                     {% endfor %}
                 </select>
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "gender" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
             <div>
                 <label class="text-md font-medium w-44">Date of Birth:</label>
@@ -91,6 +105,13 @@
             <div>
                 <label class="text-md font-medium w-44">City:</label>
                 <input maxlength="50" type="text" name="{{ patient_information_form.city.html_name }}" value="{{ patient_information_form.city.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "city" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
             <div>
                 <label class="text-md font-medium w-44">State:</label>
@@ -99,6 +120,13 @@
                         <option value="{{ value }}" {% if patient_information_form.state.value == value %} selected {% endif %}> {{ label }} </option>
                     {% endfor %}
                 </select>
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "state" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
             <div>
                 <label class="text-md font-medium w-44">Zip code:</label>
@@ -158,6 +186,13 @@
                         <option value="{{ value }}" {% if emergency_contact_form.contact_title.value == value %} selected {% endif %}> {{ label }} </option>
                     {% endfor %}
                 </select>
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "contact_title" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
             <div>
                 <label class="text-md font-medium w-44">First Name:</label>
@@ -317,6 +352,13 @@
             <div>
                 <label class="text-md font-medium w-44">Zip Code:</label>
                 <input id="insurance_zip_code" type="text" maxlength="10" name="{{ insurance_provider_form.insurance_zip_code.html_name }}" value="{{ insurance_provider_form.insurance_zip_code.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "insurance_zip_code" in message.tags %} <label class="text-xs font-medium text-red-700">{{ message }}</label> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 <div>
                     {% if messages %}
                         {% for message in messages %}
