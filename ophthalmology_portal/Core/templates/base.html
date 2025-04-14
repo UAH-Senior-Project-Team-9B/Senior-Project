@@ -10,30 +10,5 @@
 
   <body style = "margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;">
     <main>{% block content %}{% endblock %}</main>
-
-    <!-- Phone Number Auto-Formatting Script -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const phoneInput = document.getElementById("phone_number");
-        if (phoneInput) {
-          phoneInput.addEventListener("input", function (e) {
-            let x = phoneInput.value.replace(/\D/g, "").substring(0, 10);
-            let formatted = "";
-
-            if (x.length > 0) {
-              formatted += "(" + x.substring(0, 3);
-            }
-            if (x.length >= 4) {
-              formatted += ") " + x.substring(3, 6);
-            }
-            if (x.length >= 7) {
-              formatted += "-" + x.substring(6, 10);
-            }
-
-            phoneInput.value = formatted;
-          });
-        }
-      });
-    </script>
   </body>
 </html>

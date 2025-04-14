@@ -249,7 +249,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Group Number:</label>
-                <input type="text" name="{{ insurance_provider_form.group_number.html_name }}" value="{{ insurance_provider_form.group_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ insurance_provider_form.group_number.html_name }}" value="{{ insurance_provider_form.group_number.value }}" maxlength="9" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
