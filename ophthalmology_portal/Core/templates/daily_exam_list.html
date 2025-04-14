@@ -2,19 +2,68 @@
 {% block content %}
 <div class="w-full space-y-4">
     {% for exam in page_obj %}
-        <div class="outline outline-2 outline-black p-4 bg-white rounded-md shadow-md">
-            <a href="{% url 'exam_details' exam.id %}"
-               class="block text-xl font-bold text-blue-700 no-underline hover:underline">
-                {{ exam }}
-            </a>
-            <p class="mt-1 text-gray-700 font-semibold">Status: {{ exam.status }}</p>
+        <div class="outline outline-2 outline-black p-4 bg-white rounded-md shadow-md flex flex-col justify-between">
 
-            <form method="get" class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <input type="submit" class="btn btn-outline" value="Move to Waiting" name="{{ exam.id }}">
-                <input type="submit" class="btn btn-outline" value="Move to In Progress" name="{{ exam.id }}">
-                <input type="submit" class="btn btn-outline" value="Move to Complete" name="{{ exam.id }}">
-                <input type="submit" class="btn btn-outline text-red-600 border-red-600 hover:bg-red-100" value="Cancel" name="{{ exam.id }}">
-            </form>
+            <!-- Header: Time centered -->
+            <div class="text-center mb-2">
+                <h2 class="text-lg font-bold text-gray-800">Exam At: {{ exam.time|time:"g:i A" }}</h2>
+            </div>
+
+            <!-- Body: Patient (left), Doctor + Status (right) -->
+            <div class="flex justify-between items-start mb-4">
+                <!-- Patient (Clickable link) -->
+                <div>
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Patient:</span> {{ exam.patient }}</p>
+                </div>
+
+                <!-- Doctor and Status -->
+                <div class="text-right">
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Doctor:</span> {{ exam.doctor }}</p>
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Status:</span> {{ exam.status }}</p>
+                </div>
+            </div>
+
+            <!-- Footer: Buttons (Update + View left, Cancel right) -->
+            <div class="flex justify-between items-end">
+                <!-- Left side buttons -->
+                <div class="flex space-x-2">
+                    <!-- Update Status Button -->
+                    {% if user.groups.all.0.name == "Office Manager" %}
+                        {% if exam.status != "Exam In Progress" and exam.status != "Completed" and exam.status != "Post Examination" %}
+                            <form method="get" action="{% url 'progress_exam' exam.id %}">
+                                <button type="submit"
+                                        class="text-sm font-semibold text-yellow-600 border border-yellow-600 px-3 py-1 rounded hover:bg-yellow-100">
+                                    Update Status
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+
+                    <!-- View Exam Button -->
+                    <form method="get" action="{% url 'exam_details' exam.id %}">
+                        <button type="submit"
+                                class="text-sm font-semibold text-blue-700 border border-blue-700 px-3 py-1 rounded hover:bg-blue-100">
+                            View Exam
+                        </button>
+                    </form>
+
+                    <form method="get" action="{% url 'patient_history_information' exam.patient.id %}">
+                        <button type="submit"
+                                class="text-sm font-semibold text-blue-700 border border-blue-700 px-3 py-1 rounded hover:bg-blue-100">
+                            View Patient
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Cancel Button -->
+                {% if user.groups.all.0.name == "Office Manager" %}
+                    <form method="get">
+                        <input type="submit"
+                            class="text-sm font-semibold text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-100"
+                            value="Cancel" name="{{ exam.id }}">
+                    </form>
+                {% endif %}
+            </div>
         </div>
     {% endfor %}
 </div>
@@ -38,3 +87,18 @@
     </span>
 </div>
 {% endblock %}
+here is my view to help: class CancelExam(BaseView):
+    def get(self, request, exam_id, *args, **kwargs):
+        if not self.manager_verification(request.user) and not self.patient_verification(request.user):
+            raise Http404
+        exam = ExamModel.objects.get(id=exam_id)
+        if request.user.has_perm("Core.patient"):
+            try:
+                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
+            except:
+                raise Http404
+        if exam.status != ExamModel.status_choices['complete']:
+            exam.delete()
+        else:
+            raise Http404
+        return redirect(reverse("home_page"))
