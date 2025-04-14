@@ -109,7 +109,6 @@ class PatientInformationRegistrationView(View):
                 instance3.patient_id = instance.id
                 instance3.save()
                 return redirect("/login/")
-            breakpoint()
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error}", extra_tags=f"{field}")
@@ -119,7 +118,15 @@ class PatientInformationRegistrationView(View):
             for field, errors in form3.errors.items():
                 for error in errors:
                     messages.error(request, f"{error}", extra_tags=f"{field}")
-            return redirect("/registration/information/")
+            return render(
+                request,
+                "patient_registration_template.html",
+                {
+                    "patient_information_form": form,
+                    "emergency_contact_form": form2,
+                    "insurance_provider_form": form3,
+                },
+            )
 
 
 class LogOutView(View):

@@ -4,14 +4,14 @@
   <div class="bg-white shadow-lg rounded-xl w-3/5 max-w-5xl h-auto p-8">
 
     <!-- Title -->
-    <h1 class="text-3xl font-bold text-sky-600 text-center mb-2">eye-c-u</h1>
+    <h1 class="text-3xl font-bold text-blue-600 text-center mb-2">EYE-C-U</h1>
     <hr class="my-4" />
-    <h2 class="text-xl font-semibold text-center text-gray-700 mb-6">Patient Registration</h2>
 
     <form method="post">
         {% csrf_token %}
-        <p class="text-4xl">Patient Information</p>
-        <div class="grid grid-cols-2 gap-y-5">
+        <h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Patient Registration</h1>
+        <div class="flex flex-col gap-y-5">
+            <h2 class="text-lg font-semibold text-gray-700 mb-1">Personal Information</h2>
             <div>
                 <label class="text-sm font-medium w-32">Title:</label>
                 <select name="{{ patient_information_form.title.html_name }}" class="w-12 me-2 ms-2 border-2 border-gray-300 rounded-md py-0">
@@ -22,7 +22,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">First Name:</label>
-                <input type="text" name="{{ patient_information_form.first_name.html_name }}" value="{{ patient_information_form.first_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ patient_information_form.first_name.html_name }}" value="{{ patient_information_form.first_name.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -34,7 +34,7 @@
             <div>
                 <div>
                     <label class="text-sm font-medium w-32">Middle Initial:</label>
-                    <input type="text" maxlength="1" name="{{ patient_information_form.middle_initial.html_name }}" value="{{ patient_information_form.middle_initial.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input type="text" maxlength="1" name="{{ patient_information_form.middle_initial.html_name }}" value="{{ patient_information_form.middle_initial.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <div>
                         {% if messages %}
                             {% for message in messages %}
@@ -46,7 +46,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Last Name:</label>
-                <input type="text" name="{{ patient_information_form.last_name.html_name }}" value="{{ patient_information_form.last_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ patient_information_form.last_name.html_name }}" value="{{ patient_information_form.last_name.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -74,10 +74,11 @@
                     {% endif %}
                 </div>
             </div>
+            <h2 class="text-lg font-semibold text-gray-700 mb-1">Address</h2>
             <div>
                 <div>
                     <label class="text-sm font-medium w-32">Street Address:</label>
-                    <input type="text" name="{{ patient_information_form.street_address.html_name }}" value="{{ patient_information_form.street_address.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input type="text" name="{{ patient_information_form.street_address.html_name }}" value="{{ patient_information_form.street_address.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <div>
                         {% if messages %}
                             {% for message in messages %}
@@ -89,7 +90,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">City:</label>
-                <input type="text" name="{{ patient_information_form.city.html_name }}" value="{{ patient_information_form.city.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ patient_information_form.city.html_name }}" value="{{ patient_information_form.city.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
             <div>
                 <label class="text-sm font-medium w-32">State:</label>
@@ -110,10 +111,11 @@
                     {% endif %}
                 </div>
             </div>
+            <h2 class="text-lg font-semibold text-gray-700 mb-1">Contact Information</h2>
             <div>
                 <div>
                     <label class="text-sm font-medium w-32">Phone Number:</label>
-                    <input id="phone_number" type="text" maxlength="14" name="{{ patient_information_form.phone_number.html_name }}" value="{{ patient_information_form.phone_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input id="phone_number" type="text" maxlength="14" name="{{ patient_information_form.phone_number.html_name }}" value="{{ patient_information_form.phone_number.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <div>
                         {% if messages %}
                             {% for message in messages %}
@@ -125,7 +127,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Social Security:</label>
-                <input id="social_security" type="text" maxlength="11" name="{{ patient_information_form.social_security_number.html_name }}" value="{{ patient_information_form.social_security_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input id="social_security" type="text" maxlength="11" name="{{ patient_information_form.social_security_number.html_name }}" value="{{ patient_information_form.social_security_number.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -136,7 +138,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Email:</label>
-                <input type="email" name="{{ patient_information_form.email.html_name }}" value="{{ patient_information_form.email.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="email" name="{{ patient_information_form.email.html_name }}" value="{{ patient_information_form.email.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -147,7 +149,7 @@
             </div>
         </div>
         <hr class="my-4">
-        <p class="text-4xl">Contact Information</p>
+        <h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Emergency Contact</h1>
         <div class="flex flex-col gap-5">
             <div>
                 <label class="text-sm font-medium w-32">Title:</label>
@@ -159,7 +161,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">First Name:</label>
-                <input type="text" name="{{ emergency_contact_form.contact_first_name.html_name }}" value="{{ emergency_contact_form.contact_first_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ emergency_contact_form.contact_first_name.html_name }}" value="{{ emergency_contact_form.contact_first_name.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -170,7 +172,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Middle Initial:</label>
-                <input type="text" maxlength="1" name="{{ emergency_contact_form.contact_middle_initial.html_name }}" value="{{ emergency_contact_form.contact_middle_initial.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" maxlength="1" name="{{ emergency_contact_form.contact_middle_initial.html_name }}" value="{{ emergency_contact_form.contact_middle_initial.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -181,7 +183,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Last Name:</label>
-                <input type="text" name="{{ emergency_contact_form.contact_last_name.html_name }}" value="{{ emergency_contact_form.contact_last_name.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ emergency_contact_form.contact_last_name.html_name }}" value="{{ emergency_contact_form.contact_last_name.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -192,7 +194,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Relationship:</label>
-                <input type="text" name="{{ emergency_contact_form.contact_relationship.html_name }}" value="{{ emergency_contact_form.contact_relationship.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ emergency_contact_form.contact_relationship.html_name }}" value="{{ emergency_contact_form.contact_relationship.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -203,7 +205,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Phone Number:</label>
-                <input id="contact_phone_number" type="text" maxlength="14" name="{{ emergency_contact_form.contact_phone_number.html_name }}" value="{{ emergency_contact_form.contact_phone_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input id="contact_phone_number" type="text" maxlength="14" name="{{ emergency_contact_form.contact_phone_number.html_name }}" value="{{ emergency_contact_form.contact_phone_number.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -214,7 +216,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Email:</label>
-                <input type="email" name="{{ emergency_contact_form.contact_email.html_name }}" value="{{ emergency_contact_form.contact_email.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="email" name="{{ emergency_contact_form.contact_email.html_name }}" value="{{ emergency_contact_form.contact_email.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -225,11 +227,11 @@
             </div>
         </div>
         <hr class="my-4">
-        <p class="text-4xl">Insurance Information</p>
+        <h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Insurance Information</h1>
         <div class="flex flex-col gap-5">
             <div>
                 <label class="text-sm font-medium w-32">Insurance Provider:</label>
-                <input type="text" name="{{ insurance_provider_form.insurance_provider.html_name }}" value="{{ insurance_provider_form.insurance_provider.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ insurance_provider_form.insurance_provider.html_name }}" value="{{ insurance_provider_form.insurance_provider.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -240,7 +242,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Contract Number:</label>
-                <input type="text" maxlength="13" name="{{ insurance_provider_form.contract_number.html_name }}" value="{{ insurance_provider_form.contract_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" maxlength="13" name="{{ insurance_provider_form.contract_number.html_name }}" value="{{ insurance_provider_form.contract_number.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -251,7 +253,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Group Number:</label>
-                <input type="text" name="{{ insurance_provider_form.group_number.html_name }}" value="{{ insurance_provider_form.group_number.value }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ insurance_provider_form.group_number.html_name }}" value="{{ insurance_provider_form.group_number.value|default_if_none:"" }}" class="w-32 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -284,7 +286,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Street Address:</label>
-                <input type="text" name="{{ insurance_provider_form.insurance_street_address.html_name }}" value="{{ insurance_provider_form.insurance_street_address.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ insurance_provider_form.insurance_street_address.html_name }}" value="{{ insurance_provider_form.insurance_street_address.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -295,7 +297,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">City:</label>
-                <input type="text" name="{{ insurance_provider_form.insurance_city.html_name }}" value="{{ insurance_provider_form.insurance_city.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ insurance_provider_form.insurance_city.html_name }}" value="{{ insurance_provider_form.insurance_city.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -314,7 +316,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Zip Code:</label>
-                <input type="text" maxlength="9" name="{{ insurance_provider_form.insurance_zip_code.html_name }}" value="{{ insurance_provider_form.insurance_zip_code.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" maxlength="9" name="{{ insurance_provider_form.insurance_zip_code.html_name }}" value="{{ insurance_provider_form.insurance_zip_code.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -325,7 +327,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Phone Number:</label>
-                <input id="insurance_phone_number" type="text" maxlength="14" name="{{ insurance_provider_form.insurance_phone_number.html_name }}" value="{{ insurance_provider_form.insurance_phone_number.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input id="insurance_phone_number" type="text" maxlength="14" name="{{ insurance_provider_form.insurance_phone_number.html_name }}" value="{{ insurance_provider_form.insurance_phone_number.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -336,7 +338,7 @@
             </div>
             <div>
                 <label class="text-sm font-medium w-32">Primare Care Provider:</label>
-                <input type="text" name="{{ insurance_provider_form.primary_care_provider.html_name }}" value="{{ insurance_provider_form.primary_care_provider.value }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="text" name="{{ insurance_provider_form.primary_care_provider.html_name }}" value="{{ insurance_provider_form.primary_care_provider.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
