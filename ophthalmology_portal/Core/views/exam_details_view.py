@@ -1,6 +1,5 @@
 import datetime
 import io
-from zoneinfo import ZoneInfo
 
 from django.http import FileResponse, Http404, HttpRequest
 from django.shortcuts import redirect, render
@@ -233,7 +232,6 @@ class ExamDetailsView(BaseView):
                     instance=exam.occular_exam_information
                 )
                 prescription_form = PrescriptionViewForm(instance=exam.prescription)
-                update_button = False
             else:
                 if exam.status == ExamModel.status_choices["postexam"]:
                     form = ExamViewForm(instance=exam)
@@ -241,18 +239,11 @@ class ExamDetailsView(BaseView):
                         instance=exam.occular_exam_information
                     )
                     prescription_form = PrescriptionViewForm(instance=exam.prescription)
-                    update_button = True
-                elif exam.status == ExamModel.status_choices["progressing"]:
-                    update_button = True
-                else:
-                    update_button = False
 
-            cancellable = False
             return render(
                 request,
                 "exam_details.html",
                 {
-                    "cancellable": cancellable,
                     "form": form,
                     "exam_id": exam_id,
                     "base_template_name": self.get_base_template(request.user),
@@ -260,7 +251,6 @@ class ExamDetailsView(BaseView):
                     "exam": exam,
                     "occular_form": occular_form,
                     "upload": False,
-                    "update_button": update_button,
                 },
             )
         if request.user.has_perm("Core.patient"):
@@ -284,15 +274,10 @@ class ExamDetailsView(BaseView):
                 occular_form = None
                 prescription_form = None
 
-            if exam.status == ExamModel.status_choices["upcoming"]:
-                cancellable = True
-            else:
-                cancellable = False
             return render(
                 request,
                 "exam_details.html",
                 {
-                    "cancellable": cancellable,
                     "form": form,
                     "exam_id": exam_id,
                     "base_template_name": self.get_base_template(request.user),
@@ -310,89 +295,15 @@ class ExamDetailsView(BaseView):
             else:
                 prescription_form = None
 
-            if exam.status == ExamModel.status_choices["upcoming"]:
-                form = ExamPatientViewNonCompleteForm(instance=exam)
-                if (
-                    exam.date
-                    == datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()
-                ):
-                    stageable = True
-                else:
-                    stageable = False
-                minimum = datetime.datetime.now(
-                    ZoneInfo("America/Indiana/Knox")
-                ).date() + datetime.timedelta(days=2)
-                maximum = datetime.datetime.now(
-                    ZoneInfo("America/Indiana/Knox")
-                ).date() + datetime.timedelta(days=2 * 365)
-                minimum = minimum.strftime("%Y-%m-%d")
-                maximum = maximum.strftime("%Y-%m-%d")
-                cancellable = True
-                if "HX-target" in request.headers:
-                    template_name = "time_submission.html"
-                    if not request.GET["date"]:
-                        pass
-                    else:
-                        already_taken = ExamModel.objects.filter(
-                            date=request.GET["date"], doctor=exam.doctor
-                        )
-                        for i in already_taken:
-                            options.pop(f"{i.time}")
-                else:
-                    template_name = "exam_details_manager_update.html"
-                    already_taken = ExamModel.objects.filter(
-                        date=datetime.datetime.now(
-                            ZoneInfo("America/Indiana/Knox")
-                        ).date(),
-                        doctor=exam.doctor,
-                    )
-                    for i in already_taken:
-                        options.pop(f"{i.time}")
-                return render(
-                    request,
-                    template_name,
-                    {
-                        "stageable": stageable,
-                        "cancellable": cancellable,
-                        "form": form,
-                        "base_template_name": self.get_base_template(request.user),
-                        "prescription_form": prescription_form,
-                        "upload": False,
-                        "options": options,
-                        "exam_id": exam_id,
-                        "minimum": minimum,
-                        "maximum": maximum,
-                        "exam": exam,
-                    },
-                )
-            elif exam.status == ExamModel.status_choices["waiting"]:
-                form = ExamPatientViewNonCompleteForm(instance=exam)
-                cancellable = True
-                stageable = True
+            if (
+                exam.status == ExamModel.status_choices["postexam"]
+                or exam.status == ExamModel.status_choices["complete"]
+            ):
+                form = ExamViewForm(instance=exam)
                 return render(
                     request,
                     "exam_details.html",
                     {
-                        "stageable": stageable,
-                        "cancellable": cancellable,
-                        "form": form,
-                        "base_template_name": self.get_base_template(request.user),
-                        "prescription_form": prescription_form,
-                        "upload": False,
-                        "exam_id": exam_id,
-                        "exam": exam,
-                    },
-                )
-            elif exam.status == ExamModel.status_choices["postexam"]:
-                form = ExamPatientViewNonCompleteForm(instance=exam)
-                cancellable = False
-                stageable = True
-                return render(
-                    request,
-                    "exam_details.html",
-                    {
-                        "stageable": stageable,
-                        "cancellable": cancellable,
                         "form": form,
                         "base_template_name": self.get_base_template(request.user),
                         "prescription_form": prescription_form,
@@ -402,15 +313,11 @@ class ExamDetailsView(BaseView):
                     },
                 )
             else:
-                form = ExamViewForm(instance=exam)
-                cancellable = False
-                stageable = False
+                form = ExamPatientViewNonCompleteForm(instance=exam)
                 return render(
                     request,
                     "exam_details.html",
                     {
-                        "stageable": stageable,
-                        "cancellable": cancellable,
                         "form": form,
                         "base_template_name": self.get_base_template(request.user),
                         "prescription_form": prescription_form,

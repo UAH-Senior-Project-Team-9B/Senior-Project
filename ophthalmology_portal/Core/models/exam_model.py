@@ -271,12 +271,8 @@ class ExamModel(models.Model):
             return False
 
     def complete(self):
-        if self.occular_exam_information:
-            self.status = "Completed"
-            self.save()
-            return True
-        else:
-            return False
+        self.status = "Completed"
+        self.save()
 
     def stageable(self):
         if self.date == datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date():

@@ -19,7 +19,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from django.contrib.auth import views as auth_views
 
 from ophthalmology_portal.Core import views
 
@@ -119,6 +118,11 @@ urlpatterns = [
         "api/progress-exam/<int:exam_id>",
         views.ProgressExam.as_view(),
         name="progress_exam",
+    ),
+    path(
+        "reschedule-exam/<int:exam_id>",
+        views.ExamRescheduleView.as_view(),
+        name="reschedule_exam",
     ),
 ]
 
