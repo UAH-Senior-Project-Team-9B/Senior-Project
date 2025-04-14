@@ -64,6 +64,7 @@ class TestInformationCreationView(BaseView):
                 instance=exam.visual_accuity_pinhole_unaided_distance,
                 prefix="unaided_ph_distance",
             )
+
             return render(
                 request,
                 "exam_data_submission.html",
@@ -160,7 +161,7 @@ class TestInformationCreationView(BaseView):
             request.POST, prefix="aided_distance"
         )
         unaided_distance = VisualAccuitySubmissionForm(
-            request.POST, prefix="unaided_near_distance"
+            request.POST, prefix="unaided_distance"
         )
         pinhole_aided_distance = VisualAccuitySubmissionForm(
             request.POST, prefix="aided_ph_distance"
@@ -170,6 +171,7 @@ class TestInformationCreationView(BaseView):
         )
         occular_form = OccularExamCreationForm(request.POST, request.FILES)
         prescription_form = PrescriptionCreationForm(request.POST)
+
         if (
             aided_near.is_valid()
             and occular_form.is_valid()

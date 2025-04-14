@@ -3,13 +3,14 @@ import io
 
 from django.http import FileResponse, Http404, HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse, resolve
+from django.urls import resolve, reverse
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 from reportlab.platypus.tables import Table, TableStyle
+
 from ophthalmology_portal.Core.forms import (
     ExamViewForm,
     OccularExamViewForm,
@@ -28,7 +29,9 @@ class PrescriptionPDF(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
         if request.user.has_perm("Core.patient"):
             try:
-                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
+                exam = ExamModel.objects.get(
+                    id=exam_id, patient=PatientUserModel.objects.get(user=request.user)
+                )
             except:
                 raise Http404
         elements = []
@@ -114,7 +117,9 @@ class PrescriptionPrintPDF(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
         if request.user.has_perm("Core.patient"):
             try:
-                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
+                exam = ExamModel.objects.get(
+                    id=exam_id, patient=PatientUserModel.objects.get(user=request.user)
+                )
             except:
                 raise Http404
         else:
@@ -198,7 +203,6 @@ class PrescriptionPrintPDF(BaseView):
 
 class ExamDetailsView(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
-
         options = {
             f"{datetime.time(8)}": "8:00 AM",
             f"{datetime.time(8, 30)}": "8:30 AM",
@@ -257,7 +261,9 @@ class ExamDetailsView(BaseView):
             if resolve(request.path_info).url_name == "daily_exam_instance":
                 raise Http404
             try:
-                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
+                exam = ExamModel.objects.get(
+                    id=exam_id, patient=PatientUserModel.objects.get(user=request.user)
+                )
             except:
                 raise Http404
             if (
@@ -336,6 +342,18 @@ class ExamDetailsView(BaseView):
             reschedule = True
         except:
             reschedule = False
+            # Duct Tape
+            try:
+                if request.POST[f"{exam_id}"] == "Deny":
+                    instance = ExamModel.objects.get(id=exam_id)
+                    instance.delete()
+                elif request.POST[f"{exam_id}"] == "Confirm":
+                    instance = ExamModel.objects.get(id=exam_id)
+                    instance.status = ExamModel.status_choices["upcoming"]
+                    instance.save()
+                return redirect("/exam-confirmations/")
+            except:
+                reschedule = False
         if reschedule:
             form = ExamTimeForm(request.POST, instance=exam)
             if form.is_valid():
