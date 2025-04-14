@@ -112,7 +112,9 @@ urlpatterns = [
         name="prescription_printer",
     ),
     path(
-        "api/remove_exam/<int:exam_id>", views.CancelExam.as_view(), name="cancel_exam"
+        "api/remove_exam/<int:exam_id>/<str:return_page>/",
+        views.CancelExam.as_view(),
+        name="cancel_exam",
     ),
     path(
         "api/progress-exam/<int:exam_id>",

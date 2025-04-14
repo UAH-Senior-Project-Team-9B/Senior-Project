@@ -57,11 +57,14 @@
 
                 <!-- Cancel Button -->
                 {% if user.groups.all.0.name == "Office Manager" %}
-                    <form method="get">
-                        <input type="submit"
-                            class="text-sm font-semibold text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-100"
-                            value="Cancel" name="{{ exam.id }}">
-                    </form>
+                    {% if exam.status != "Exam In Progress" and exam.status != "Post Examination" and exam.status != "Completed" %}
+                        <form method="get" action="{% url 'cancel_exam' exam.id 'True' %}">
+                            <button type="submit"
+                                class="text-sm font-semibold text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-100">
+                                Cancel
+                            </button>
+                        </form>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -4,7 +4,7 @@
 <div class="w-full space-y-2 mb-4">
     {% for exam in page_obj %}
         {# Each "patient" is a patient model object. #}
-        <a href="{% url 'exam_confirmations' exam.id  %}"
+        <a href="{% url 'exam_details' exam.id  %}"
             class=" group rounded-md mb-4 block text-black text-xl font-bold bg-white hover:bg-gray-100 outline outline-2 shadow-lg hover:shadow-2xl outline-black text-center no-underlinerelative no-underline">
             <div class="">
                 <p class="no-underline text-white text-2xl bg-blue-500 group-hover:bg-blue-600 group-hover:text-gray-200 border-0 border-b-2 border-solid pt-1 pb-1 px-3 border-black m-0">{{ exam }}</p>
