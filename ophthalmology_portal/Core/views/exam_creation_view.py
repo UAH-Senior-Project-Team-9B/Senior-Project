@@ -7,6 +7,7 @@ from django.urls import reverse
 
 from ophthalmology_portal.Core.forms import ExamCreationMainForm, ExamCreationPostForm
 from ophthalmology_portal.Core.models import ExamModel, OphthalmologistUserModel
+from ophthalmology_portal.Core.models.user_models import PatientUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 from django.http import Http404
 
@@ -61,6 +62,7 @@ class ExamCreationView(BaseView):
             context={
                 "form": form,
                 "options": options,
+                "patients": PatientUserModel.objects.all(),
                 "doctors": doctors,
                 "base_template_name": self.get_base_template(request.user),
                 "minimum": minimum,

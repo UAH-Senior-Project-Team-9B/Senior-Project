@@ -14,16 +14,22 @@
 <!-- Header -->
 <header class="bg-blue-600 text-white py-4 shadow-md flex items-center justify-between px-4">
     <!-- Hamburger Icon -->
-    <button id="menu-toggle" class="text-white focus:outline-none">
+    <button id="menu-toggle" class="text-gray-800 focus:outline-none"> <!-- Recolored -->
         <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round"
                   d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
     </button>
-    <!-- Title centered with flex-grow -->
-    <h1 class="text-2xl font-bold text-center mx-auto">EYE-C-U: Office Portal</h1>
-    <!-- Invisible spacer to keep title centered -->
-    <div class="w-8 h-8"></div>
+
+    <!-- Clickable Title -->
+    <a href="{% url 'home_page' %}" class="text-2xl no-underline text-white font-bold text-center mx-auto hover:underline">
+        EYE-C-U: Office Portal
+    </a>
+
+    <!-- Username -->
+    <div class="text-sm font-semibold">
+        {{ request.user.username }}
+    </div>
 </header>
 
 <!-- Drawer Menu -->
@@ -32,7 +38,11 @@
     <div class="pt-6 px-4 text-center space-y-4">
         <h2 class="underline text-3xl font-bold text-white">Manager Options</h2>
 
-        <!-- Button with hover text -->
+        <!-- Home Button -->
+        <a href="{% url 'home_page' %}"
+           class="block no-underline text-white text-xl font-bold hover:bg-blue-700 p-3 rounded">Home</a>
+
+        <!-- Other Buttons with Tooltips -->
         <div class="relative group">
             <a href="{% url 'patient_list' %}"
                class="block no-underline text-white text-xl font-bold hover:bg-blue-700 p-3 rounded">
@@ -43,7 +53,6 @@
             </span>
         </div>
 
-        <!-- Button with hover text -->
         <div class="relative group">
             <a href="{% url 'create_exam' %}"
                class="block no-underline text-white text-xl font-bold hover:bg-blue-700 p-3 rounded">
@@ -54,7 +63,6 @@
             </span>
         </div>
 
-        <!-- Button with hover text -->
         <div class="relative group">
             <a href="{% url 'daily_exams' %}"
                class="block no-underline text-white text-xl font-bold hover:bg-blue-700 p-3 rounded">
@@ -65,7 +73,6 @@
             </span>
         </div>
 
-        <!-- Button with hover text -->
         <div class="relative group">
             <a href="{% url 'exam_confirmations' %}"
                class="block no-underline text-white text-xl font-bold hover:bg-blue-700 p-3 rounded">
@@ -76,7 +83,6 @@
             </span>
         </div>
 
-        <!-- Button with hover text -->
         <div class="relative group">
             <a href="{% url 'log_out' %}"
                class="block no-underline text-white text-xl font-bold hover:bg-blue-700 p-3 rounded">
@@ -106,11 +112,11 @@
     const toggleBtn = document.getElementById('menu-toggle');
 
     function toggleDrawer() {
-    const isHidden = drawer.classList.contains('-translate-x-full');
-    drawer.classList.toggle('-translate-x-full');
-    drawer.classList.toggle('pointer-events-none');
-    overlay.classList.toggle('hidden');
-}
+        const isHidden = drawer.classList.contains('-translate-x-full');
+        drawer.classList.toggle('-translate-x-full');
+        drawer.classList.toggle('pointer-events-none');
+        overlay.classList.toggle('hidden');
+    }
 
     toggleBtn.addEventListener('click', toggleDrawer);
 </script>
