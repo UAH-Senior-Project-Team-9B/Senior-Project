@@ -56,8 +56,12 @@ class RegistrationView(View):
             request.session["username"] = username
             request.session["password"] = password
             return redirect(reverse("patient_registration"))
-        messages.error(request=request, message="wrong")
-        return redirect(reverse("registration"))
+        messages.error(request=request, message="Username is Taken")
+        return render(
+            request=request,
+            template_name="base_registration_template.html",
+            context={"form": form},
+        )
 
 
 class PatientInformationRegistrationView(View):
