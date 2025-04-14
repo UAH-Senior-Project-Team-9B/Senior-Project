@@ -1,9 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@custom-variant dark (&:where(.dark, .dark *));
 @layer components {
     .btn {
         @apply rounded bg-blue-600 px-4 py-2 text-white;
     }
+}
+.input.input-bordered {
+    background-color: white !important;
 }

@@ -6,7 +6,6 @@ from ophthalmology_portal.Core.views.exam_confirmations_view import (
 )
 from ophthalmology_portal.Core.views.exam_creation_view import (
     ExamCreationView,
-    ExamRescheduleView,
 )
 from ophthalmology_portal.Core.views.exam_data_submission_view import (
     TestInformationCreationView,
@@ -35,6 +34,7 @@ from ophthalmology_portal.Core.views.prescription_creation_view import (
 )
 from ophthalmology_portal.Core.views.prescription_list_view import PrescriptionListView
 from ophthalmology_portal.Core.views.progress_exam import ProgressExam
+from ophthalmology_portal.Core.views.reschedule_exam import RescheduleExam
 
 __all__ = [
     "HomePageView",
@@ -42,7 +42,6 @@ __all__ = [
     "RegistrationView",
     "PatientInformationRegistrationView",
     "ExamCreationView",
-    "ExamRescheduleView",
     "PrescriptionCreationView",
     "TestInformationCreationView",
     "PatientListView",
@@ -61,5 +60,5 @@ __all__ = [
     "CancelExam",
     "ProgressExam",
     "PatientInformationOtherView",
-    "ExamRescheduleView",
+    "RescheduleExam",
 ]

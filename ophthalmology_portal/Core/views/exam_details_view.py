@@ -1,5 +1,6 @@
 import datetime
 import io
+from zoneinfo import ZoneInfo
 
 from django.http import FileResponse, Http404, HttpRequest
 from django.shortcuts import redirect, render
@@ -279,7 +280,52 @@ class ExamDetailsView(BaseView):
             else:
                 prescription_form = None
 
-            if (
+            if exam.status == ExamModel.status_choices["upcoming"]:
+                form = ExamPatientViewNonCompleteForm(instance=exam)
+                minimum = datetime.datetime.now(
+                    ZoneInfo("America/Indiana/Knox")
+                ).date() + datetime.timedelta(days=2)
+                maximum = datetime.datetime.now(
+                    ZoneInfo("America/Indiana/Knox")
+                ).date() + datetime.timedelta(days=2 * 365)
+                minimum = minimum.strftime("%Y-%m-%d")
+                maximum = maximum.strftime("%Y-%m-%d")
+                if "HX-target" in request.headers:
+                    template_name = "time_submission.html"
+                    if not request.GET["date"]:
+                        pass
+                    else:
+                        already_taken = ExamModel.objects.filter(
+                            date=request.GET["date"], doctor=exam.doctor
+                        )
+                        for i in already_taken:
+                            options.pop(f"{i.time}")
+                else:
+                    template_name = "exam_details.html"
+                    already_taken = ExamModel.objects.filter(
+                        date=datetime.datetime.now(
+                            ZoneInfo("America/Indiana/Knox")
+                        ).date(),
+                        doctor=exam.doctor,
+                    )
+                    for i in already_taken:
+                        options.pop(f"{i.time}")
+                return render(
+                    request,
+                    template_name,
+                    {
+                        "form": form,
+                        "base_template_name": self.get_base_template(request.user),
+                        "prescription_form": prescription_form,
+                        "upload": False,
+                        "options": options,
+                        "exam_id": exam_id,
+                        "minimum": minimum,
+                        "maximum": maximum,
+                        "exam": exam,
+                    },
+                )
+            elif (
                 exam.status == ExamModel.status_choices["postexam"]
                 or exam.status == ExamModel.status_choices["complete"]
             ):
