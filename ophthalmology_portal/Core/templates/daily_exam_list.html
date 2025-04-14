@@ -90,18 +90,3 @@
     </span>
 </div>
 {% endblock %}
-here is my view to help: class CancelExam(BaseView):
-    def get(self, request, exam_id, *args, **kwargs):
-        if not self.manager_verification(request.user) and not self.patient_verification(request.user):
-            raise Http404
-        exam = ExamModel.objects.get(id=exam_id)
-        if request.user.has_perm("Core.patient"):
-            try:
-                exam = ExamModel.objects.get(id=exam_id, patient=PatientUserModel.objects.get(user=request.user))
-            except:
-                raise Http404
-        if exam.status != ExamModel.status_choices['complete']:
-            exam.delete()
-        else:
-            raise Http404
-        return redirect(reverse("home_page"))
