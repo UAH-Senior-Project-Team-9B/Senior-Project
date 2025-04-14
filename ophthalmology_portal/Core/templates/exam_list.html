@@ -1,12 +1,31 @@
 {% extends base_template_name %}
 {% block content %}
-<h1 class="text-3xl font-bold text-gray-700 text-center mb-2">{{ patient_obj }}'s' Exams</h1>
+<h1 class="text-3xl font-bold text-gray-700 text-center mb-2">{{ patient_obj }}'s Exams</h1>
 <div class="w-full space-y-2">
     {% for exam in page_obj %}
-        <a href="{% url 'exam_details' exam.id %}"
-           class="block text-white text-xl font-bold bg-blue-600 hover:bg-blue-700 p-3 outline outline-2 outline-black text-center no-underline">
-            {{ exam }}
-        </a>
+        <div class="outline outline-2 outline-black p-4 bg-white rounded-md shadow-md flex flex-col justify-between">
+
+            <!-- Body: Patient (left), Doctor + Status (right) -->
+            <div class="flex justify-between items-start">
+                <!-- Patient (Clickable link) -->
+                <div>
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Time:</span> {{ exam.time|time:"g:i A" }} </p>
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Date:</span> {{ exam.date }} </p>
+                    <form method="get" action="{% url 'exam_details' exam.id %}">
+                        <button type="submit"
+                                class="text-sm font-semibold text-blue-700 border border-blue-700 px-3 py-1 rounded hover:bg-blue-100">
+                            View Exam
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Doctor and Status -->
+                <div class="text-right">
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Doctor:</span> {{ exam.doctor }}</p>
+                    <p class="text-sm text-gray-600"><span class="font-semibold">Status:</span> {{ exam.status }}</p>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 </div>
 
