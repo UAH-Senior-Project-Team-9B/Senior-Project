@@ -80,7 +80,7 @@ class PatientUserModel(models.Model):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=20, choices=state_choices)
     zip_code = models.CharField(
-        max_length=9,
+        max_length=10,
         validators=[
             RegexValidator(
                 regex=r"^\d{5}-\d{4}$|^\d{5}$",

@@ -34,7 +34,7 @@ class InsuranceProviderModel(models.Model):
     )
     insurance_provider = models.CharField(max_length=50)
     contract_number = models.CharField(max_length=13)  # NOT A PHONE NUMBER
-    group_number = models.IntegerField()
+    group_number = models.CharField(max_length=9)
     effective_date = models.DateField()
     co_pay = models.DecimalField(decimal_places=2, max_digits=255)
     insurance_street_address = models.CharField(max_length=100)
