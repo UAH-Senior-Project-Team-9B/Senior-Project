@@ -123,7 +123,7 @@ urlpatterns = [
     ),
     path(
         "reschedule-exam/<int:exam_id>",
-        views.ExamRescheduleView.as_view(),
+        views.RescheduleExam.as_view(),
         name="reschedule_exam",
     ),
 ]

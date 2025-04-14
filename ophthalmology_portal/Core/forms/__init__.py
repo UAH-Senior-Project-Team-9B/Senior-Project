@@ -8,7 +8,8 @@ from ophthalmology_portal.Core.forms.exam_creation_form import (
     ExamManagerArrivalTimeForm,
     ExamTimeForm,
     ExamArrivalForm,
-    ExamPatientViewNonCompleteForm
+    ExamPatientViewNonCompleteForm,
+    ExamRescheduleMainForm,
 )
 from ophthalmology_portal.Core.forms.patient_info_form import (
     EmergencyContactForm,
@@ -69,4 +70,5 @@ __all__ = [
     "ExamTimeForm",
     "ExamArrivalForm",
     "ExamPatientViewNonCompleteForm",
+    "ExamRescheduleMainForm",
 ]
