@@ -17,6 +17,11 @@ class ExamCreationMainForm(forms.ModelForm):
         exclude = ["date", "time"]
 
 
+class ExamRescheduleMainForm(forms.ModelForm):
+    class Meta:
+        model = ExamModel
+        fields = ["date", "time"]
+
 class ExamViewForm(forms.ModelForm):
     class Meta:
         model = ExamModel
