@@ -104,7 +104,7 @@ class Command(BaseCommand):
             patient.user_id = user.id
             patient.save()
 
-        if not User.objects.filter(username="patient"):
+        if not User.objects.filter(username="john"):
             user_form = BaseUserForm({"username": "patient", "password": "1234"})
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data["password"])
@@ -310,7 +310,7 @@ class Command(BaseCommand):
                 exam1.save()
                 exam1.complete()
 
-        if not User.objects.filter(username="patient2"):
+        if not User.objects.filter(username="bill"):
             user_form = BaseUserForm({"username": "patient2", "password": "1234"})
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data["password"])
@@ -466,7 +466,7 @@ class Command(BaseCommand):
                 prescription.save()
                 exam1.complete()
 
-        if not User.objects.filter(username="patient3"):
+        if not User.objects.filter(username="hank"):
             user_form = BaseUserForm({"username": "patient3", "password": "1234"})
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data["password"])
@@ -701,7 +701,7 @@ class Command(BaseCommand):
                 prescription.save()
                 exam1.complete()
 
-        if not User.objects.filter(username="patient4"):
+        if not User.objects.filter(username="joe"):
             user_form = BaseUserForm({"username": "patient4", "password": "1234"})
             user = user_form.save(commit=False)
             user.set_password(user_form.cleaned_data["password"])
