@@ -49,9 +49,12 @@
                 <input type="submit" class="btn" value="Confirm" name="{{ exam.id }}">
                 <input type="submit" class="btn" value="Deny" name="{{ exam.id }}">
             </form>
+
         {% elif exam.status == "Upcoming" %}
             <div>
-                <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Waiting Room</a>
+                {% if exam.date == today %}
+                    <a class="btn btn-xs" href="{%url 'progress_exam' exam_id %}">Update to In Waiting Room</a>
+                {% endif %}
                 <a class="btn btn-xs" href="{%url 'reschedule_exam' exam_id %}">Reschedule</a>
             </div>
         {% elif exam.status == "In Wait Room" %}

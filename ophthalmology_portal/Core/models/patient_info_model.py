@@ -40,7 +40,7 @@ class InsuranceProviderModel(models.Model):
     insurance_city = models.CharField(max_length=50)
     insurance_state = models.CharField(max_length=15, choices=user_models.state_choices)
     insurance_zip_code = models.CharField(
-        max_length=9,
+        max_length=10,
         validators=[
             RegexValidator(
                 regex=r"^\d{5}-\d{4}$|^\d{5}$",
