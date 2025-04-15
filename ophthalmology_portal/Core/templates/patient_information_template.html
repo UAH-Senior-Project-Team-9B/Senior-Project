@@ -79,7 +79,7 @@
             </div>
             <div>
                 <label class="text-lg font-medium w-44">Date of Birth:</label>
-                <input type="date" name="{{ patient_information_form.date_of_birth.html_name }}" value="{{ patient_information_form.date_of_birth.value|date:'Y-m-d' }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="date" name="{{ patient_information_form.date_of_birth.html_name }}" value="{{ patient_information_form.date_of_birth.value}}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
@@ -299,7 +299,7 @@
             </div>
             <div>
                 <label class="text-lg font-medium w-44">Effective Date:</label>
-                <input type="date" name="{{ insurance_provider_form.effective_date.html_name }}" value="{{ insurance_provider_form.effective_date.value|date:'Y-m-d' }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="date" name="{{ insurance_provider_form.effective_date.html_name }}" value="{{ insurance_provider_form.effective_date.value}}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
                         {% for message in messages %}
