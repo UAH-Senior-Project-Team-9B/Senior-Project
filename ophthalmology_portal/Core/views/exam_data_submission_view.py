@@ -184,25 +184,25 @@ class TestInformationCreationView(BaseView):
             and pinhole_aided_distance.is_valid()
             and pinhole_unaided_distance.is_valid()
         ):
-            aided_near = aided_near.save(commit=False)
-            unaided_near = unaided_near.save(commit=False)
-            pinhole_aided_near = pinhole_aided_near.save(commit=False)
-            pinhole_unaided_near = pinhole_unaided_near.save(commit=False)
+            aided_near_obj = aided_near.save(commit=False)
+            unaided_near_obj = unaided_near.save(commit=False)
+            pinhole_aided_near_obj = pinhole_aided_near.save(commit=False)
+            pinhole_unaided_near_obj = pinhole_unaided_near.save(commit=False)
             _validate_accuity(
-                request, unaided_near, pinhole_unaided_near, "unaided_near"
+                request, unaided_near_obj, pinhole_unaided_near_obj, "unaided_near"
             )
-            _validate_accuity(request, aided_near, pinhole_aided_near, "aided_near")
-            aided_distance = aided_distance.save(commit=False)
-            unaided_distance = unaided_distance.save(commit=False)
-            pinhole_aided_distance = pinhole_aided_distance.save(commit=False)
-            pinhole_unaided_distance = pinhole_unaided_distance.save(commit=False)
+            _validate_accuity(request, aided_near_obj, pinhole_aided_near_obj, "aided_near")
+            aided_distance_obj = aided_distance.save(commit=False)
+            unaided_distance_obj = unaided_distance.save(commit=False)
+            pinhole_aided_distance_obj = pinhole_aided_distance.save(commit=False)
+            pinhole_unaided_distance_obj = pinhole_unaided_distance.save(commit=False)
             _validate_accuity(
-                request, aided_distance, pinhole_aided_distance, "aided_distance"
+                request, aided_distance_obj, pinhole_aided_distance_obj, "aided_distance"
             )
             _validate_accuity(
                 request,
-                unaided_distance,
-                pinhole_unaided_distance,
+                unaided_distance_obj,
+                pinhole_unaided_distance_obj,
                 "unaided_distance",
             )
             storage = get_messages(request)
