@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
 
 from ophthalmology_portal.Core.models import OccularExamModel, VisualAccuityModel
 
@@ -22,6 +21,7 @@ class VisualAccuitySubmissionForm(forms.ModelForm):
         model = VisualAccuityModel
         fields = "__all__"
 
+
 class OccularExamCreationForm(forms.ModelForm):
     class Meta:
         model = OccularExamModel
@@ -30,14 +30,44 @@ class OccularExamCreationForm(forms.ModelForm):
     def clean(self):
         data = self.cleaned_data
         if data["other"] and not data["other_information"]:
-            raise ValidationError(
+            self.add_error(
+                "other",
                 "If other is selected, the other information field must be filled in.",
-                code="other_information",
             )
         if data["other_information"] and not data["other"]:
-            raise ValidationError(
+            self.add_error(
+                "other_information",
                 "If other is not selected, additional information is not needed.",
-                code="other_information",
+            )
+        if data["custom_1"] and not data["custom_1_input"]:
+            self.add_error(
+                "custom_1",
+                "Must define a custom field if selecting a status.",
+            )
+        if data["custom_1_input"] and not data["custom_1"]:
+            self.add_error(
+                "custom_1_input",
+                "Must select a status if defining a custom field.",
+            )
+        if data["custom_2"] and not data["custom_2_input"]:
+            self.add_error(
+                "custom_2",
+                "Must define a custom field if selecting a status.",
+            )
+        if data["custom_2_input"] and not data["custom_2"]:
+            self.add_error(
+                "custom_2_input",
+                "Must select a status if defining a custom field.",
+            )
+        if data["custom_3"] and not data["custom_3_input"]:
+            self.add_error(
+                "custom_3",
+                "Must define a custom field if selecting a status.",
+            )
+        if data["custom_3_input"] and not data["custom_3"]:
+            self.add_error(
+                "custom_3_input",
+                "Must select a status if defining a custom field.",
             )
         return super().clean()
 

@@ -1,6 +1,5 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
 from django_cryptography.fields import encrypt
 
 visual_acuity_choices = {
@@ -48,86 +47,177 @@ dilating_agents = {
 
 
 class OccularExamModel(models.Model):
-    vitreous_segment = encrypt(models.CharField(
-        verbose_name="Vitreous Segment",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
-    macula_segment = encrypt(models.CharField(
-        verbose_name="Macula Segment", choices=posterior_segment_choices, max_length=255
-    ))
-    vasculature_segment = encrypt(models.CharField(
-        verbose_name="Vasculature Segment",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
-    posterior_pole_segment = encrypt(models.CharField(
-        verbose_name="Posterior Pole Segment",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
-    peripheral_retina_segment = encrypt(models.CharField(
-        verbose_name="Peripheral Retina Segment",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
-    misc_retina_segment = encrypt(models.CharField(
-        verbose_name="Misc Retina Segment",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
-    diabeti_eval_segment = encrypt(models.CharField(
-        verbose_name="Diabeti Eval Segment",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
-    htn_eval_segment = encrypt(models.CharField(
-        verbose_name="HTL Evaluation Segment",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
-    armd_segment = encrypt(models.CharField(
-        verbose_name="ARMD Segment", choices=posterior_segment_choices, max_length=255
-    ))
+    vitreous_segment = encrypt(
+        models.CharField(
+            verbose_name="Vitreous Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    macula_segment = encrypt(
+        models.CharField(
+            verbose_name="Macula Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    vasculature_segment = encrypt(
+        models.CharField(
+            verbose_name="Vasculature Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    posterior_pole_segment = encrypt(
+        models.CharField(
+            verbose_name="Posterior Pole Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    peripheral_retina_segment = encrypt(
+        models.CharField(
+            verbose_name="Peripheral Retina Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    misc_retina_segment = encrypt(
+        models.CharField(
+            verbose_name="Misc Retina Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    diabeti_eval_segment = encrypt(
+        models.CharField(
+            verbose_name="Diabeti Eval Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    htn_eval_segment = encrypt(
+        models.CharField(
+            verbose_name="HTL Evaluation Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    armd_segment = encrypt(
+        models.CharField(
+            verbose_name="ARMD Segment",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    custom_1_input = encrypt(
+        models.CharField(
+            verbose_name="Custom 1",
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
+    custom_2_input = encrypt(
+        models.CharField(
+            verbose_name="Custom 1",
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
+    custom_3_input = encrypt(
+        models.CharField(
+            verbose_name="Custom 1",
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
+    custom_1 = encrypt(
+        models.CharField(
+            verbose_name="Custom 1",
+            choices=posterior_segment_choices,
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
+    custom_2 = encrypt(
+        models.CharField(
+            verbose_name="Custom 2",
+            choices=posterior_segment_choices,
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
+    custom_3 = encrypt(
+        models.CharField(
+            verbose_name="Custom 3",
+            choices=posterior_segment_choices,
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
 
     # Ophthalmic Indicators
-    left_venous_pulsation = encrypt(models.CharField(
-        verbose_name="OS Sponeaneous Venous Pulsation",
-        choices={"+": "+", "-": "-", "X": "X"},
-        max_length=1,
-    ))
-    right_venous_pulsation = encrypt(models.CharField(
-        verbose_name="OD Venous Pulsation",
-        choices={"+": "+", "-": "-", "X": "X"},
-        max_length=1,
-    ))
-    left_foveal_reflex = encrypt(models.CharField(
-        verbose_name="OS Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
-    ))
-    right_foveal_reflex = encrypt(models.CharField(
-        verbose_name="OD Reflex", choices={"+": "+", "-": "-", "X": "X"}, max_length=1
-    ))
+    left_venous_pulsation = encrypt(
+        models.CharField(
+            verbose_name="OS Sponeaneous Venous Pulsation",
+            choices={"+": "+", "-": "-", "X": "X"},
+            max_length=1,
+        )
+    )
+    right_venous_pulsation = encrypt(
+        models.CharField(
+            verbose_name="OD Venous Pulsation",
+            choices={"+": "+", "-": "-", "X": "X"},
+            max_length=1,
+        )
+    )
+    left_foveal_reflex = encrypt(
+        models.CharField(
+            verbose_name="OS Reflex",
+            choices={"+": "+", "-": "-", "X": "X"},
+            max_length=1,
+        )
+    )
+    right_foveal_reflex = encrypt(
+        models.CharField(
+            verbose_name="OD Reflex",
+            choices={"+": "+", "-": "-", "X": "X"},
+            max_length=1,
+        )
+    )
 
     # Fundus Evaluation
-    fundus_record = encrypt(models.CharField(
-        verbose_name="Evaluation Performed",
-        choices={
-            "Not Performed": "Not Performed",
-            "Small Pupil BIO": "Small Pupil BIO",
-            "Dilated Eval": "Dilated Eval",
-            "Undilated Eval": "Undilated Eval",
-            "Optomap Imaging": "Optomap Imaging",
-            "DFE with Optomap": "DFE with Optomap",
-        },
-        max_length=255,
-    ))
-    dilated_with_drops = encrypt(models.IntegerField(
-        choices={
-            1: "1 gtt",
-            2: "2 gtt",
-        }
-    ))
-    dilated_with_drug = encrypt(models.CharField(choices=dilating_agents, max_length=255))
+    fundus_record = encrypt(
+        models.CharField(
+            verbose_name="Evaluation Performed",
+            choices={
+                "Not Performed": "Not Performed",
+                "Small Pupil BIO": "Small Pupil BIO",
+                "Dilated Eval": "Dilated Eval",
+                "Undilated Eval": "Undilated Eval",
+                "Optomap Imaging": "Optomap Imaging",
+                "DFE with Optomap": "DFE with Optomap",
+            },
+            max_length=255,
+        )
+    )
+    dilated_with_drops = encrypt(
+        models.IntegerField(
+            choices={
+                1: "1 gtt",
+                2: "2 gtt",
+            }
+        )
+    )
+    dilated_with_drug = encrypt(
+        models.CharField(choices=dilating_agents, max_length=255)
+    )
 
     # Evaluated with
     d78_lens = encrypt(models.BooleanField(verbose_name="78D Lens"))
@@ -140,7 +230,9 @@ class OccularExamModel(models.Model):
     other_information = encrypt(models.TextField(max_length=255, null=True, blank=True))
 
     # Notes
-    advised = encrypt(models.BooleanField(verbose_name="Patient Advised of effects of DFE"))
+    advised = encrypt(
+        models.BooleanField(verbose_name="Patient Advised of effects of DFE")
+    )
     rescheduled = encrypt(models.BooleanField(verbose_name="DFE to be Rescheduled"))
     declined = encrypt(models.BooleanField(verbose_name="DFE Declined"))
     imaging = encrypt(models.BooleanField(verbose_name="Fundus Imaging Performed"))
@@ -149,40 +241,54 @@ class OccularExamModel(models.Model):
     contraindicated = encrypt(models.BooleanField(verbose_name="DFE Contraindicated"))
     recent = encrypt(models.BooleanField(verbose_name="Recent DFE"))
 
-    od_cup_ratio_horizontal = encrypt(models.DecimalField(
-        verbose_name="OD Cup-Disc Horizontal Ratio",
-        decimal_places=2,
-        validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
-        max_digits=3,
-    ))
-    od_cup_ratio_vertical = encrypt(models.DecimalField(
-        verbose_name="OD Cup-Disc Vertical Ratio",
-        decimal_places=2,
-        validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
-        max_digits=3,
-    ))
-    os_cup_ratio_horizontal = encrypt(models.DecimalField(
-        verbose_name="OS Cup-Disc Horizontal Ratio",
-        decimal_places=2,
-        validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
-        max_digits=3,
-    ))
-    os_cup_ratio_vertical = encrypt(models.DecimalField(
-        verbose_name="OS Cup-Disc Vertical Ratio",
-        decimal_places=2,
-        validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
-        max_digits=3,
-    ))
+    od_cup_ratio_horizontal = encrypt(
+        models.DecimalField(
+            verbose_name="OD Cup-Disc Horizontal Ratio",
+            decimal_places=2,
+            validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
+            max_digits=3,
+        )
+    )
+    od_cup_ratio_vertical = encrypt(
+        models.DecimalField(
+            verbose_name="OD Cup-Disc Vertical Ratio",
+            decimal_places=2,
+            validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
+            max_digits=3,
+        )
+    )
+    os_cup_ratio_horizontal = encrypt(
+        models.DecimalField(
+            verbose_name="OS Cup-Disc Horizontal Ratio",
+            decimal_places=2,
+            validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
+            max_digits=3,
+        )
+    )
+    os_cup_ratio_vertical = encrypt(
+        models.DecimalField(
+            verbose_name="OS Cup-Disc Vertical Ratio",
+            decimal_places=2,
+            validators=[MinValueValidator(0.00), MaxValueValidator(1.00)],
+            max_digits=3,
+        )
+    )
 
     # Optic Nerve Head Assesment (May need revisit based on Optic Nerve Descriptors definition)
-    optic_nerve = encrypt(models.CharField(
-        verbose_name="Optic Nerve", choices=posterior_segment_choices, max_length=255
-    ))
-    nerve_fiber = encrypt(models.CharField(
-        verbose_name="Nerve Fiber Layer",
-        choices=posterior_segment_choices,
-        max_length=255,
-    ))
+    optic_nerve = encrypt(
+        models.CharField(
+            verbose_name="Optic Nerve",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
+    nerve_fiber = encrypt(
+        models.CharField(
+            verbose_name="Nerve Fiber Layer",
+            choices=posterior_segment_choices,
+            max_length=255,
+        )
+    )
 
     od_deep = encrypt(models.BooleanField(verbose_name="OD Deep/Lamina"))
     od_shallow = encrypt(models.BooleanField(verbose_name="OD Shallow"))
@@ -222,27 +328,33 @@ class OccularExamModel(models.Model):
 
 
 class VisualAccuityModel(models.Model):
-    visual_acuity_measure_left = encrypt(models.CharField(
-        verbose_name="OS Visual Accuity",
-        choices=visual_acuity_choices,
-        max_length=255,
-        blank=True,
-        null=True,
-    ))
-    visual_acuity_measure_right = encrypt(models.CharField(
-        verbose_name="OD Measurement",
-        choices=visual_acuity_choices,
-        max_length=255,
-        blank=True,
-        null=True,
-    ))
-    visual_acuity_measure_both = encrypt(models.CharField(
-        verbose_name="OU Visual Accuity",
-        choices=visual_acuity_choices,
-        max_length=255,
-        blank=True,
-        null=True,
-    ))
+    visual_acuity_measure_left = encrypt(
+        models.CharField(
+            verbose_name="OS Visual Accuity",
+            choices=visual_acuity_choices,
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
+    visual_acuity_measure_right = encrypt(
+        models.CharField(
+            verbose_name="OD Measurement",
+            choices=visual_acuity_choices,
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
+    visual_acuity_measure_both = encrypt(
+        models.CharField(
+            verbose_name="OU Visual Accuity",
+            choices=visual_acuity_choices,
+            max_length=255,
+            blank=True,
+            null=True,
+        )
+    )
 
     class Meta:
         permissions = [

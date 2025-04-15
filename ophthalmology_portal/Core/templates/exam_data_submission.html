@@ -24,6 +24,13 @@
             {% endfor %}
         </select>
     </div>
+    <div>
+        {% for message in messages %}
+            {% if "aided_distance_left error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-32">Distance Aided OD</label>
@@ -38,6 +45,13 @@
                 <option value="{{ value }}" {% if aided_ph_distance.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
             {% endfor %}
         </select>
+    </div>
+    <div>
+        {% for message in messages %}
+            {% if "aided_distance_right error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="flex items-center">
@@ -54,6 +68,13 @@
             {% endfor %}
         </select>
     </div>
+    <div>
+        {% for message in messages %}
+            {% if "aided_distance_both error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-32">Distance Unaided OS</label>
@@ -68,6 +89,13 @@
                 <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
             {% endfor %}
         </select>
+    </div>
+    <div>
+        {% for message in messages %}
+            {% if "unaided_distance_left error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="flex items-center">
@@ -84,6 +112,13 @@
             {% endfor %}
         </select>
     </div>
+    <div>
+        {% for message in messages %}
+            {% if "unaided_distance_right error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-32">Distance Unaided OU</label>
@@ -98,6 +133,13 @@
                 <option value="{{ value }}" {% if unaided_ph_distance.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
             {% endfor %}
         </select>
+    </div>
+    <div>
+        {% for message in messages %}
+            {% if "unaided_distance_both error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="flex items-center">
@@ -114,6 +156,13 @@
             {% endfor %}
         </select>
     </div>
+    <div>
+        {% for message in messages %}
+            {% if "aided_near_left error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-32">Near Aided OD</label>
@@ -128,6 +177,13 @@
                 <option value="{{ value }}" {% if aided_ph_near.visual_acuity_measure_right.value == value %} selected {% endif %}> {{ label }} </option>
             {% endfor %}
         </select>
+    </div>
+    <div>
+        {% for message in messages %}
+            {% if "aided_near_right error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="flex items-center">
@@ -144,6 +200,13 @@
             {% endfor %}
         </select>
     </div>
+    <div>
+        {% for message in messages %}
+            {% if "aided_near_both error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-32">Near Unaided OS</label>
@@ -158,6 +221,13 @@
                 <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_left.value == value %} selected {% endif %}> {{ label }} </option>
             {% endfor %}
         </select>
+    </div>
+    <div>
+        {% for message in messages %}
+            {% if "unaided_near_left error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="flex items-center">
@@ -174,6 +244,13 @@
             {% endfor %}
         </select>
     </div>
+    <div>
+        {% for message in messages %}
+            {% if "unaided_near_right error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-32">Near Unaided OU</label>
@@ -188,6 +265,13 @@
                 <option value="{{ value }}" {% if unaided_ph_near.visual_acuity_measure_both.value == value %} selected {% endif %}> {{ label }} </option>
             {% endfor %}
         </select>
+    </div>
+    <div>
+        {% for message in messages %}
+            {% if "unaided_near_both error" == message.tags %}
+                <label class="text-xs font-medium text-red-700"> Must select regular visual acuity if selecting pinhole acuity </label>
+            {% endif %}
+        {% endfor %}
     </div>
     <div>
         <hr class="my-4" />
@@ -265,7 +349,7 @@
 
     <div>
         <hr class="my-4" />
-        <label class="text-md font-semibold text-left text-gray-700 mb-6">Occular Examination Findings</label>
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Ocular Examination Findings</label>
     </div>
 
     <div class="flex items-center">
@@ -409,6 +493,57 @@
             {% for message in messages %}
                 {% if "armd_segment" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
             {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <input maxlength="30" type="text" name="custom_1_input" value="{{ occular_form.custom_1_input.value|default_if_none:"" }}" class="w-32 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <select name="custom_1" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.custom_1.choices %}
+                <option value="{{ value }}" {% if occular_form.custom_1.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if occular_form.custom_1_input.errors %}
+            <label class="text-xs font-medium text-red-700"> Must select a status if defining a custom field </label>
+        {% endif %}
+        {% if occular_form.custom_1.errors %}
+            <label class="text-xs font-medium text-red-700"> Must define a custom field if selecting a status </label>
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <input maxlength="30" type="text" name="custom_2_input" value="{{ occular_form.custom_2_input.value|default_if_none:"" }}" class="w-32 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <select name="custom_2" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.custom_2.choices %}
+                <option value="{{ value }}" {% if occular_form.custom_2.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if occular_form.custom_2_input.errors %}
+            <label class="text-xs font-medium text-red-700"> Must select a status if defining a custom field </label>
+        {% endif %}
+        {% if occular_form.custom_2.errors %}
+            <label class="text-xs font-medium text-red-700"> Must define a custom field if selecting a status </label>
+        {% endif %}
+    </div>
+
+    <div class="flex items-center">
+        <input maxlength="30" type="text" name="custom_3_input" value="{{ occular_form.custom_3_input.value|default_if_none:"" }}" class="w-32 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <select name="custom_3" class="border-2 border-gray-300 rounded-md py-0">
+            {% for value, label in occular_form.fields.custom_3.choices %}
+                <option value="{{ value }}" {% if occular_form.custom_3.value == value %} selected {% endif %}> {{ label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        {% if occular_form.custom_3_input.errors %}
+            <label class="text-xs font-medium text-red-700"> Must select a status if defining a custom field </label>
+        {% endif %}
+        {% if occular_form.custom_3.errors %}
+            <label class="text-xs font-medium text-red-700"> Must define a custom field if selecting a status </label>
         {% endif %}
     </div>
 
@@ -616,6 +751,14 @@
     </div>
 
     <textarea name="other_information"rows="4" autocomplete="off" class="border-2 w-1/2 resize-y min-h-20 max-h-80" placeholder="Additional notes">{{ occular_form.other_information.value|default_if_none:'' }}</textarea>
+    <div>
+        {% if occular_form.other.errors %}
+            <label class="text-xs font-medium text-red-700"> If other is selected, the other information field must be filled in </label>
+        {% endif %}
+        {% if occular_form.other_information.errors %}
+            <label class="text-xs font-medium text-red-700"> If other is not selected, additional information cannot be entered </label>
+        {% endif %}
+    </div>
 
     <div>
         <hr class="my-4" />
