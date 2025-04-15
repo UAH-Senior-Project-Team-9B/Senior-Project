@@ -1,31 +1,17 @@
 {% extends base_template_name %}
 {% block content %}
 <h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Patients</h1>
-<div class="w-full space-y-2">
-    {% for patient in page_obj %}
-        <a href="{% url 'patient_history_information' patient.id %}"
-           class="block no-underline text-white text-xl font-bold bg-blue-600 hover:bg-blue-700 p-3 outline outline-2 outline-black text-center">
-            {{ patient }}
-        </a>
-    {% endfor %}
+<div class="pb-3">
+<label>Search:</label>
+<input type="text" id="search" name="search"
+      class="border border-gray-300 rounded w-2/5 px-4 py-2 shadow-md hover:bg-slate-100 hover:shadow-xl"
+      hx-trigger="change"
+      hx-indicator=".htmx-indicator"
+      hx-get="{% url 'patient_list' %}"
+      hx-target="#patients">
+</div>
+<div id="patients">
+    {% include "patient_list_element.html" %}
 </div>
 
-<!-- Pagination -->
-<div class="pagination mt-8 text-center space-x-2">
-    <span class="step-links text-lg">
-        {% if page_obj.has_previous %}
-            <a href="?page=1" class="text-blue-700 hover:underline">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}" class="text-blue-700 hover:underline">previous</a>
-        {% endif %}
-
-        <span class="current font-semibold">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="text-blue-700 hover:underline">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="text-blue-700 hover:underline">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
 {% endblock %}

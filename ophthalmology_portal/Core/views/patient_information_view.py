@@ -20,6 +20,8 @@ from django.http import Http404
 
 class PatientInformationView(BaseView):
     def get(self, request: HttpRequest, *args, **kwargs):
+        if not self.patient_verification(request.user):
+            raise Http404
 
         patient = PatientUserModel.objects.get(user=request.user)
         patient_information_form = PatientUserViewForm(instance=patient)
@@ -33,6 +35,7 @@ class PatientInformationView(BaseView):
             request,
             "patient_information_template.html",
             {
+                "patient_id": patient.id,
                 "patient_information_form": patient_information_form,
                 "base_template_name": self.get_base_template(request.user),
                 "emergency_contact_form": emergency_contact_form,
@@ -99,6 +102,7 @@ class PatientInformationOtherView(BaseView):
                 "exam_url": exam_url,
                 "exam_button_id": exam_button_id,
                 "patient_information": patient_information,
+                "patient_id": patient.id,
                 "base_template_name": self.get_base_template(request.user),
                 "emergency_contact": emergency_contact,
                 "insurance_provider": insurance_provider,

@@ -120,6 +120,13 @@
 
     toggleBtn.addEventListener('click', toggleDrawer);
 </script>
-
+<script>
+    function pageShown(evt){
+        if (evt.persisted) {
+            window.location.reload();
+        }
+    }
+    window.addEventListener("pageshow", pageShown, false);
+</script>
 </body>
 </html>

@@ -10,7 +10,7 @@ from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 from reportlab.platypus.tables import Table, TableStyle
-
+from zoneinfo import ZoneInfo
 from ophthalmology_portal.Core.forms import (
     ExamViewForm,
     OccularExamViewForm,
@@ -296,6 +296,7 @@ class ExamDetailsView(BaseView):
 
         elif request.user.has_perm("Core.manager"):
             exam = ExamModel.objects.get(id=exam_id)
+            today = datetime.datetime.now(ZoneInfo('America/Indiana/Knox')).date()
             if exam.prescription:
                 prescription_form = PrescriptionViewForm(instance=exam.prescription)
             else:
@@ -330,6 +331,7 @@ class ExamDetailsView(BaseView):
                         "upload": False,
                         "exam_id": exam_id,
                         "exam": exam,
+                        "today": today,
                     },
                 )
 
