@@ -230,26 +230,26 @@ class TestInformationCreationView(BaseView):
                         },
                     )
 
-            aided_near.save()
-            unaided_near.save()
-            pinhole_aided_near.save()
-            pinhole_unaided_near.save()
-            aided_distance.save()
-            unaided_distance.save()
-            pinhole_aided_distance.save()
-            pinhole_unaided_distance.save()
+            aided_near_obj.save()
+            unaided_near_obj.save()
+            pinhole_aided_near_obj.save()
+            pinhole_unaided_near_obj.save()
+            aided_distance_obj.save()
+            unaided_distance_obj.save()
+            pinhole_aided_distance_obj.save()
+            pinhole_unaided_distance_obj.save()
             form2 = OccularExamCreationForm(request.POST, request.FILES)
             form3 = PrescriptionCreationForm(request.POST)
             exam = ExamModel.objects.get(id=exam_id)
 
-            exam.visual_accuity_aided_near = aided_near
-            exam.visual_accuity_unaided_near = unaided_near
-            exam.visual_accuity_pinhole_unaided_near = pinhole_unaided_near
-            exam.visual_accuity_pinhole_aided_near = pinhole_aided_near
-            exam.visual_accuity_aided_distance = aided_distance
-            exam.visual_accuity_unaided_distance = unaided_distance
-            exam.visual_accuity_pinhole_aided_distance = pinhole_aided_distance
-            exam.visual_accuity_pinhole_unaided_distance = pinhole_unaided_distance
+            exam.visual_accuity_aided_near = aided_near_obj
+            exam.visual_accuity_unaided_near = unaided_near_obj
+            exam.visual_accuity_pinhole_unaided_near = pinhole_unaided_near_obj
+            exam.visual_accuity_pinhole_aided_near = pinhole_aided_near_obj
+            exam.visual_accuity_aided_distance = aided_distance_obj
+            exam.visual_accuity_unaided_distance = unaided_distance_obj
+            exam.visual_accuity_pinhole_aided_distance = pinhole_aided_distance_obj
+            exam.visual_accuity_pinhole_unaided_distance = pinhole_unaided_distance_obj
 
             prescription_temp = form3.save(commit=False)
             prescription_temp.prescriber = request.user.ophthalmologistusermodel
