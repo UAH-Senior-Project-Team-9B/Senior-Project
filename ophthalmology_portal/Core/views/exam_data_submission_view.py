@@ -201,7 +201,7 @@ class TestInformationCreationView(BaseView):
             )
             _validate_accuity(
                 request,
-                pinhole_aided_distance,
+                unaided_distance,
                 pinhole_unaided_distance,
                 "unaided_distance",
             )
