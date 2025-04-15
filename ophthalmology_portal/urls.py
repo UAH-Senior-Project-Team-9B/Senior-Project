@@ -122,6 +122,11 @@ urlpatterns = [
         name="progress_exam",
     ),
     path(
+        "api/regress-exam/<int:exam_id>",
+        views.RegressExam.as_view(),
+        name="regress_exam",
+    ),
+    path(
         "reschedule-exam/<int:exam_id>",
         views.RescheduleExam.as_view(),
         name="reschedule_exam",

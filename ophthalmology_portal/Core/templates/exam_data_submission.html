@@ -8,6 +8,8 @@
 <form method="post" enctype="multipart/form-data" class="space-y-4">
     {% csrf_token %}
 
+    {{ form.patient.value }}
+
     <label class="text-md font-semibold text-left text-gray-700 mb-6">Visual Acuity</label>
 
     <div class="flex items-center">
@@ -828,22 +830,22 @@
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-24">OS Horizontal</label>
-        <input name="os_cup_ratio_horizontal" type="number" value="{{ occular_form.os_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+        <input name="os_cup_ratio_horizontal" type="number" value="{{ occular_form.os_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.1" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
     </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-24">OS Vertical</label>
-        <input name="os_cup_ratio_vertical" type="number" value="{{ occular_form.os_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+        <input name="os_cup_ratio_vertical" type="number" value="{{ occular_form.os_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.1" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
     </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-24">OD Horizontal</label>
-        <input name="od_cup_ratio_horizontal" type="number" value="{{ occular_form.od_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+        <input name="od_cup_ratio_horizontal" type="number" value="{{ occular_form.od_cup_ratio_horizontal.value|default_if_none:'0' }}" min="0" max="1" step="0.1" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
     </div>
 
     <div class="flex items-center">
         <label class="text-sm font-medium w-24">OD Vertical</label>
-        <input name="od_cup_ratio_vertical" type="number" value="{{ occular_form.od_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.01" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+        <input name="od_cup_ratio_vertical" type="number" value="{{ occular_form.od_cup_ratio_vertical.value|default_if_none:'0' }}" min="0" max="1" step="0.1" class="w-1/12 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
     </div>
 
     <div>
@@ -1028,6 +1030,13 @@
 
     <div>
         <hr class="my-4" />
+        <label class="text-md font-semibold text-left text-gray-700 mb-6">Treatments</label>
+    </div>
+
+    <textarea name="treatments"rows="4" autocomplete="off" class="border-2 w-1/2 resize-y min-h-20 max-h-80" placeholder="Treatment Information">{{ treatment.treatments.value|default_if_none:'' }}</textarea>
+
+    <div>
+        <hr class="my-4" />
         <label class="text-md font-semibold text-left text-gray-700 mb-6">Images</label>
     </div>
 
@@ -1038,7 +1047,7 @@
     <div>
         {% if messages %}
             {% for message in messages %}
-                {% if "image_of_left_eye" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+                {% if "image_of_left_eye error" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
             {% endfor %}
         {% endif %}
     </div>
@@ -1050,10 +1059,60 @@
     <div>
         {% if messages %}
             {% for message in messages %}
-                {% if "image_of_right_eye" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+                {% if "image_of_right_eye error" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
             {% endfor %}
         {% endif %}
     </div>
+
+    <div>
+        <label class="text-sm font-medium w-32">Left Eye Image 2</label>
+        <input name="image_of_left_eye_2" type="file" accept="image/*"/>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "image_of_left_eye_2 error" in message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        <label class="text-sm font-medium w-32">Right Eye Image 2</label>
+        <input name="image_of_right_eye_2" type="file" accept="image/*"/>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "image_of_right_eye_2 error" == message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        <label class="text-sm font-medium w-32">Left Eye Image 3</label>
+        <input name="image_of_left_eye_3" type="file" accept="image/*"/>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "image_of_left_eye_3 error" == message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div>
+        <label class="text-sm font-medium w-32">Right Eye Image 3</label>
+        <input name="image_of_right_eye_3" type="file" accept="image/*"/>
+    </div>
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if "image_of_right_eye_3 error" == message.tags %} <label class="text-xs font-medium text-red-700">This field is required</label> {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
 
     <button onclick="Alert(<Confirmation Message>)"  type="submit" class="btn btn-sm">Submit</button>
 </div>

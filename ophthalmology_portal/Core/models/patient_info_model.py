@@ -1,7 +1,8 @@
-from django.core.validators import RegexValidator, MinValueValidator
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
 from ophthalmology_portal.Core.models import user_models
+
 
 class EmergencyContactModel(models.Model):
     patient = models.OneToOneField(
@@ -35,7 +36,9 @@ class InsuranceProviderModel(models.Model):
     contract_number = models.CharField(max_length=13)  # NOT A PHONE NUMBER
     group_number = models.CharField(max_length=9)
     effective_date = models.DateField()
-    co_pay = models.DecimalField(decimal_places=2, max_digits=255, validators=[MinValueValidator(0)])
+    co_pay = models.DecimalField(
+        decimal_places=2, max_digits=255, validators=[MinValueValidator(0)]
+    )
     insurance_street_address = models.CharField(max_length=100)
     insurance_city = models.CharField(max_length=50)
     insurance_state = models.CharField(max_length=15, choices=user_models.state_choices)
@@ -58,3 +61,14 @@ class InsuranceProviderModel(models.Model):
         ],
     )
     primary_care_provider = models.CharField(max_length=255)
+
+
+class TreatmentsModel(models.Model):
+    patient = models.OneToOneField(
+        user_models.PatientUserModel, on_delete=models.CASCADE
+    )
+    treatments = models.CharField(
+        max_length=65535,
+        null=True,
+        blank=True,
+    )
