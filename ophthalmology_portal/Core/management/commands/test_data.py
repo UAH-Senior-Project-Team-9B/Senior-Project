@@ -34,6 +34,8 @@ class Command(BaseCommand):
     help = "Generates data used for debugging. DO NOT RUN IN DEVELOPMENT."
 
     def handle(self, *args, **options):
+        if not User.objects.filter(is_superuser=True).exists():
+            User.objects.create_superuser(username="Admin",password="ABCD_1234")
         patient_group, patient_group_exists = Group.objects.get_or_create(
             name="Patients"
         )
