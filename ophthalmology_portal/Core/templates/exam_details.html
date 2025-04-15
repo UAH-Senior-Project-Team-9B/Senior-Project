@@ -427,22 +427,22 @@
                     <tr>
                         <td class="border-solid border-gray-500"> Posterior Pole Segment </td>
                         <td class="border-solid border-gray-300 text-center"> {{ occular_form.posterior_pole_segment.value }} </td>
-                        <td class="border-solid border-gray-500"> Custom 1 </td>
-                        <td class="border-solid border-gray-300 text-center"> Custom 1 </td>
+                        <td class="border-solid border-gray-500"> {% if occular_form.custom_1_input.value %} {{ occular_form.custom_1_input.value }} {% else %}  {% endif %} </td>
+                        <td class="border-solid border-gray-300 text-center"> {% if occular_form.custom_1.value %} {{ occular_form.custom_1.value }} {% else %}  {% endif %} </td>
                     </tr>
 
                     <tr>
                         <td class="border-solid border-gray-500"> Peripheral Retina Segment </td>
                         <td class="border-solid border-gray-300 text-center"> {{ occular_form.peripheral_retina_segment.value }} </td>
-                        <td class="border-solid border-gray-500"> Custom 2 </td>
-                        <td class="border-solid border-gray-300 text-center"> Custom 2 </td>
+                        <td class="border-solid border-gray-500"> {% if occular_form.custom_2_input.value %} {{ occular_form.custom_2_input.value }} {% else %}  {% endif %} </td>
+                        <td class="border-solid border-gray-300 text-center"> {% if occular_form.custom_2.value %} {{ occular_form.custom_2.value }} {% else %}  {% endif %} </td>
                     </tr>
 
                     <tr>
                         <td class="border-solid border-gray-500"> Misc Retina Segment </td>
                         <td class="border-solid border-gray-300 text-center"> {{ occular_form.misc_retina_segment.value }} </td>
-                        <td class="border-solid border-gray-500"> Custom 3 </td>
-                        <td class="border-solid border-gray-300 text-center"> Custom 3 </td>
+                        <td class="border-solid border-gray-500"> {% if occular_form.custom_3_input.value %} {{ occular_form.custom_3_input.value }} {% else %}  {% endif %} </td>
+                        <td class="border-solid border-gray-300 text-center"> {% if occular_form.custom_3.value %} {{ occular_form.custom_3.value }} {% else %}  {% endif %} </td>
                     </tr>
                 </tbody>
             </table>

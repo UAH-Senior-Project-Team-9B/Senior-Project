@@ -188,14 +188,23 @@ class TestInformationCreationView(BaseView):
             unaided_near = unaided_near.save(commit=False)
             pinhole_aided_near = pinhole_aided_near.save(commit=False)
             pinhole_unaided_near = pinhole_unaided_near.save(commit=False)
-            _validate_accuity(request, unaided_near, pinhole_unaided_near)
-            _validate_accuity(request, aided_near, pinhole_aided_near)
+            _validate_accuity(
+                request, unaided_near, pinhole_unaided_near, "unaided_near"
+            )
+            _validate_accuity(request, aided_near, pinhole_aided_near, "aided_near")
             aided_distance = aided_distance.save(commit=False)
             unaided_distance = unaided_distance.save(commit=False)
             pinhole_aided_distance = pinhole_aided_distance.save(commit=False)
             pinhole_unaided_distance = pinhole_unaided_distance.save(commit=False)
-            _validate_accuity(request, aided_distance, pinhole_aided_distance)
-            _validate_accuity(request, pinhole_aided_distance, pinhole_unaided_distance)
+            _validate_accuity(
+                request, aided_distance, pinhole_aided_distance, "aided_distance"
+            )
+            _validate_accuity(
+                request,
+                unaided_distance,
+                pinhole_unaided_distance,
+                "unaided_distance",
+            )
             storage = get_messages(request)
             for i in storage:
                 if i:
@@ -317,10 +326,25 @@ class TestInformationCreationView(BaseView):
         )
 
 
-def _validate_accuity(request, parent, child):
+def _validate_accuity(request, parent, child, distance_aid):
     if child.visual_acuity_measure_left and not parent.visual_acuity_measure_left:
-        messages.add_message(request, messages.ERROR, "Left eye values do not match")
+        messages.add_message(
+            request,
+            messages.ERROR,
+            "Left eye values do not match",
+            extra_tags=f"{distance_aid}_left",
+        )
     if child.visual_acuity_measure_right and not parent.visual_acuity_measure_right:
-        messages.add_message(request, messages.ERROR, "Right eye values do not match")
+        messages.add_message(
+            request,
+            messages.ERROR,
+            "Right eye values do not match",
+            extra_tags=f"{distance_aid}_right",
+        )
     if child.visual_acuity_measure_both and not parent.visual_acuity_measure_both:
-        messages.add_message(request, messages.ERROR, "Both eye values do not match")
+        messages.add_message(
+            request,
+            messages.ERROR,
+            "Both eye values do not match",
+            extra_tags=f"{distance_aid}_both",
+        )
