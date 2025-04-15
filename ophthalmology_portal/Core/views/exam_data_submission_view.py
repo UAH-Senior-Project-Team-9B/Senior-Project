@@ -200,8 +200,25 @@ class TestInformationCreationView(BaseView):
             for i in storage:
                 if i:
                     storage.used = False
-                    return redirect(
-                        reverse("exam_data_submission", kwargs={"exam_id": exam_id})
+                    return render(
+                        request,
+                        "exam_data_submission.html",
+                        {
+                            "form": form,
+                            "base_template_name": self.get_base_template(request.user),
+                            "prescription_form": prescription_form,
+                            "occular_form": occular_form,
+                            "upload": True,
+                            "exam_id": exam_id,
+                            "aided_near": aided_near,
+                            "unaided_near": unaided_near,
+                            "aided_ph_near": pinhole_aided_near,
+                            "unaided_ph_near": pinhole_unaided_near,
+                            "aided_distance": aided_distance,
+                            "unaided_distance": unaided_distance,
+                            "aided_ph_distance": pinhole_aided_distance,
+                            "unaided_ph_distance": pinhole_unaided_distance,
+                        },
                     )
 
             aided_near.save()
