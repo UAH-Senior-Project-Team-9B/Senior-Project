@@ -380,7 +380,7 @@
                 </div>
             </div>
             <div>
-                <label class="text-lg font-medium w-44">Primare Care Provider:</label>
+                <label class="text-lg font-medium w-44">Primary Care Provider:</label>
                 <input maxlength="255" type="text" name="{{ insurance_provider_form.primary_care_provider.html_name }}" value="{{ insurance_provider_form.primary_care_provider.value|default_if_none:"" }}" class="w-44 ms-2 me-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <div>
                     {% if messages %}
@@ -391,6 +391,14 @@
                 </div>
             </div>
         </div>
+        <hr class="my-4">
+        <h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Treatments</h1>
+        <div>
+            <div>
+                <textarea name="treatments"rows="4" class="border-2 w-1/2 resize-y min-h-20 max-h-80" readonly> {{ treatment.treatments.value }} </textarea>
+            </div>
+        </div>
+
         <hr class="my-4">
         <button type="submit">Submit</button>
     </form>

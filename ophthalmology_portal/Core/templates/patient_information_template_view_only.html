@@ -123,6 +123,13 @@
                 <label class="text-lg font-medium w-32">Primary Care Provider: {{ insurance_provider.primary_care_provider.value }} </label>
             </div>
         </div>
+        <hr class="my-4">
+        <h1 class="text-3xl font-bold text-gray-700 text-center mb-2">Treatments</h1>
+        <div>
+            <div>
+                <textarea name="treatments"rows="4" class="border-2 w-1/2 resize-y min-h-20 max-h-80" readonly> {{ treatment.treatments.value }} </textarea>
+            </div>
+        </div>
 </body>
 </html>
 {% endblock  %}

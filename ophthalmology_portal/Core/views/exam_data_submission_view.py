@@ -31,7 +31,7 @@ class TestInformationCreationView(BaseView):
         form = ExamDoctorViewForm(instance=ExamModel.objects.get(id=exam_id))
         user = OphthalmologistUserModel.objects.get(user=request.user)
         patient = PatientUserModel.objects.get(id=form.instance.patient.id)
-        treatment = TreatmentForm(instance=patient)
+        treatment = TreatmentForm(instance=patient.treatmentsmodel)
         try:
             exam = ExamModel.objects.get(id=exam_id, doctor=user)
         except:
@@ -159,7 +159,7 @@ class TestInformationCreationView(BaseView):
         except:
             raise Http404
         patient = PatientUserModel.objects.get(id=form.instance.patient.id)
-        treatment = TreatmentForm(request.POST, instance=patient)
+        treatment = TreatmentForm(request.POST)
         aided_near = VisualAccuitySubmissionForm(request.POST, prefix="aided_near")
         unaided_near = VisualAccuitySubmissionForm(request.POST, prefix="unaided_near")
         pinhole_aided_near = VisualAccuitySubmissionForm(
@@ -210,6 +210,7 @@ class TestInformationCreationView(BaseView):
             unaided_distance_obj = unaided_distance.save(commit=False)
             pinhole_aided_distance_obj = pinhole_aided_distance.save(commit=False)
             pinhole_unaided_distance_obj = pinhole_unaided_distance.save(commit=False)
+            treatment_obj = treatment.save(commit=False)
             _validate_accuity(
                 request,
                 aided_distance_obj,
@@ -261,6 +262,8 @@ class TestInformationCreationView(BaseView):
             form3 = PrescriptionCreationForm(request.POST)
             exam = ExamModel.objects.get(id=exam_id)
 
+            patient.treatmentsmodel.delete()
+            patient.treatmentsmodel = treatment_obj
             exam.visual_accuity_aided_near = aided_near_obj
             exam.visual_accuity_unaided_near = unaided_near_obj
             exam.visual_accuity_pinhole_unaided_near = pinhole_unaided_near_obj
@@ -277,7 +280,7 @@ class TestInformationCreationView(BaseView):
             exam.prescription = prescription_temp
             exam.status = ExamModel.status_choices["postexam"]
             exam.save()
-            # treatment.save()
+            treatment_obj.save()
             prescription_temp.os_visual_acuity_distance = (
                 exam.visual_accuity_aided_string_left_distance
             )

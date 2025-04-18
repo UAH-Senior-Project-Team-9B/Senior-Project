@@ -318,10 +318,34 @@ class OccularExamModel(models.Model):
 
     image_of_left_eye = encrypt(models.ImageField(upload_to="left_eye/"))
     image_of_right_eye = encrypt(models.ImageField(upload_to="right_eye/"))
-    image_of_left_eye_2 = encrypt(models.ImageField(upload_to="left_eye/"))
-    image_of_right_eye_2 = encrypt(models.ImageField(upload_to="right_eye/"))
-    image_of_left_eye_3 = encrypt(models.ImageField(upload_to="left_eye/"))
-    image_of_right_eye_3 = encrypt(models.ImageField(upload_to="right_eye/"))
+    image_of_left_eye_2 = encrypt(
+        models.ImageField(
+            upload_to="left_eye/",
+            null=True,
+            blank=True,
+        )
+    )
+    image_of_right_eye_2 = encrypt(
+        models.ImageField(
+            upload_to="right_eye/",
+            null=True,
+            blank=True,
+        )
+    )
+    image_of_left_eye_3 = encrypt(
+        models.ImageField(
+            upload_to="left_eye/",
+            null=True,
+            blank=True,
+        )
+    )
+    image_of_right_eye_3 = encrypt(
+        models.ImageField(
+            upload_to="right_eye/",
+            null=True,
+            blank=True,
+        )
+    )
 
     class Meta:
         permissions = [

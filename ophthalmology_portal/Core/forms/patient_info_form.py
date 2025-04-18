@@ -98,4 +98,4 @@ class InsuranceProviderViewOnlyForm(forms.ModelForm):
 class TreatmentForm(forms.ModelForm):
     class Meta:
         model = TreatmentsModel
-        fields = "__all__"
+        fields = ["treatments"]
