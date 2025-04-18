@@ -734,20 +734,28 @@
                 </div>
             </div>
             <div class="flex">
+                {% if occular_form.image_of_left_eye_2.value %}
                 <div class="flex w-1/2 justify-center">
                     <img src="{{ occular_form.image_of_left_eye_2.value.url }}" class="w-64 h-auto rounded-lg"/>
                 </div>
+                {% endif %}
+                {% if occular_form.image_of_right_eye_2.value %}
                 <div class="flex w-1/2 justify-center">
                     <img src="{{ occular_form.image_of_right_eye_2.value.url }}" class="w-64 h-auto rounded-lg"/>
                 </div>
+                {% endif %}
             </div>
             <div class="flex">
+                {% if occular_form.image_of_left_eye_3.value %}
                 <div class="flex w-1/2 justify-center">
                     <img src="{{ occular_form.image_of_left_eye_3.value.url }}" class="w-64 h-auto rounded-lg"/>
                 </div>
+                {% endif %}
+                {% if occular_form.image_of_right_eye_3.value %}
                 <div class="flex w-1/2 justify-center">
                     <img src="{{ occular_form.image_of_right_eye_3.value.url }}" class="w-64 h-auto rounded-lg"/>
                 </div>
+                {% endif %}
             </div>
         </div>
     {% endif %}
