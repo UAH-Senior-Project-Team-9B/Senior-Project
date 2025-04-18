@@ -7,15 +7,20 @@ from django.urls import reverse
 from ophthalmology_portal.Core.forms import (
     OccularExamCreationForm,
     OccularExamViewForm,
+    PatientUserUpdateForm,
     VisualAccuitySubmissionForm,
 )
 from ophthalmology_portal.Core.forms.exam_creation_form import ExamDoctorViewForm
+from ophthalmology_portal.Core.forms.patient_info_form import TreatmentForm
 from ophthalmology_portal.Core.forms.prescription_creation_form import (
     PrescriptionCreationForm,
     PrescriptionViewForm,
 )
 from ophthalmology_portal.Core.models.exam_model import ExamModel
-from ophthalmology_portal.Core.models.user_models import OphthalmologistUserModel
+from ophthalmology_portal.Core.models.user_models import (
+    OphthalmologistUserModel,
+    PatientUserModel,
+)
 from ophthalmology_portal.Core.views.base_view import BaseView
 
 
@@ -25,6 +30,8 @@ class TestInformationCreationView(BaseView):
             raise Http404
         form = ExamDoctorViewForm(instance=ExamModel.objects.get(id=exam_id))
         user = OphthalmologistUserModel.objects.get(user=request.user)
+        patient = PatientUserModel.objects.get(id=form.instance.patient.id)
+        treatment = TreatmentForm(instance=patient.treatmentsmodel)
         try:
             exam = ExamModel.objects.get(id=exam_id, doctor=user)
         except:
@@ -70,6 +77,7 @@ class TestInformationCreationView(BaseView):
                 "exam_data_submission.html",
                 {
                     "form": form,
+                    "treatment": treatment,
                     "base_template_name": self.get_base_template(request.user),
                     "prescription_form": prescription_form,
                     "occular_form": occular_form,
@@ -124,6 +132,7 @@ class TestInformationCreationView(BaseView):
             "exam_details.html",
             {
                 "form": form,
+                "treatment": treatment,
                 "base_template_name": self.get_base_template(request.user),
                 "prescription_form": prescription_form,
                 "exam_id": exam_id,
@@ -149,6 +158,8 @@ class TestInformationCreationView(BaseView):
             exam = ExamModel.objects.get(id=exam_id, doctor=user)
         except:
             raise Http404
+        patient = PatientUserModel.objects.get(id=form.instance.patient.id)
+        treatment = TreatmentForm(request.POST)
         aided_near = VisualAccuitySubmissionForm(request.POST, prefix="aided_near")
         unaided_near = VisualAccuitySubmissionForm(request.POST, prefix="unaided_near")
         pinhole_aided_near = VisualAccuitySubmissionForm(
@@ -171,6 +182,7 @@ class TestInformationCreationView(BaseView):
         )
         occular_form = OccularExamCreationForm(request.POST, request.FILES)
         prescription_form = PrescriptionCreationForm(request.POST)
+        patient_information_form = PatientUserUpdateForm(request.POST)
 
         if (
             aided_near.is_valid()
@@ -191,13 +203,19 @@ class TestInformationCreationView(BaseView):
             _validate_accuity(
                 request, unaided_near_obj, pinhole_unaided_near_obj, "unaided_near"
             )
-            _validate_accuity(request, aided_near_obj, pinhole_aided_near_obj, "aided_near")
+            _validate_accuity(
+                request, aided_near_obj, pinhole_aided_near_obj, "aided_near"
+            )
             aided_distance_obj = aided_distance.save(commit=False)
             unaided_distance_obj = unaided_distance.save(commit=False)
             pinhole_aided_distance_obj = pinhole_aided_distance.save(commit=False)
             pinhole_unaided_distance_obj = pinhole_unaided_distance.save(commit=False)
+            treatment_obj = treatment.save(commit=False)
             _validate_accuity(
-                request, aided_distance_obj, pinhole_aided_distance_obj, "aided_distance"
+                request,
+                aided_distance_obj,
+                pinhole_aided_distance_obj,
+                "aided_distance",
             )
             _validate_accuity(
                 request,
@@ -214,6 +232,8 @@ class TestInformationCreationView(BaseView):
                         "exam_data_submission.html",
                         {
                             "form": form,
+                            "treatment": treatment,
+                            "patient": patient_information_form,
                             "base_template_name": self.get_base_template(request.user),
                             "prescription_form": prescription_form,
                             "occular_form": occular_form,
@@ -242,6 +262,8 @@ class TestInformationCreationView(BaseView):
             form3 = PrescriptionCreationForm(request.POST)
             exam = ExamModel.objects.get(id=exam_id)
 
+            patient.treatmentsmodel.delete()
+            patient.treatmentsmodel = treatment_obj
             exam.visual_accuity_aided_near = aided_near_obj
             exam.visual_accuity_unaided_near = unaided_near_obj
             exam.visual_accuity_pinhole_unaided_near = pinhole_unaided_near_obj
@@ -258,6 +280,7 @@ class TestInformationCreationView(BaseView):
             exam.prescription = prescription_temp
             exam.status = ExamModel.status_choices["postexam"]
             exam.save()
+            treatment_obj.save()
             prescription_temp.os_visual_acuity_distance = (
                 exam.visual_accuity_aided_string_left_distance
             )
@@ -309,6 +332,7 @@ class TestInformationCreationView(BaseView):
             "exam_data_submission.html",
             {
                 "form": form,
+                "treatment": treatment,
                 "base_template_name": self.get_base_template(request.user),
                 "prescription_form": prescription_form,
                 "occular_form": occular_form,

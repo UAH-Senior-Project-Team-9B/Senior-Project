@@ -20,3 +20,20 @@ class ProgressExam(BaseView):
         else:
             raise Http404
         return redirect(request.META.get("HTTP_REFERER"))
+
+
+class RegressExam(BaseView):
+    def get(self, request, exam_id, *args, **kwargs):
+        if not self.manager_verification(request.user):
+            raise Http404
+
+        exam = ExamModel.objects.get(id=exam_id)
+        if exam.status == ExamModel.status_choices["waiting"]:
+            exam.upcoming()
+        elif exam.status == ExamModel.status_choices["progressing"]:
+            exam.in_lobby()
+        elif exam.status == ExamModel.status_choices["complete"]:
+            exam.postexam()
+        else:
+            raise Http404
+        return redirect(request.META.get("HTTP_REFERER"))

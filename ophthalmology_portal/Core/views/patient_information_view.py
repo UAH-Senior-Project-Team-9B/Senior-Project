@@ -1,21 +1,29 @@
 import datetime
 from zoneinfo import ZoneInfo
-from django.http import HttpRequest
+
+from django.contrib import messages
+from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.contrib import messages
+
 from ophthalmology_portal.Core.forms import (
-    PatientUserViewForm,
     EmergencyContactForm,
     InsuranceProviderForm,
-    PatientUserUpdateForm
+    PatientUserUpdateForm,
+    PatientUserViewForm,
 )
-from ophthalmology_portal.Core.forms.patient_info_form import EmergencyContactViewOnlyForm, InsuranceProviderViewOnlyForm
+from ophthalmology_portal.Core.forms.patient_info_form import (
+    EmergencyContactViewOnlyForm,
+    InsuranceProviderViewOnlyForm,
+    TreatmentForm,
+)
 from ophthalmology_portal.Core.forms.user_forms import PatientUserViewOnlyForm
-from ophthalmology_portal.Core.models import PatientUserModel, ExamModel
-from ophthalmology_portal.Core.models.patient_info_model import EmergencyContactModel, InsuranceProviderModel
+from ophthalmology_portal.Core.models import ExamModel, PatientUserModel
+from ophthalmology_portal.Core.models.patient_info_model import (
+    EmergencyContactModel,
+    InsuranceProviderModel,
+)
 from ophthalmology_portal.Core.views.base_view import BaseView
-from django.http import Http404
 
 
 class PatientInformationView(BaseView):
@@ -31,6 +39,7 @@ class PatientInformationView(BaseView):
         insurance_provider_form = InsuranceProviderForm(
             instance=patient.insuranceprovidermodel
         )
+        treatment = TreatmentForm(instance=patient.treatmentsmodel)
         return render(
             request,
             "patient_information_template.html",
@@ -40,20 +49,20 @@ class PatientInformationView(BaseView):
                 "base_template_name": self.get_base_template(request.user),
                 "emergency_contact_form": emergency_contact_form,
                 "insurance_provider_form": insurance_provider_form,
+                "treatment": treatment,
             },
         )
 
     def post(self, request: HttpRequest, *args, **kwargs):
-
         form = PatientUserUpdateForm(request.POST)
         form2 = EmergencyContactForm(request.POST)
         form3 = InsuranceProviderForm(request.POST)
 
         if form.is_valid() and form2.is_valid() and form3.is_valid():
-            patient=PatientUserModel.objects.get(user=request.user)
-            emergency=EmergencyContactModel.objects.get(patient=patient)
-            insurance=InsuranceProviderModel.objects.get(patient=patient)
-            form = PatientUserUpdateForm(request.POST,instance=patient)
+            patient = PatientUserModel.objects.get(user=request.user)
+            emergency = EmergencyContactModel.objects.get(patient=patient)
+            insurance = InsuranceProviderModel.objects.get(patient=patient)
+            form = PatientUserUpdateForm(request.POST, instance=patient)
             form2 = EmergencyContactForm(request.POST, instance=emergency)
             form3 = InsuranceProviderForm(request.POST, instance=insurance)
 
@@ -75,7 +84,9 @@ class PatientInformationView(BaseView):
 
 class PatientInformationOtherView(BaseView):
     def get(self, request: HttpRequest, patient, *args, **kwargs):
-        if not self.manager_verification(request.user) and not self.doctor_verification(request.user):
+        if not self.manager_verification(request.user) and not self.doctor_verification(
+            request.user
+        ):
             raise Http404
         patient = PatientUserModel.objects.get(id=patient)
         patient_information = PatientUserViewOnlyForm(instance=patient)
@@ -85,15 +96,19 @@ class PatientInformationOtherView(BaseView):
         insurance_provider = InsuranceProviderViewOnlyForm(
             instance=patient.insuranceprovidermodel
         )
+        treatment = TreatmentForm(instance=patient.treatmentsmodel)
         if request.path == f"/patient-list/{patient.id}/":
             exam_url = "patient_history_exam"
             exam_button = "View Patient Exam History"
             exam_button_id = patient.id
         else:
-            exam_url="daily_exam_instance"
-            exam_button="View Current Exam"
+            exam_url = "daily_exam_instance"
+            exam_button = "View Current Exam"
 
-            exam_button_id=ExamModel.objects.get(patient=patient, date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date()).id
+            exam_button_id = ExamModel.objects.get(
+                patient=patient,
+                date=datetime.datetime.now(ZoneInfo("America/Indiana/Knox")).date(),
+            ).id
         return render(
             request,
             "patient_information_template_view_only.html",
@@ -106,5 +121,6 @@ class PatientInformationOtherView(BaseView):
                 "base_template_name": self.get_base_template(request.user),
                 "emergency_contact": emergency_contact,
                 "insurance_provider": insurance_provider,
+                "treatment": treatment,
             },
         )

@@ -33,7 +33,10 @@ from ophthalmology_portal.Core.views.prescription_creation_view import (
     PrescriptionCreationView,
 )
 from ophthalmology_portal.Core.views.prescription_list_view import PrescriptionListView
-from ophthalmology_portal.Core.views.progress_exam import ProgressExam
+from ophthalmology_portal.Core.views.progress_exam import (
+    ProgressExam,
+    RegressExam,
+)
 from ophthalmology_portal.Core.views.reschedule_exam import RescheduleExam
 
 __all__ = [
@@ -59,6 +62,8 @@ __all__ = [
     "PatientInformationOtherView",
     "CancelExam",
     "ProgressExam",
+    "RegressExam",
     "PatientInformationOtherView",
     "RescheduleExam",
+    "RegressExam",
 ]
