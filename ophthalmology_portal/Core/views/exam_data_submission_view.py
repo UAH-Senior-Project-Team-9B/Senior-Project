@@ -31,7 +31,10 @@ class TestInformationCreationView(BaseView):
         form = ExamDoctorViewForm(instance=ExamModel.objects.get(id=exam_id))
         user = OphthalmologistUserModel.objects.get(user=request.user)
         patient = PatientUserModel.objects.get(id=form.instance.patient.id)
-        treatment = TreatmentForm(instance=patient.treatmentsmodel)
+        try:
+            treatment = TreatmentForm(instance=patient.treatmentsmodel)
+        except:
+            treatment = TreatmentForm()
         try:
             exam = ExamModel.objects.get(id=exam_id, doctor=user)
         except:
@@ -261,8 +264,11 @@ class TestInformationCreationView(BaseView):
             form2 = OccularExamCreationForm(request.POST, request.FILES)
             form3 = PrescriptionCreationForm(request.POST)
             exam = ExamModel.objects.get(id=exam_id)
-
-            patient.treatmentsmodel.delete()
+            breakpoint()
+            try:
+                patient.treatmentsmodel.delete()
+            except:
+                pass
             patient.treatmentsmodel = treatment_obj
             exam.visual_accuity_aided_near = aided_near_obj
             exam.visual_accuity_unaided_near = unaided_near_obj
