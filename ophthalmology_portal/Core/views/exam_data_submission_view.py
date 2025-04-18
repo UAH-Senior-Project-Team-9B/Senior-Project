@@ -264,7 +264,7 @@ class TestInformationCreationView(BaseView):
             form2 = OccularExamCreationForm(request.POST, request.FILES)
             form3 = PrescriptionCreationForm(request.POST)
             exam = ExamModel.objects.get(id=exam_id)
-            breakpoint()
+
             try:
                 patient.treatmentsmodel.delete()
             except:

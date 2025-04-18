@@ -43,7 +43,7 @@ class PatientInformationView(BaseView):
             treatment = TreatmentForm(instance=patient.treatmentsmodel)
         except:
             treatment = TreatmentForm()
-        breakpoint()
+
         return render(
             request,
             "patient_information_template.html",
@@ -104,7 +104,7 @@ class PatientInformationOtherView(BaseView):
             treatment = TreatmentForm(instance=patient.treatmentsmodel)
         except:
             treatment = TreatmentForm()
-        breakpoint()
+
         if request.path == f"/patient-list/{patient.id}/":
             exam_url = "patient_history_exam"
             exam_button = "View Patient Exam History"
