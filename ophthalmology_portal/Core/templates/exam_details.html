@@ -66,7 +66,7 @@
         {% endif %}
     {% endif %}
     <div>
-        {% if user.groups.all.0.name != "Ophthalmologist" %}
+        {% if user.groups.all.0.name == "Office Manager" %}
             {% if exam.status == "In Wait Room" %}
                 <a class="btn btn-xs" href="{%url 'regress_exam' exam_id %}">Move Back to Upcoming</a>
             {% elif exam.status == "Exam In Progress" %}
