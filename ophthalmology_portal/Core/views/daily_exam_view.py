@@ -48,7 +48,7 @@ class DailyExamsView(BaseView):
                     | Q(status=ExamModel.status_choices["waiting"])
                     | Q(status=ExamModel.status_choices["postexam"])
                 )
-            )
+            ).reverse()
             exams = exams.filter(doctor=user)
             paginator = Paginator(exams, 10)
             page_number = request.GET.get("page")
