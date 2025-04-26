@@ -131,6 +131,16 @@ urlpatterns = [
         views.RescheduleExam.as_view(),
         name="reschedule_exam",
     ),
+    path(
+        "insurance-claim/<int:exam_id>",
+        views.InsuranceClaimViewOnly.as_view(),
+        name="insurance_claim_view",
+    ),
+    path(
+        "insurance-claim/<int:exam_id>",
+        views.InsuranceClaimView.as_view(),
+        name="insurance_claim",
+    ),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% extends base_template_name %}
+{% block content%}
+
+<h1 class="text-2xl font-bold text-gray-700 text-center mb-2">Insurance Claim Form</h1>
+<hr class="my-4" />
+<h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Patient Information</h2>
+<div>
+    <label>Patient:</label>
+    <label> {{ exam.patient }} </label>
+</div>
+<div>
+    <label>Date of Birth:</label>
+    <label> {{ exam.patient.date_of_birth }}</label>
+</div>
+
+<div>
+    <label>Gender:</label>
+    <label> {{ exam.patient.gender }}</label>
+</div>
+
+<div>
+    <label>Address:</label>
+    <label> {{ exam.patient.street_address }}, {{ exam.patient.city }}, {{ exam.patient.state }}, {{ exam.patient.zip_code }}</label>
+</div>
+
+<div>
+    <label>Phone Number:</label>
+    <label> {{ exam.patient.phone_number }}</label>
+</div>
+
+<div>
+    <label>Email:</label>
+    <label> {{ exam.patient.email }}</label>
+</div>
+
+<div>
+    <label>Insurance Policy Number:</label>
+    <label> {{ insurance_provider_form.contract_number.value }}  </label>
+</div>
+
+<div>
+    <label>Group Number:</label>
+    <label> {{ insurance_provider_form.group_number.value }} </label>
+</div>
+
+<div>
+    <hr class="my-4" />
+    <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Provider Information</h2>
+</div>
+
+<div>
+    <label>Provider Name:</label>
+    <label> {{ insurance_provider_form.insurance_provider.value }} </label>
+</div>
+
+<div>
+    <label>Provider Address:</label>
+    <label> {{ insurance_provider_form.insurance_street_address.value }}, {{insurance_provider_form.insurance_city.value }}, {{ insurance_provider_form.insurance_state.value }}, {{ insurance_provider_form.insurance_zip_code.value }} </label>
+</div>
+
+<div>
+    <label>Provider Phone Number:</label>
+    <label> {{ insurance_provider_form.insurance_phone_number.value }} </label>
+</div>
+
+<div>
+    <hr class="my-4" />
+    <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Treatment Details</h2>
+</div>
+
+<div>
+    <label>Date of Service:</label>
+    <label> {{ exam.date }}</label>
+</div>
+
+<div>
+    <fieldset class="fieldset border-0 ms-0 me-0 mb-2 pb-0 ps-0 pe-0">
+        <legend class="fieldset-legend">Treatment Details</legend>
+        <textarea name="treatment_details"rows="4" class="border-2 w-1/2 resize-none min-h-20 max-h-80" readonly> {{ claim.treatment_details.value|default_if_none:"" }} </textarea>
+    </fieldset>
+</div>
+
+<div>
+    <hr class="my-4" />
+    <h2 class="text-lg font-semibold text-center text-gray-700 mb-6">Cost Breakdown</h2>
+</div>
+
+<div>
+    <fieldset class="fieldset border-0 ms-0 me-0 mb-2 pb-0 ps-0 pe-0">
+        <legend class="fieldset-legend">Cost Breakdown</legend>
+        <textarea name="cost_breakdown"rows="4" class="border-2 w-1/2 resize-none min-h-20 max-h-80" readonly> {{ claim.cost_breakdown.value|default_if_none:"" }} </textarea>
+    </fieldset>
+</div>
+
+{% endblock %}

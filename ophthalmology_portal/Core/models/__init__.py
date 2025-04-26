@@ -1,4 +1,5 @@
 from ophthalmology_portal.Core.models.exam_model import ExamModel
+from ophthalmology_portal.Core.models.insurance_claim_model import InsuranceClaimModel
 from ophthalmology_portal.Core.models.patient_info_model import (
     EmergencyContactModel,
     InsuranceProviderModel,
@@ -24,4 +25,5 @@ __all__ = [
     "VisualAccuityModel",
     "EmergencyContactModel",
     "InsuranceProviderModel",
+    "InsuranceClaimModel",
 ]
