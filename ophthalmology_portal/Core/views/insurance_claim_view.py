@@ -1,5 +1,6 @@
 from django.http import Http404, HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from ophthalmology_portal.Core.forms import InsuranceClaimForm
 from ophthalmology_portal.Core.forms.exam_creation_form import ExamViewForm
@@ -11,11 +12,6 @@ from ophthalmology_portal.Core.views.base_view import BaseView
 
 
 class InsuranceClaimView(BaseView):
-    def get(self, request: HttpRequest, exam_id, *args, **kwargs):
-        raise Http404
-
-
-class InsuranceClaimViewOnly(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
         if self.patient_verification(request.user):
             raise Http404
@@ -40,3 +36,19 @@ class InsuranceClaimViewOnly(BaseView):
                 "base_template_name": self.get_base_template(request.user),
             },
         )
+
+    def post(self, request: HttpRequest, exam_id, *args, **kwargs):
+        if self.patient_verification(request.user):
+            raise Http404
+
+        exam = ExamModel.objects.get(id=exam_id)
+        claim = InsuranceClaimForm(request.POST)
+        claim_obj = claim.save(commit=False)
+        try:
+            exam.insuranceclaimmodel.delete()
+        except:
+            pass
+        exam.insuranceclaimmodel = claim_obj
+        exam.save()
+
+        return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))

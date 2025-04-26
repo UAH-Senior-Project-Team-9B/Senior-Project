@@ -72,7 +72,7 @@
             {% elif exam.status == "Exam In Progress" %}
                 <a class="btn btn-xs" href="{%url 'regress_exam' exam_id %}">Move Back to In Waiting Room</a>
             {% elif exam.status == "Completed" %}
-                <a class="btn btn-xs" href="{%url 'insurance_claim_view' exam_id%}">Insurance Claim</a>
+                <a class="btn btn-xs" href="{%url 'insurance_claim' exam_id%}">Insurance Claim</a>
                 <a class="btn btn-xs" href="{%url 'regress_exam' exam_id %}">Reopen Examination</a>
             {% endif %}
             {% if exam.status == "Upcoming" or exam.status == "In Wait Room" %}

@@ -19,7 +19,6 @@ from ophthalmology_portal.Core.views.exam_request_view import PatientExamCreatio
 from ophthalmology_portal.Core.views.home_page_view import HomePageView
 from ophthalmology_portal.Core.views.insurance_claim_view import (
     InsuranceClaimView,
-    InsuranceClaimViewOnly,
 )
 from ophthalmology_portal.Core.views.log_in_view import (
     LogInView,
@@ -71,5 +70,4 @@ __all__ = [
     "RescheduleExam",
     "RegressExam",
     "InsuranceClaimView",
-    "InsuranceClaimViewOnly",
 ]
