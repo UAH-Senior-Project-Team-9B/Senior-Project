@@ -1,39 +1,43 @@
 # Development Environment Setup
 
+1. Install Visual Studio Code:
+
+    - Download and install Visual Studio Code appropriate to your OS.
+    - Ensure that you are using the Visual Studio Code terminal when running any commands for the project.
+
 1. Install Docker:
 
     - Download and install Docker Desktop appropriate to your OS.
     - Ensure Docker is running before proceeding.
 
-2. Install the "Remote - Containers" extension:
+1. Install the "Remote - Containers" extension:
 
     - Open VSCode and go to the Extensions panel.
     - Search for "ms-vscode-remote.remote-containers" and install it.
 
-3. Reopen in the container:
+1. Reopen in the container:
 
     - Use the Command Palette (Ctrl+Shift+P) to select "Remote-Containers: Reopen in Container".
     - This launches VSCode in the container context, enabling you to build, run, and debug the application.
 
-# Introduction To Taskfiles
+# Running the Project
 
-[Taskfile](https://taskfile.dev) is a modern task runner and build tool used in this project. To explore available tasks:
+1. Setting up the Database:
 
-1. List all tasks:
+    - Ensure that your container is running.
+    - Enter the command `uv run python manage.py migrate` in your VSCode terminal.
+    - Enter the command `uv run python manage.py test_data` in your VSCode terminal.
 
-    ```bash
-    task --list
-    ```
+2. Setting up the CSS:
 
-2. Get detailed information about a specific task:
-    ```bash
-    task <taskname> --summary
-    ```
+    - Enter the command `npm run watch:css` in your VSCode terminal.
 
-These commands help you understand and execute the automated workflows defined in our `Taskfile.yml`.
+3. Running the project:
 
-Next, I'd recommend running all checks to familiarize yourself with how you should go about running our various automated tests and confirming your local setup is working as expected.
+    - Enter the command `uv run python manage.py runserver` in your VSCode terminal
 
-```bash
-task check
-```
+4. Notes about testing data
+
+    - The manager's daily exam is tied to exams of the day that the `uv run python manage.py test_data` command is run, and users can not schedule exams on the current date. So if you need to check the functionality of daily exams on a later date, you will need to run the following commands in your VSCode terminal in order:
+        - `uv run python manage.py flush` after running this, it will prompt you and ask if you are sure that you want to flush the database, respond yes.
+        - `uv run python manage.py test_data` after this finishes running, your database will be good to go.
