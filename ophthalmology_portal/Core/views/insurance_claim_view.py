@@ -45,12 +45,11 @@ class InsuranceClaimView(BaseView):
         if claim.is_valid():
             claim_obj = claim.save(commit=False)
             try:
-                breakpoint()
                 exam.insuranceclaimmodel.delete()
             except:
                 pass
             claim_obj.exam = exam
             claim_obj.save()
 
-            return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))
+            return redirect(reverse("claim_pdf", kwargs={"exam_id": exam_id}))
         return redirect(reverse("insurance_claim", kwargs={"exam_id": exam_id}))

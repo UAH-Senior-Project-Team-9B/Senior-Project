@@ -26,6 +26,37 @@ from ophthalmology_portal.Core.models.user_models import PatientUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
 
 
+class ClaimPDF(BaseView):
+    def get(self, request: HttpRequest, exam_id, *args, **kwargs):
+        if request.user.has_perm("Core.patient"):
+            try:
+                exam = ExamModel.objects.get(
+                    id=exam_id, patient=PatientUserModel.objects.get(user=request.user)
+                )
+            except:
+                raise Http404
+        elements = []
+        exam = ExamModel.objects.get(id=exam_id)
+        buffer = io.BytesIO()
+        canv = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
+        textob = canv.beginText()
+        textob.setTextOrigin(inch, inch)
+        doc = SimpleDocTemplate(buffer, pagesize=letter)
+        patient = exam.patient
+        elements.append(
+            Paragraph(
+                f"Patient: {patient}<br />Date of Birth: {patient.date_of_birth}<br />Gender: {patient.date_of_birth}<br />Address: {patient.street_address}<br />Phone Number: {patient.phone_number}<br />Email: {patient.email}<br />Insurance Policy Number: {patient.insuranceprovidermodel.contract_number}<br />Group Number: {patient.insuranceprovidermodel.group_number}<br />Provider Name: {patient.insuranceprovidermodel.insurance_provider}<br />Provider Address: {patient.insuranceprovidermodel.insurance_street_address}<br />Provider Phone Number: {patient.insuranceprovidermodel.insurance_phone_number}<br />Date of Service: {exam.date}<br />Treatment Details: {exam.insuranceclaimmodel.treatment_details}<br />Cost Breakdown: {exam.insuranceclaimmodel.cost_breakdown}"
+            )
+        )
+        doc.build(elements)
+        buffer.seek(0)
+        return FileResponse(
+            buffer,
+            as_attachment=True,
+            filename=f"{exam.date}_{patient}_insurance_claim.pdf",
+        )
+
+
 class PrescriptionPDF(BaseView):
     def get(self, request: HttpRequest, exam_id, *args, **kwargs):
         if request.user.has_perm("Core.patient"):

@@ -11,6 +11,7 @@ from ophthalmology_portal.Core.views.exam_data_submission_view import (
     TestInformationCreationView,
 )
 from ophthalmology_portal.Core.views.exam_details_view import (
+    ClaimPDF,
     ExamDetailsView,
     PrescriptionPDF,
     PrescriptionPrintPDF,
@@ -70,4 +71,5 @@ __all__ = [
     "RescheduleExam",
     "RegressExam",
     "InsuranceClaimView",
+    "ClaimPDF",
 ]
