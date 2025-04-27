@@ -1,16 +1,10 @@
-import datetime
-
-from django.http import HttpRequest
+from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse
-from django.core.paginator import Paginator
 
-from ophthalmology_portal.Core.forms import ExamCreationMainForm, ExamCreationPostForm
 from ophthalmology_portal.Core.forms.exam_creation_form import ExamManagerViewForm
-from ophthalmology_portal.Core.forms.prescription_creation_form import PrescriptionViewForm
-from ophthalmology_portal.Core.models import ExamModel, OphthalmologistUserModel
+from ophthalmology_portal.Core.models import ExamModel
 from ophthalmology_portal.Core.views.base_view import BaseView
-from django.http import Http404
+
 
 class ExamConfirmationView(BaseView):
     def get(self, request: HttpRequest, id, *args, **kwargs):
@@ -33,10 +27,10 @@ class ExamConfirmationView(BaseView):
         if not self.manager_verification(request.user):
             raise Http404
         if request.POST[f"{id}"] == "Deny":
-            instance= ExamModel.objects.get(id=id)
+            instance = ExamModel.objects.get(id=id)
             instance.delete()
         elif request.POST[f"{id}"] == "Confirm":
-            instance= ExamModel.objects.get(id=id)
-            instance.status=ExamModel.status_choices['upcoming']
+            instance = ExamModel.objects.get(id=id)
+            instance.status = ExamModel.status_choices["upcoming"]
             instance.save()
         return redirect("/exam-confirmations/")

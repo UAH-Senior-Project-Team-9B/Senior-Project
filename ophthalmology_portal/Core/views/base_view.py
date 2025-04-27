@@ -22,11 +22,13 @@ class BaseView(LoginRequiredMixin, View):
             return True
         else:
             return False
+
     def doctor_verification(selc, user: User):
         if user.has_perm("Core.doctor"):
             return True
         else:
             return False
+
     def patient_verification(selc, user: User):
         if user.has_perm("Core.patient"):
             return True

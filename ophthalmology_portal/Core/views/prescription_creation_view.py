@@ -1,10 +1,10 @@
-from django.http import HttpRequest
+from django.http import Http404, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from ophthalmology_portal.Core.forms import PrescriptionCreationForm
 from ophthalmology_portal.Core.views.base_view import BaseView
-from django.http import Http404
+
 
 # this is for testing purposes, delete this later
 class PrescriptionCreationView(BaseView):

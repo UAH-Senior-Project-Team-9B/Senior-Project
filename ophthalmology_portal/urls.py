@@ -111,6 +111,7 @@ urlpatterns = [
         views.PrescriptionPrintPDF.as_view(),
         name="prescription_printer",
     ),
+    path("claim_pdf/<int:exam_id>/", views.ClaimPDF.as_view(), name="claim_pdf"),
     path(
         "api/remove_exam/<int:exam_id>/<str:return_page>/",
         views.CancelExam.as_view(),
@@ -130,6 +131,11 @@ urlpatterns = [
         "reschedule-exam/<int:exam_id>",
         views.RescheduleExam.as_view(),
         name="reschedule_exam",
+    ),
+    path(
+        "insurance-claim/<int:exam_id>",
+        views.InsuranceClaimView.as_view(),
+        name="insurance_claim",
     ),
 ]
 
