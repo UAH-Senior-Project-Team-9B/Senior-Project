@@ -7,3 +7,4 @@ class InsuranceClaimForm(forms.ModelForm):
     class Meta:
         model = InsuranceClaimModel
         fields = "__all__"
+        exclude = ["exam"]

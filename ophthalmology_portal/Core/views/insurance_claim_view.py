@@ -40,15 +40,16 @@ class InsuranceClaimView(BaseView):
     def post(self, request: HttpRequest, exam_id, *args, **kwargs):
         if self.patient_verification(request.user):
             raise Http404
-
         exam = ExamModel.objects.get(id=exam_id)
         claim = InsuranceClaimForm(request.POST)
-        claim_obj = claim.save(commit=False)
-        try:
-            exam.insuranceclaimmodel.delete()
-        except:
-            pass
-        exam.insuranceclaimmodel = claim_obj
-        exam.save()
+        if claim.is_valid():
+            claim_obj = claim.save(commit=False)
+            try:
+                exam.insuranceclaimmodel.delete()
+            except:
+                pass
+            claim_obj.exam = exam
+            claim_obj.save()
 
-        return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))
+            return redirect(reverse("exam_details", kwargs={"exam_id": exam_id}))
+        return redirect(reverse("insurance_claim", kwargs={"exam_id": exam_id}))
