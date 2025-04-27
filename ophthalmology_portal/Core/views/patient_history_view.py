@@ -1,9 +1,10 @@
 from django.core.paginator import Paginator
-from django.http import HttpRequest, Http404
+from django.http import Http404, HttpRequest
 from django.shortcuts import render
 
 from ophthalmology_portal.Core.models import ExamModel, PatientUserModel
 from ophthalmology_portal.Core.views.base_view import BaseView
+
 
 class PatientExamHistoryView(BaseView):
     def get(self, request: HttpRequest, patient=None, *args, **kwargs):
@@ -14,7 +15,9 @@ class PatientExamHistoryView(BaseView):
             else:
                 raise Http404
         else:
-            if not self.manager_verification(request.user) and not self.doctor_verification(request.user):
+            if not self.manager_verification(
+                request.user
+            ) and not self.doctor_verification(request.user):
                 raise Http404
         exams = ExamModel.objects.filter(
             patient=PatientUserModel.objects.get(id=patient)
