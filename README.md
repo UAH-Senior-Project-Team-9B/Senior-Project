@@ -41,12 +41,12 @@
     - The manager's daily exam is tied to exams of the day that the `uv run python manage.py test_data` command is run, and users can not schedule exams on the current date. So if you need to check the functionality of daily exams on a later date, you will need to run the following commands in your VSCode terminal in order:
         - `uv run python manage.py flush` after running this, it will prompt you and ask if you are sure that you want to flush the database, respond yes.
         - `uv run python manage.py test_data` after this finishes running, your database will be good to go.
-    - `test_data` creates users for each of the user types (e.g., Patient, Doctor, Manager, Super Admin)
+    - `test_data` creates users for each of the user types (e.g., Patient, Doctor, Manager, Super Admin). Regular users can log in from the regular login page. To access the admin page, replace `/login/` with `/admin/`
         - Usernames
             - Patient usernames: `patient`, `patient2`, `patient3`, and `patient4`
             - Doctor usernames: `doctor`, and `doctor2`
             - Manager username: `manager`
-            - Super Admin username: `admin`
+            - Super Admin username: `Admin`
         - Passwords
             - For Patient, Doctor, and Manager, the passwords are `1234`
             - For the Super Admin, the password is `ABCD_1234`
