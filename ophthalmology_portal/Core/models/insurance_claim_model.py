@@ -4,7 +4,7 @@ from ophthalmology_portal.Core.models import exam_model
 
 
 class InsuranceClaimModel(models.Model):
-    exam = models.ForeignKey(exam_model.ExamModel, on_delete=models.CASCADE)
+    exam = models.OneToOneField(exam_model.ExamModel, on_delete=models.CASCADE)
     treatment_details = models.TextField(
         max_length=65535,
         null=True,

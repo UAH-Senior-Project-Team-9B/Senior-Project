@@ -45,6 +45,7 @@ class InsuranceClaimView(BaseView):
         if claim.is_valid():
             claim_obj = claim.save(commit=False)
             try:
+                breakpoint()
                 exam.insuranceclaimmodel.delete()
             except:
                 pass
